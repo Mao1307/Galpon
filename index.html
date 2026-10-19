@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mi Galpón</title>
+<meta name="description" content="Plan y control diario de crianza de pollos de engorde y gallinas ponedoras en Lima.">
+<meta name="theme-color" content="#2E6A4C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mi Galpón">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: columna única tipo app móvil (máx. 640px), barra de pestañas fija abajo dentro de cada proyecto. */
+:root{
+  --bg:#EEF1EA; --surface:#FFFFFF; --surface2:#F5F7F1; --line:#D8DED2;
+  --ink:#1B251E; --muted:#5D6960; --green:#2E6A4C; --green-ink:#FFFFFF; --green-soft:#DCEBE1;
+  --yolk:#C97F0E; --yolk-soft:#FAEBCB; --red:#B3402B; --red-soft:#F6DDD6;
+  --shadow:0 1px 2px rgba(27,37,30,.06),0 4px 14px rgba(27,37,30,.05);
+  --f-display:"Bricolage Grotesque",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111713; --surface:#19211C; --surface2:#1F2923; --line:#2D3932;
+  --ink:#E5ECE4; --muted:#9AA79D; --green:#62B088; --green-ink:#0E1611; --green-soft:#1D3328;
+  --yolk:#F0B23E; --yolk-soft:#3A2D13; --red:#E57B64; --red-soft:#3B1F19;
+  --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#111713; --surface:#19211C; --surface2:#1F2923; --line:#2D3932;
+  --ink:#E5ECE4; --muted:#9AA79D; --green:#62B088; --green-ink:#0E1611; --green-soft:#1D3328;
+  --yolk:#F0B23E; --yolk-soft:#3A2D13; --red:#E57B64; --red-soft:#3B1F19;
+  --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark }
+html{color-scheme:light}
+:root{padding-top:env(safe-area-inset-top,0px)}
+html,body{min-height:100%;margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+*{box-sizing:border-box}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-display);letter-spacing:-.01em;margin:0;text-wrap:balance;line-height:1.15}
+h1{font-size:1.9rem;font-weight:800}
+h2{font-size:1.25rem;font-weight:700}
+h3{font-size:1.02rem;font-weight:700}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header.top .in{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--f-display);font-weight:800;font-size:1.15rem;background:none;border:0;padding:0;cursor:pointer}
+.brand svg{flex:none}
+.sync{margin-left:auto;font-size:.75rem;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}
+.sync.cloud i{background:var(--green)} .sync.saving i{background:var(--yolk)} .sync.error i{background:var(--red)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.grow{flex:1;min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);min-width:0}
+.card.flat{box-shadow:none;background:var(--surface2)}
+.eyebrow{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.tiny{font-size:.76rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:11px;border:1px solid var(--line);background:var(--surface);padding:10px 14px;font-weight:600;cursor:pointer;min-height:42px;text-decoration:none}
+.btn:hover{border-color:var(--green)}
+.btn.primary{background:var(--green);color:var(--green-ink);border-color:var(--green)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--red);border-color:var(--red-soft)}
+.btn.danger.solid{background:var(--red);color:#fff;border-color:var(--red)}
+.btn.sm{min-height:34px;padding:6px 10px;font-size:.85rem;border-radius:9px}
+.btn.block{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--yolk);outline-offset:2px}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:.84rem;font-weight:600;color:var(--muted);min-width:0}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:10px 11px;min-height:44px;font-size:1rem;color:var(--ink)}
+textarea{min-height:70px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--green);outline:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:420px){.grid3{grid-template-columns:1fr 1fr}}
+.choice{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px;cursor:pointer}
+.choice.on{border-color:var(--green);background:var(--green-soft)}
+.choice .t{font-weight:700;font-family:var(--f-display);font-size:1.02rem}
+.choice .d{font-size:.85rem;color:var(--muted)}
+.choice .co{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none;margin-top:2px;display:grid;place-items:center}
+.choice.on .dot{border-color:var(--green);background:var(--green)}
+.choice.on .dot::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--green-ink)}
+.steps{display:flex;gap:6px;margin:16px 0 18px}
+.steps span{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.steps span.on{background:var(--green)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:600;cursor:pointer}
+.chip.on{background:var(--green);color:var(--green-ink);border-color:var(--green)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--surface2);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+.pill.g{background:var(--green-soft);color:var(--green);border-color:transparent}
+.pill.y{background:var(--yolk-soft);color:var(--yolk);border-color:transparent}
+.pill.r{background:var(--red-soft);color:var(--red);border-color:transparent}
+.big{font-family:var(--f-display);font-weight:800;font-size:2.3rem;line-height:1;letter-spacing:-.02em}
+.mid{font-family:var(--f-display);font-weight:700;font-size:1.45rem;line-height:1.1}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kv>div{background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;min-width:0}
+.kv b{display:block;font-family:var(--f-display);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.kv span{font-size:.78rem;color:var(--muted)}
+.alert{display:flex;gap:10px;padding:12px 14px;border-radius:12px;font-size:.9rem;align-items:flex-start}
+.alert.r{background:var(--red-soft);color:var(--ink)} .alert.r b{color:var(--red)}
+.alert.y{background:var(--yolk-soft);color:var(--ink)} .alert.y b{color:var(--yolk)}
+.alert.g{background:var(--green-soft);color:var(--ink)}
+.tasks{display:flex;flex-direction:column;gap:8px}
+.task{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer;text-align:left;width:100%}
+.task .box{width:22px;height:22px;border-radius:7px;border:2px solid var(--line);flex:none;display:grid;place-items:center;margin-top:1px}
+.task.done .box{background:var(--green);border-color:var(--green)}
+.task.done .box::after{content:"";width:10px;height:6px;border-left:2.5px solid var(--green-ink);border-bottom:2.5px solid var(--green-ink);transform:rotate(-45deg) translate(1px,-1px)}
+.task.done .tt{text-decoration:line-through;color:var(--muted)}
+.task .tt{font-weight:600}
+.task .td{font-size:.82rem;color:var(--muted)}
+.task.ev{border-left:4px solid var(--yolk)}
+.task.vac{border-left:4px solid var(--green)}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);padding-left:max(4px,env(safe-area-inset-left,0px));padding-right:max(4px,env(safe-area-inset-right,0px))}
+.tabs button{background:none;border:0;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.7rem;font-weight:600;color:var(--muted);cursor:pointer}
+.tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabs button.on{color:var(--green)}
+.daynav{display:flex;align-items:center;gap:8px}
+.daynav .lbl{flex:1;text-align:center;font-weight:700}
+.iconbtn{width:42px;height:42px;border-radius:11px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;flex:none}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.86rem;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface2);font-weight:700}
+tr:last-child td{border-bottom:0}
+tr.cur td{background:var(--yolk-soft)}
+.list{display:flex;flex-direction:column}
+.li{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.li:last-child{border-bottom:0}
+.equip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.eq{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.eq .q{font-family:var(--f-display);font-weight:800;font-size:1.35rem;color:var(--green);font-variant-numeric:tabular-nums}
+.eq .n{font-weight:700}
+.eq .d{font-size:.8rem;color:var(--muted)}
+.bar{height:10px;border-radius:6px;background:var(--surface2);overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:var(--green)}
+.hero-empty{padding:26px 18px;text-align:left}
+.pcard{display:flex;flex-direction:column;gap:10px;cursor:pointer;text-align:left;width:100%}
+.pcard:hover{border-color:var(--green)}
+.seg{display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:3px;gap:3px}
+.seg button{flex:1;border:0;background:none;border-radius:8px;padding:8px;font-weight:600;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+details>summary{cursor:pointer;font-weight:700;list-style:none}
+details>summary::-webkit-details-marker{display:none}
+details>summary::after{content:" ▾";color:var(--muted)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:.9rem;z-index:20;max-width:90vw}
+.chart svg{width:100%;height:auto;display:block}
+.sep{height:1px;background:var(--line);margin:4px 0}
+.note{font-size:.8rem;color:var(--muted);line-height:1.45}
+@media (prefers-reduced-motion:no-preference){.card,.task{transition:border-color .15s}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <button class="brand" data-act="home" aria-label="Ir a mis proyectos">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 15 16 6l12 9" fill="none" stroke="var(--green)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14v12h18V14" fill="none" stroke="var(--green)" stroke-width="2.6" stroke-linejoin="round"/><ellipse cx="16" cy="21" rx="4" ry="5" fill="var(--yolk)"/></svg>
+    Mi Galpón
+  </button>
+  <button id="installBtn" class="btn sm primary" hidden>Instalar</button>
+  <div id="sync" class="sync"><i></i><span>En este celular</span></div>
+</div></header>
+<main id="app" class="wrap"></main>
+<nav id="tabs" class="tabs" hidden></nav>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+/* ================= utilidades ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function parseD(s){const [y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d);}
+function addDays(s,n){return new Date(parseD(s)+n*864e5).toISOString().slice(0,10);}
+function diffDays(a,b){return Math.round((parseD(b)-parseD(a))/864e5);}
+const MESES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const DIAS=['dom','lun','mar','mié','jue','vie','sáb'];
+function fDate(s,dow){const t=new Date(parseD(s));const r=t.getUTCDate()+' '+MESES[t.getUTCMonth()];return dow?DIAS[t.getUTCDay()]+' '+r:r;}
+function fDateY(s){const t=new Date(parseD(s));return t.getUTCDate()+' '+MESES[t.getUTCMonth()]+' '+t.getUTCFullYear();}
+const nf=(n,d=1)=>(isFinite(n)?n:0).toLocaleString('es-PE',{maximumFractionDigits:d});
+const money=n=>'S/ '+(isFinite(n)?n:0).toLocaleString('es-PE',{minimumFractionDigits:2,maximumFractionDigits:2});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const num=v=>{const n=parseFloat(String(v).replace(',','.'));return isFinite(n)?n:0;};
+const plural=(n,a,b)=>n===1?a:b;
+function interp(an,x){const ks=Object.keys(an).map(Number).sort((a,b)=>a-b);if(x<=ks[0])return an[ks[0]];for(let i=1;i<ks.length;i++){if(x<=ks[i]){const a=ks[i-1],b=ks[i];return an[a]+(an[b]-an[a])*(x-a)/(b-a);}}return an[ks[ks.length-1]];}
+const sum=(arr,f)=>arr.reduce((s,x)=>s+(f?f(x):x),0);
+
+/* ================= datos de referencia ================= */
+const LINES={
+  ross308:{type:'broiler',name:'Ross 308',company:'Aviagen',desc:'Doble pechuga. Crece rápido y el lote sale parejo.',
+    w:{0:42,7:200,14:540,21:1050,28:1700,35:2400,42:3050,49:3650,56:4200},f:{1:12,7:35,14:80,21:125,28:165,35:195,42:215,49:225,56:232}},
+  cobb500:{type:'broiler',name:'Cobb 500',company:'Cobb-Vantress',desc:'Muy buena conversión de alimento y alto rendimiento de carne.',
+    w:{0:42,7:190,14:510,21:1010,28:1640,35:2330,42:2990,49:3580,56:4100},f:{1:12,7:34,14:78,21:122,28:162,35:192,42:212,49:222,56:229}},
+  lohmann:{type:'layer',name:'Lohmann Brown Classic',company:'Lohmann Breeders',desc:'Postura persistente y huevo marrón de buen tamaño. Sirve para piso y jaula.',bwF:1.04,feedLay:116,peak:94,decl:.21,eggF:1.01},
+  hyline:{type:'layer',name:'Hy-Line Brown',company:'Hy-Line International',desc:'Pico de postura alto y buena eficiencia de alimento.',bwF:1,feedLay:112,peak:95,decl:.25,eggF:1},
+  isa:{type:'layer',name:'ISA Brown',company:'Hendrix Genetics',desc:'Muy difundida en Perú. Se adapta bien a distintos climas.',bwF:1.02,feedLay:113,peak:95,decl:.26,eggF:1}
+};
+const REAR_BW=[70,120,190,280,370,460,550,640,730,820,900,980,1060,1140,1220,1300,1380,1470];
+const REAR_FEED=[14,19,24,28,35,39,42,46,51,54,60,64,69,72,76,80,83,87];
+const LAY_BW={18:1470,19:1550,22:1750,26:1850,30:1900,50:1950,80:2000};
+const EGG_W={19:46,20:48,22:53,24:56,26:58,30:60,40:62,60:64,80:65};
+
+const BROILER_STAGES=[
+  {k:'preinicio',n:'Preinicio',from:1,to:10,prot:'22–23 %',extra:'2,950–3,000 kcal/kg'},
+  {k:'inicio',n:'Inicio',from:11,to:21,prot:'21–22 %',extra:'3,000–3,050 kcal/kg'},
+  {k:'crecimiento',n:'Crecimiento',from:22,to:35,prot:'19–20 %',extra:'3,100 kcal/kg'},
+  {k:'acabado',n:'Acabado',from:36,to:9999,prot:'18 %',extra:'3,125–3,200 kcal/kg'}];
+const LAYER_STAGES=[
+  {k:'inicio',n:'Inicio',from:1,to:42,prot:'19–20 %',extra:'Semanas 1 a 6'},
+  {k:'crecimiento',n:'Crecimiento',from:43,to:70,prot:'17–18 %',extra:'Semanas 7 a 10'},
+  {k:'desarrollo',n:'Desarrollo',from:71,to:105,prot:'15–16 %',extra:'Semanas 11 a 15'},
+  {k:'prepostura',n:'Prepostura',from:106,to:126,prot:'16–17 %',extra:'Semanas 16 a 18 · calcio 2–2.5 %'},
+  {k:'postura1',n:'Postura fase 1',from:127,to:315,prot:'17–18 %',extra:'Semanas 19 a 45 · calcio 3.8–4.2 %'},
+  {k:'postura2',n:'Postura fase 2',from:316,to:9999,prot:'16–17 %',extra:'Semana 46 en adelante · calcio 4.2–4.5 %'}];
+
+const ZONES=[
+  {id:'lima-met',name:'Lima Metropolitana',sub:'Costa · nublado y húmedo en invierno',kind:'costa',alt:'0–300 m'},
+  {id:'lima-sur',name:'Lima Sur',sub:'Lurín, Pachacámac, Punta Hermosa, Pucusana',kind:'costa',alt:'0–300 m'},
+  {id:'lima-este',name:'Lima Este y valles',sub:'Chosica, Cieneguilla, Carabayllo alto, Huachipa · más sol y menos humedad',kind:'valle',alt:'300–1,000 m'},
+  {id:'norte-chico',name:'Norte chico',sub:'Huaral, Huacho, Barranca',kind:'costa',alt:'0–300 m'},
+  {id:'sur-chico',name:'Sur chico',sub:'Chilca, Mala, Cañete',kind:'costa',alt:'0–300 m'},
+  {id:'sierra',name:'Sierra de Lima',sub:'Canta, Huarochirí, Yauyos, Oyón',kind:'sierra',alt:'más de 2,000 m'}];
+const SEASONS={verano:'Verano',otono:'Otoño',invierno:'Invierno',primavera:'Primavera'};
+function seasonOf(date){const m=new Date(parseD(date)).getUTCMonth()+1;if(m===12||m<=4)return'verano';if(m<=6)return'otono';if(m<=9)return'invierno';return'primavera';}
+const CLIMA={
+  costa:{verano:['24–30 °C','70–80 %'],otono:['18–23 °C','80–85 %'],invierno:['14–19 °C','85–95 %, con garúa'],primavera:['17–22 °C','80–85 %']},
+  valle:{verano:['26–33 °C','55–70 %'],otono:['19–26 °C','60–75 %'],invierno:['15–24 °C','60–75 %'],primavera:['18–26 °C','60–70 %']},
+  sierra:{verano:['8–20 °C, época de lluvias','70–85 %'],otono:['4–20 °C','50–70 %'],invierno:['0–20 °C, noches con helada','40–60 %'],primavera:['5–20 °C','50–70 %']}};
+function climaTips(kind,season,type){
+  const t=[];
+  if(kind==='sierra'){
+    t.push('Las noches son frías: cierra cortinas al atardecer y abre a media mañana.');
+    t.push('Calienta más tiempo a los pollitos y revisa el gas de noche.');
+    if(type==='broiler')t.push('En altura los pollos de engorde pueden sufrir ascitis (agua en el abdomen). Consulta con tu veterinario si conviene un alimento o manejo especial para altura.');
+    if(season==='verano')t.push('Época de lluvias: revisa goteras y que no entre agua a la cama.');
+  }else if(season==='invierno'){
+    t.push('Humedad alta y garúa: la cama se moja fácil. Remueve las zonas húmedas a diario y agrega cama seca o un poco de cal.');
+    t.push('Cierra cortinas en la noche, pero deja ventilación arriba para sacar el amoníaco (si te pica la nariz al entrar, falta ventilar).');
+    t.push('Los pollitos necesitarán calor por más días. Vigila que no se amontonen.');
+  }else if(season==='verano'){
+    t.push('Calor: agua fresca siempre, en sombra. Lava y llena bebederos temprano.');
+    t.push('Da el alimento en las horas frescas (mañana y tarde) y abre cortinas al mediodía.');
+    t.push('Vigila jadeo y alas abiertas: es estrés por calor. Usa menos aves por m².');
+    if(kind==='valle')t.push('En los valles de Lima Este el sol es fuerte: pinta el techo de blanco o usa malla raschel encima.');
+  }else{
+    t.push('Clima templado con mañanas frías: abre cortinas cuando sube la temperatura y ciérralas al atardecer.');
+    t.push('Revisa la cama cada día; en otoño y primavera la humedad cambia rápido.');
+  }
+  return t;
+}
+function broilerDensity(kind,season){if(kind==='sierra')return 10;if(kind==='valle')return season==='verano'?8:season==='invierno'?10:9;return season==='verano'?9:season==='invierno'?11:10;}
+function heatDays(kind,season,type){let d=kind==='sierra'?28:kind==='valle'?(season==='verano'?6:season==='invierno'?18:12):(season==='verano'?8:season==='invierno'?21:14);if(type==='layer')d+=7;return d;}
+
+const CAUSES=['Sin causa clara','Calor','Frío / amontonamiento','Respiratoria','Digestiva / diarrea','Patas / cojera','Aplastamiento','Ataque de animales','Otra'];
+const CATS={aves:'Pollitos / pollitas',alimento:'Alimento',sanidad:'Vacunas y medicinas',energia:'Gas y luz',cama:'Cama, cal y desinfección',equipos:'Equipos',mano:'Mano de obra',agua:'Agua',transporte:'Transporte',alquiler:'Alquiler',otros:'Otros'};
+const SALE_PRODUCTS={
+  pollo:{n:'Pollo',modes:{pie:'En pie (por kg vivo)',beneficiado:'Beneficiado (por kg)',unidad:'Por unidad'},birds:true},
+  huevo:{n:'Huevos',modes:{kg:'Por kg',unidad:'Por unidad',bandeja:'Por bandeja (30 huevos)',paquete:'Otro empaque'}},
+  gallina:{n:'Gallina de descarte',modes:{unidad:'Por unidad',pie:'Por kg vivo'},birds:true},
+  gallinaza:{n:'Gallinaza / pollinaza',modes:{saco:'Por saco',kg:'Por kg'}},
+  otro:{n:'Otro',modes:{unidad:'Por unidad'}}};
+const MODE_UNIT={pie:'kg',beneficiado:'kg',kg:'kg',unidad:'und',bandeja:'bandejas',paquete:'paquetes',saco:'sacos'};
+
+function defaultVaccines(type){
+  const v=type==='broiler'?[
+    [1,'Newcastle + Bronquitis','Spray en planta de incubación. Pide el certificado del lote; si ya vino vacunado no repitas.'],
+    [7,'Newcastle + Bronquitis','Gota ocular o en el agua de bebida.'],
+    [12,'Gumboro (bursitis infecciosa)','En el agua de bebida.'],
+    [18,'Newcastle (refuerzo)','En el agua de bebida.'],
+    [21,'Gumboro (refuerzo, según la zona)','En el agua de bebida.']
+  ]:[
+    [1,'Marek','En planta de incubación. Pide el certificado del lote.'],
+    [1,'Newcastle + Bronquitis','Spray en planta de incubación.'],
+    [7,'Newcastle + Bronquitis','Gota ocular.'],
+    [12,'Gumboro (bursitis infecciosa)','En el agua de bebida.'],
+    [21,'Newcastle + Bronquitis (refuerzo)','En el agua de bebida.'],
+    [24,'Gumboro (refuerzo)','En el agua de bebida.'],
+    [35,'Viruela aviar','Punción en el ala.'],
+    [49,'Newcastle + Bronquitis','En el agua de bebida.'],
+    [56,'Coriza infecciosa (1.ª dosis)','Inyectable.'],
+    [70,'Encefalomielitis aviar (si aplica en tu zona)','En el agua o punción en el ala.'],
+    [84,'Coriza infecciosa (2.ª dosis) + Newcastle oleosa','Inyectable.'],
+    [98,'Laringotraqueítis (solo si hay casos en la zona)','Gota ocular.'],
+    [112,'Newcastle + Bronquitis + Síndrome de baja postura (EDS)','Inyectable, antes de que empiecen a poner.']
+  ];
+  return v.map(([age,name,how])=>({id:uid(),age,name,how}));
+}
+
+/* ================= modelo del lote ================= */
+const L=p=>LINES[p.line];
+const maxAge=p=>p.type==='broiler'?(p.saleDay||42):(p.endWeek||80)*7;
+const ageOn=(p,d)=>p.startAge+diffDays(p.startDate,d);
+const dateOfAge=(p,a)=>addDays(p.startDate,a-p.startAge);
+const weekOf=a=>Math.max(1,Math.ceil(a/7));
+const zoneOf=p=>ZONES.find(z=>z.id===p.zone)||ZONES[0];
+function feedG(p,a){
+  const l=L(p);if(a<1)return 0;
+  if(l.type==='broiler')return interp(l.f,a);
+  const w=weekOf(a);
+  if(w<=18)return REAR_FEED[w-1];
+  const fl=l.feedLay;return interp({19:92,20:98,21:103,22:107,23:110,24:fl-2,30:fl,50:fl+2,80:fl+3,100:fl+3},w);
+}
+function targetW(p,a){
+  const l=L(p);
+  if(l.type==='broiler')return interp(l.w,a);
+  const w=a/7;
+  if(w<=18){const ws={0:40};REAR_BW.forEach((v,i)=>ws[i+1]=v);return interp(ws,w)*l.bwF;}
+  return interp(LAY_BW,w)*l.bwF;
+}
+function layPct(p,a){
+  const l=L(p);if(l.type!=='layer')return 0;const w=weekOf(a);
+  if(w<19)return 0;
+  if(w<=25)return interp({19:8,20:30,21:60,22:82,23:90,24:93,25:l.peak-.5},w);
+  if(w<=30)return l.peak;
+  return Math.max(60,l.peak-l.decl*(w-30));
+}
+const eggW=(p,a)=>interp(EGG_W,weekOf(a))*L(p).eggF;
+const stages=p=>p.type==='broiler'?BROILER_STAGES:LAYER_STAGES;
+const stageAt=(p,a)=>stages(p).find(s=>a>=s.from&&a<=s.to)||stages(p)[0];
+function tempRange(p,a){const w=weekOf(a);const t=[[32,34],[29,31],[26,28],[23,25]];if(w<=4)return t[w-1];return p.type==='broiler'?[20,23]:[18,24];}
+function lightH(p,a){
+  const w=weekOf(a);
+  if(p.type==='broiler'){if(a<=3)return 23;return[23,20,18,18][w-1]??20;}
+  if(w<=6)return[22,20,18,16,14,12][w-1];
+  if(w<=15)return 12;
+  if(w<=21)return[13,13.5,14,14.5,15,15.5][w-16];
+  return 16;
+}
+function lightNote(p,a){
+  const w=weekOf(a);
+  if(p.type==='broiler')return a<=3?'Casi todo el día con luz para que encuentren agua y comida.':'Deja horas de oscuridad para que descansen; ayuda a las patas y al corazón.';
+  if(w<=6)return'Baja la luz poco a poco cada semana.';
+  if(w<=15)return'Solo luz natural (en Lima son unas 11–13 h). No aumentes la luz en esta etapa o empezarán a poner antes de tiempo.';
+  if(w<=21)return'Sube la luz de a poco (media hora por semana) cuando las pollitas tengan el peso correcto. Así arrancan la postura.';
+  return'Luz fija de 16 horas al día. Nunca la bajes durante la postura.';
+}
+function expMort(p,a){ // fracción acumulada esperada a la edad a (desde el día 1)
+  if(p.type==='broiler')return .04*Math.min(1,a/42);
+  if(a<=126)return .04*a/126;
+  return .04+.0008*(a-126)/7;
+}
+function expAlive(p,a){const m0=expMort(p,p.startAge),m=expMort(p,a);return p.qty*(1-m)/(1-m0);}
+function lossesBefore(p,d){ // muertes+descartes+aves vendidas antes del día d
+  let n=0;for(const [k,r] of Object.entries(p.records||{}))if(k<d)n+=(r.dead||0)+(r.cull||0);
+  for(const s of p.sales||[])if(s.date<d)n+=(s.birds||0);return n;}
+function aliveStart(p,d){return Math.max(0,p.qty-lossesBefore(p,d));}
+function aliveEnd(p,d){const r=(p.records||{})[d]||{};let n=aliveStart(p,d)-(r.dead||0)-(r.cull||0);for(const s of p.sales||[])if(s.date===d)n-=(s.birds||0);return Math.max(0,n);}
+function planKg(p,d){const a=ageOn(p,d);if(a<1||a>maxAge(p))return 0;return aliveStart(p,d)*feedG(p,a)/1000;}
+function futurePlanKg(p,d,baseAlive,baseAge){const a=ageOn(p,d);if(a<1||a>maxAge(p))return 0;const m0=expMort(p,baseAge),m=expMort(p,a);return baseAlive*(1-m)/(1-m0)*feedG(p,a)/1000;}
+
+/* ---------- galpón, equipos y materiales ---------- */
+function design(p){
+  const z=zoneOf(p),season=seasonOf(p.startDate),N=p.qty,out={eq:[],mat:[],notes:[]};
+  const hd=heatDays(z.kind,season,p.type);out.heatDays=hd;
+  let area,dens;
+  if(p.type==='broiler'){dens=broilerDensity(z.kind,season);area=N/dens;}
+  else if(p.system==='piso'){dens=(season==='verano'&&z.kind!=='sierra')?4.5:5;area=N/dens;}
+  else{ // jaula
+    const jaulas=Math.ceil(N/4),mod=Math.ceil(jaulas/24),rows=mod<=4?1:mod<=12?2:3;
+    const per=Math.ceil(mod/rows),W=rows*1.8+(rows+1)*1;const Lg=per*2+2;
+    out.cage={jaulas,mod,rows,per};area=W*Lg;out.dims=[W,Lg];dens=N/area;
+    out.rearArea=Math.ceil(N/8);
+  }
+  area=Math.max(area,2);
+  if(!out.dims){let W=area<=9?Math.max(2,Math.ceil(Math.sqrt(area))):area<=60?Math.ceil(Math.sqrt(area/1.6)):Math.min(12,Math.max(6,Math.round(Math.sqrt(area/3))));let Lg=Math.ceil(area/W*2)/2;out.dims=[W,Lg];}
+  out.area=out.dims[0]*out.dims[1];out.dens=dens;
+  const brood=p.type==='layer'&&p.system==='jaula'?out.rearArea:out.area;
+  out.wall=z.kind==='sierra'?2.2:2.4;
+  // equipos de cría (primeras semanas)
+  const chickStart=p.startAge<=14;
+  if(chickStart){
+    out.eq.push({n:'Bandejas para pollitos',q:Math.ceil(N/80),d:'Comederos bajitos para los primeros 7–10 días. Una por cada 80 pollitos.',ph:'Primeras semanas'});
+    out.eq.push({n:'Bebederos de galón (4 L)',q:Math.ceil(N/60),d:'Para la primera semana, mientras aprenden a tomar agua. Uno por cada 60 pollitos.',ph:'Primeras semanas'});
+    if(N<=200){const per=season==='invierno'||z.kind==='sierra'?50:season==='verano'?80:65;out.heat={kind:'foco',q:Math.ceil(N/per)};
+      out.eq.push({n:'Focos infrarrojos de 250 W',q:out.heat.q,d:'Para dar calor en lotes chicos. Uno por cada '+per+' pollitos en tu zona y estación. Cuélgalos a unos 40–50 cm y súbelos según cómo se acomoden.',ph:'Primeras semanas'});}
+    else{const per=season==='invierno'||z.kind==='sierra'?600:800;out.heat={kind:'gas',q:Math.ceil(N/per)};
+      out.eq.push({n:'Criadoras a gas (campana)',q:out.heat.q,d:'Una por cada '+per+' pollitos en tu zona y estación.',ph:'Primeras semanas'});}
+    out.eq.push({n:'Cerco de crianza (rodete)',q:Math.ceil(Math.PI*2*Math.sqrt(Math.max(1,N/30)/Math.PI)*10)/10,u:'m',d:'Cartón o malla de 50 cm de alto alrededor de la zona de calor los primeros 7–10 días. Se va abriendo.',ph:'Primeras semanas'});
+  }
+  if(p.type==='broiler'){
+    out.eq.push({n:'Comederos de tolva (12–20 kg)',q:Math.ceil(N/35),d:'Uno por cada 35 aves. Ponlos a la altura del lomo del pollo.',ph:'Toda la crianza'});
+    if(N<60)out.eq.push({n:'Bebederos manuales de 10 L',q:Math.ceil(N/40),d:'Uno por cada 40 aves. Para pocos pollos no hace falta tanque elevado.',ph:'Toda la crianza'});
+    else out.eq.push({n:'Bebederos automáticos de campana',q:Math.ceil(N/80),d:'Uno por cada 80 aves. Necesitan un tanque elevado y manguera.',ph:'Toda la crianza'});
+  }else if(p.system==='piso'){
+    out.eq.push({n:'Comederos de tolva',q:Math.ceil(N/25),d:'Uno por cada 25 gallinas adultas.',ph:'Toda la crianza'});
+    out.eq.push({n:N<60?'Bebederos manuales de 10 L':'Bebederos automáticos de campana',q:Math.ceil(N/(N<60?30:60)),d:N<60?'Uno por cada 30 gallinas.':'Uno por cada 60 gallinas. Necesitan tanque elevado.',ph:'Toda la crianza'});
+    out.eq.push({n:'Nidos',q:Math.ceil(N/5),d:'Un nido por cada 5 gallinas, en zona oscura y tranquila. Ponlos a las 16–17 semanas, antes de que empiecen a poner.',ph:'Desde semana 16'});
+    out.eq.push({n:'Perchas',q:Math.ceil(N*.15*10)/10,u:'m',d:'15 cm por gallina, en escalera y a 40–60 cm del piso.',ph:'Desde semana 6'});
+  }else{
+    out.eq.push({n:'Baterías de jaulas (3 niveles)',q:out.cage.mod,d:'Módulos de 3 pisos × 2 lados × 4 jaulas = 24 jaulas de 4 gallinas (unos 450 cm² por gallina). En total '+out.cage.jaulas+' jaulas. Incluyen comedero de canal, bebedero de niple y bandeja de huevos.',ph:'Desde semana 16'});
+    out.eq.push({n:'Comederos de tolva para la recría',q:Math.ceil(N/30),d:'Para la recría en piso hasta que pasen a las jaulas.',ph:'Semanas 1 a 16'});
+    out.eq.push({n:'Bebederos de campana para la recría',q:Math.ceil(N/70),d:'Para la recría en piso hasta que pasen a las jaulas.',ph:'Semanas 1 a 16'});
+  }
+  out.eq.push({n:'Termómetro con medidor de humedad',q:Math.max(1,Math.ceil(out.area/150)),d:'Cuélgalo a la altura de las aves, no en el techo.',ph:'Toda la crianza'});
+  out.eq.push({n:'Balanza',q:1,d:'Colgante o digital, para el pesaje semanal'+(p.type==='broiler'?' y la venta.':'.'),ph:'Toda la crianza'});
+  if((season==='verano'||z.kind==='valle')&&N>200)out.eq.push({n:'Ventiladores',q:Math.max(1,Math.ceil(out.area/120)),d:'Para las horas de más calor. La cantidad exacta depende del caudal del equipo.',ph:'Verano'});
+  const perim=2*(out.dims[0]+out.dims[1]);
+  out.eq.push({n:'Cortinas laterales',q:Math.ceil(perim*1.5),u:'m²',d:'Para abrir y cerrar según el clima (≈ '+nf(perim)+' m de perímetro × 1.5 m de alto).',ph:'Toda la crianza'});
+  // materiales
+  const camaKgM2=season==='invierno'||z.kind==='sierra'?10:season==='verano'?6:8;
+  const camaArea=p.type==='layer'&&p.system==='jaula'?out.rearArea:out.area;
+  out.mat.push({n:'Cama (cascarilla de arroz o viruta)',q:Math.ceil(camaArea*camaKgM2),u:'kg',d:'Capa de '+(camaKgM2>=10?'10':camaKgM2>=8?'8':'6')+' cm en todo el piso ('+nf(camaArea)+' m²). Pregunta a tu proveedor cuánto pesa su saco.'});
+  if(chickStart)out.mat.push({n:'Papel para la zona de cría',q:Math.ceil(N/30*10)/10,u:'m²',d:'Encima de la cama en la zona de calor. Ahí echas un poco de alimento los primeros 3–4 días.'});
+  out.mat.push({n:'Cal',q:Math.ceil(out.area*.5+5),u:'kg',d:'Para encalar piso y paredes antes de la llegada y para el pediluvio de la entrada.'});
+  out.mat.push({n:'Desinfectante',q:Math.ceil(out.area*.3),u:'L de solución',d:'Para el galpón vacío y equipos. Diluye según la etiqueta del producto.'});
+  if(chickStart)out.mat.push({n:'Vitaminas y electrolitos',q:1,u:'sobre o frasco',d:'En el agua al llegar y después de cada vacuna. Sigue la dosis de la etiqueta.'});
+  if(out.heat&&out.heat.kind==='gas'){const kg=out.heat.q*.12*24*hd*.6;out.mat.push({n:'Gas (balones de 45 kg)',q:Math.max(1,Math.ceil(kg/45)),u:'balones',d:'Estimado para '+hd+' días de calefacción en tu zona y estación. Depende del equipo y del frío.'});}
+  if(out.heat&&out.heat.kind==='foco'){const kwh=out.heat.q*.25*24*hd*.75;out.mat.push({n:'Electricidad para calor',q:Math.round(kwh),u:'kWh aprox.',d:'Para '+hd+' días de calefacción con focos. Multiplica por la tarifa de tu recibo de luz.'});}
+  out.notes.push('Orienta el galpón de Este a Oeste: el sol pasa por encima del techo y no entra directo por los lados.');
+  out.notes.push('Paredes de '+nf(out.wall)+' m de alto, con malla en la parte alta y cortinas. Alero de 0.8 m para la garúa y el sol.');
+  if(z.kind==='sierra')out.notes.push('En sierra, techo con aislante (o doble techo) y laterales que cierren bien de noche.');
+  if(z.kind==='costa')out.notes.push('En la costa de Lima el techo de calamina se calienta mucho en verano: usa aislante, pinta de blanco o pon malla raschel.');
+  return out;
+}
+
+/* ---------- alimento por etapas (plan) ---------- */
+function feedPlan(p){
+  const st=stages(p).map(s=>({...s,kg:0,days:0}));
+  for(let a=p.startAge;a<=maxAge(p);a++){const s=st.find(x=>a>=x.from&&a<=x.to);if(s){s.kg+=expAlive(p,a)*feedG(p,a)/1000;s.days++;}}
+  return st.filter(s=>s.days>0);
+}
+
+/* ---------- pesajes programados ---------- */
+function weighAges(p){const r=[];for(let a=Math.max(7,Math.ceil(p.startAge/7)*7);a<=maxAge(p);a+=(p.type==='layer'&&a>=140?28:7))r.push(a);return r;}
+
+/* ---------- tareas del día ---------- */
+function tasksFor(p,d){
+  const a=ageOn(p,d),T=[],z=zoneOf(p),hd=heatDays(z.kind,seasonOf(p.startDate),p.type);
+  if(a<p.startAge){
+    const left=p.startAge-a;
+    T.push({id:'prep-vacio',t:'Vacío sanitario',d:'El galpón debe quedar vacío, limpio y seco 10–15 días antes de la llegada.',k:'ev'});
+    T.push({id:'prep-cal',t:'Limpiar, desinfectar y encalar piso y paredes',d:'Saca toda la cama vieja, lava, desinfecta y echa cal.',k:'ev'});
+    if(left<=3){T.push({id:'prep-cama',t:'Echar la cama nueva y armar el cerco de crianza',d:'Cama pareja, papel en la zona de calor, bebederos y bandejas dentro del cerco.',k:'ev'});}
+    if(left<=1){T.push({id:'prep-calor',t:'Prender la calefacción',d:'Desde 24 h antes. El piso debe estar a 32–34 °C cuando lleguen.',k:'ev'});
+      T.push({id:'prep-agua',t:'Llenar bebederos con agua tibia y electrolitos',d:'Unas horas antes para que el agua no esté fría.',k:'ev'});}
+    T.push({id:'prep-pediluvio',t:'Preparar el pediluvio de la entrada',d:'Cal o desinfectante en una bandeja en la puerta.',k:'ev'});
+    if(left<=7)T.push({id:'prep-senasa',t:'Confirmar con SENASA si debes registrar la granja',d:'Las granjas avícolas en Perú deben registrarse. Revisa qué aplica a tu tamaño.',k:'ev'});
+    return T;
+  }
+  if(a>maxAge(p))return T;
+  const alive=aliveStart(p,d),g=feedG(p,a),kg=alive*g/1000,st=stageAt(p,a);
+  const tr=tempRange(p,a);
+  // eventos
+  if(a===p.startAge){
+    T.push({id:'llegada',t:'Llegada de las aves',d:'Cuéntalas, revisa que estén activas y ponlas cerca del agua. Agua con electrolitos las primeras horas. Pide el certificado de vacunas del lote.',k:'ev'});
+  }
+  if(a>p.startAge&&a===st.from)T.push({id:'stage-'+st.k,t:'Cambiar a alimento de '+st.n,d:'Mezcla 50 % del anterior y 50 % del nuevo durante 2 días para que no se estresen.',k:'ev'});
+  for(const v of p.vaccines||[])if(v.age===a)T.push({id:'vac-'+v.id,t:'Vacuna: '+v.name,d:(v.how||'')+' Confírmala con tu veterinario. Al día siguiente da vitaminas en el agua.',k:'vac'});
+  if(weighAges(p).includes(a)){const nW=Math.min(100,Math.max(5,Math.ceil(alive*.05)));T.push({id:'peso',t:'Pesar una muestra de '+nW+' aves',d:'Peso objetivo: '+nf(targetW(p,a),0)+' g. Anota los pesos en Registro → Pesajes.',k:'ev'});}
+  if(a===4&&p.startAge<=3)T.push({id:'papel',t:'Retirar el papel de la cama',d:'Ya encuentran el alimento en las bandejas.',k:'ev'});
+  if(a===8&&p.startAge<=7)T.push({id:'cerco',t:'Abrir el cerco de crianza',d:'Dales más espacio poco a poco hasta retirarlo hacia el día 10.',k:'ev'});
+  if(a===10&&p.startAge<=9)T.push({id:'bandejas',t:'Cambiar bandejas por comederos de tolva',d:'Haz el cambio de a poco, dejando ambos un par de días.',k:'ev'});
+  if(p.startAge<=hd&&a===hd)T.push({id:'calor',t:'Retirar la calefacción',d:'Solo si las aves están cómodas sin calor. En noches frías puedes prenderla unas horas más.',k:'ev'});
+  if(p.type==='broiler'){
+    const sd=maxAge(p);
+    if(a===sd-1)T.push({id:'ayuno-prep',t:'Coordinar la venta de mañana',d:'Confirma comprador, hora, jabas y balanza.',k:'ev'});
+    if(a===sd)T.push({id:'venta',t:'Día de venta',d:'Retira el alimento 8–10 horas antes de cargar (el agua no se quita). Pesa y registra la venta.',k:'ev'});
+  }else{
+    if(a===8&&p.startAge<=8)T.push({id:'despique',t:'Despique (entre el día 7 y 10)',d:'Hazlo con alguien con experiencia. Da vitaminas en el agua antes y después.',k:'ev'});
+    if(a===112)T.push({id:p.system==='jaula'?'traslado':'nidos',t:p.system==='jaula'?'Pasar las pollitas a las jaulas':'Colocar los nidos',d:p.system==='jaula'?'Hazlo en horas frescas y con calma. Da vitaminas en el agua 3 días.':'Un nido por cada 5 gallinas, en zona oscura. Cierra las esquinas para que no pongan en el piso.',k:'ev'});
+    if(a===113)T.push({id:'luz',t:'Empezar a subir la luz',d:'Media hora más cada semana hasta llegar a 16 horas. Hazlo solo si las pollitas tienen el peso objetivo.',k:'ev'});
+    if(a===130)T.push({id:'primer-huevo',t:'Atento a los primeros huevos',d:'Al llegar al 2–5 % de postura cambia a alimento de postura.',k:'ev'});
+    if(a===maxAge(p))T.push({id:'descarte',t:'Fin del ciclo: venta de gallinas de descarte',d:'Registra la venta en Ventas. Después, limpieza y vacío sanitario.',k:'ev'});
+  }
+  // rutina
+  T.push({id:'alimento',t:'Dar '+nf(kg,kg<10?2:1)+' kg de alimento de '+st.n.toLowerCase(),d:nf(g,0)+' g por ave × '+alive+' aves vivas'+(p.type==='broiler'&&a<=7?'. Repártelo en 4–6 veces al día.':p.type==='layer'&&layPct(p,a)>0?'. Dos raciones: mañana y tarde.':'. Repártelo en 2–3 veces.'),k:'r'});
+  T.push({id:'agua',t:'Agua limpia y fresca',d:'Lava bebederos y revisa que ninguno esté seco o goteando. Toman unas 2 veces más agua que alimento.',k:'r'});
+  T.push({id:'muertas',t:'Retirar y anotar aves muertas',d:'Entiérralas en fosa con cal o compóstalas. Nunca a la basura.',k:'r'});
+  if(weekOf(a)<=4)T.push({id:'temp',t:'Controlar temperatura: '+tr[0]+'–'+tr[1]+' °C',d:'Mídela a la altura de las aves. Si se amontonan tienen frío; si jadean y se alejan del calor, tienen calor.',k:'r'});
+  if(p.type==='layer'&&layPct(p,a)>0){
+    T.push({id:'huevos',t:'Recoger huevos 3–4 veces',d:'Por ejemplo 8, 11, 14 y 17 h. Separa enteros, rotos y sucios y guárdalos en lugar fresco.',k:'r'});
+    T.push({id:'calcio',t:'Conchuela o calcio grueso por la tarde',d:'Unos 3–4 g por gallina, sobre el alimento de la tarde.',k:'r'});
+  }
+  if(!(p.type==='layer'&&p.system==='jaula'&&a>=112))T.push({id:'cama',t:'Revisar la cama',d:'Remueve zonas húmedas o apelmazadas, sobre todo debajo de los bebederos.',k:'r'});
+  if(a%3===0)T.push({id:'pediluvio',t:'Renovar el pediluvio',d:'Cal o desinfectante nuevo en la entrada.',k:'r'});
+  return T;
+}
+
+/* ---------- alertas ---------- */
+function alertsFor(p,d){
+  const A=[],a=ageOn(p,d);if(a<p.startAge)return A;
+  const y=addDays(d,-1),ry=(p.records||{})[y],alive=aliveStart(p,y);
+  if(ry&&alive>0){const pct=((ry.dead||0))/alive*100,lim=p.type==='broiler'&&a<=8?.5:.2;
+    if(pct>lim&&(ry.dead||0)>=2)A.push({k:'r',t:'Mortalidad alta ayer',d:(ry.dead)+' aves ('+nf(pct,2)+' %). Lo normal es menos de '+lim+' % al día. Revisa temperatura, agua y signos de enfermedad; si sigue, llama a tu veterinario.'});}
+  let low=0;for(let i=1;i<=2;i++){const dd=addDays(d,-i),r=(p.records||{})[dd],pl=planKg(p,dd);if(r&&r.feedKg>0&&pl>0&&r.feedKg<pl*.85)low++;}
+  if(low===2)A.push({k:'y',t:'Están comiendo menos de lo esperado',d:'Los últimos 2 días consumieron menos del 85 % del plan. Comer menos suele ser la primera señal de calor, frío o enfermedad.'});
+  const wa=Object.keys(p.weights||{}).map(Number).filter(x=>x<=a).sort((x,z)=>z-x)[0];
+  if(wa){const w=p.weights[wa],t=targetW(p,wa);if(w.avg&&w.avg<t*.9)A.push({k:'y',t:'Peso por debajo del objetivo',d:'Último pesaje (día '+wa+'): '+nf(w.avg,0)+' g vs '+nf(t,0)+' g objetivo. Revisa cantidad de comederos, alimento y espacio.'});}
+  if(ry&&(ry.tmin||ry.tmax)){const tr=tempRange(p,a-1);if(weekOf(a-1)<=4&&ry.tmin&&ry.tmin<tr[0]-3)A.push({k:'y',t:'Temperatura baja ayer',d:'Mínima '+ry.tmin+' °C y lo ideal es '+tr[0]+'–'+tr[1]+' °C. Revisa la calefacción de noche.'});
+    if(ry.tmax&&ry.tmax>(weekOf(a-1)<=4?tr[1]+3:30))A.push({k:'y',t:'Calor fuerte ayer',d:'Máxima '+ry.tmax+' °C. Abre cortinas en las horas de calor y asegura agua fresca.'});}
+  if(p.type==='layer'&&ry&&ry.eggs!=null&&alive>0){const exp=layPct(p,a-1);if(exp>30){const real=((ry.eggs||0)+(ry.broken||0)+(ry.dirty||0))/alive*100;if(real<exp-8)A.push({k:'y',t:'Postura baja ayer',d:nf(real,1)+' % contra '+nf(exp,0)+' % esperado. Revisa luz, agua, alimento y estrés.'});}}
+  const fs=feedStock(p);if(fs.bought>0&&fs.daysLeft!==null&&fs.daysLeft<3)A.push({k:'r',t:'Te queda poco alimento',d:'Stock de '+nf(fs.stock,1)+' kg, alcanza para '+fs.daysLeft+' '+plural(fs.daysLeft,'día','días')+'. Compra pronto.'});
+  return A;
+}
+
+/* ---------- stock de alimento ---------- */
+function feedStock(p){
+  const T=todayStr(),buys=(p.purchases||[]).filter(x=>x.cat==='alimento');
+  const bought=sum(buys,x=>x.kg||0),spent=sum(buys,x=>x.total||0);
+  let used=0,usedEst=false;const lastDay=T<p.startDate?null:T;
+  if(lastDay)for(let d=p.startDate;d<=lastDay;d=addDays(d,1)){const r=(p.records||{})[d];if(r&&r.feedKg>0)used+=r.feedKg;else if(d<T){used+=planKg(p,d);usedEst=true;}if(ageOn(p,d)>maxAge(p))break;}
+  const stock=Math.max(0,bought-used);
+  let daysLeft=null,until=null;
+  if(bought>0){let s=stock,d=T,n=0;const base=aliveEnd(p,addDays(T,-1)),ba=ageOn(p,T);
+    const todayR=(p.records||{})[T];if(!(todayR&&todayR.feedKg>0)&&T>=p.startDate){s-=planKg(p,T);if(s<0){daysLeft=0;}}
+    if(daysLeft===null){d=addDays(T,1);while(n<400){const need=d<p.startDate?0:futurePlanKg(p,d,base||p.qty,ba);if(ageOn(p,d)>maxAge(p))break;if(s-need<0)break;s-=need;n++;d=addDays(d,1);}daysLeft=n;until=addDays(T,n);}
+  }
+  return {bought,used,stock,avg:bought?spent/bought:0,daysLeft,until,usedEst};
+}
+
+/* ---------- totales ---------- */
+function totals(p){
+  const costs={};for(const x of p.purchases||[])costs[x.cat]=(costs[x.cat]||0)+(x.total||0);
+  const costT=sum(Object.values(costs));const incT=sum(p.sales||[],s=>s.total||0);
+  const recs=Object.values(p.records||{});
+  const dead=sum(recs,r=>r.dead||0),cull=sum(recs,r=>r.cull||0);
+  const eggs=sum(recs,r=>(r.eggs||0)+(r.broken||0)+(r.dirty||0)),goodEggs=sum(recs,r=>r.eggs||0);
+  const kgSold=sum((p.sales||[]).filter(s=>s.product==='pollo'&&(s.mode==='pie'||s.mode==='beneficiado')),s=>s.qty||0);
+  const birdsSold=sum(p.sales||[],s=>s.birds||0);
+  return {costs,costT,incT,dead,cull,eggs,goodEggs,kgSold,birdsSold,profit:incT-costT};
+}
+
+/* ================= almacenamiento ================= */
+const S={projects:{},db:null,uid:null,col:null};
+const CACHE='migalpon.v1';
+function cacheLoad(){try{const r=localStorage.getItem(CACHE);if(r){const o=JSON.parse(r);S.projects=o.projects||{};}}catch(e){}}
+function cacheSave(){try{localStorage.setItem(CACHE,JSON.stringify({projects:S.projects,savedAt:Date.now()}));setSync('local');}catch(e){setSync('error','Memoria llena: descarga un respaldo');}}
+function setSync(k,msg){if(k==='cloud'||k==='saving')k='local';const el=$('#sync');el.className='sync '+k;el.querySelector('span').textContent=msg||({cloud:'Guardado en la nube',saving:'Guardando…',local:'Guardado en este celular',error:'No se pudo guardar'})[k];}
+function persist(p){p.updatedAt=Date.now();S.projects[p.id]=p;cacheSave();}
+function removeProject(id){delete S.projects[id];cacheSave();}
+let needRender=false;
+function rerenderSafe(){const ae=document.activeElement;if(ae&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName)){needRender=true;return;}render();}
+document.addEventListener('focusout',()=>{if(needRender){needRender=false;setTimeout(()=>{const ae=document.activeElement;if(!ae||!/INPUT|TEXTAREA|SELECT/.test(ae.tagName))render();else needRender=true;},50);}});
+
+/* ================= estado de la vista ================= */
+const st={view:'home',pid:null,tab:'hoy',day:todayStr(),confirm:null,saleProduct:null,buyCat:'alimento',wiz:null,regView:'diario'};
+function newWiz(){return{step:1,zone:'lima-met',startDate:todayStr(),type:'broiler',system:'piso',line:'ross308',qty:100,ageUnit:'dia',ageVal:1,name:'',feedPrice:3.2,chickPrice:'',sacoKg:40,saleDay:42};}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2200);}
+const cur=()=>S.projects[st.pid];
+
+/* ================= iconos ================= */
+const IC={
+  hoy:'<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/><path d="m9 15 2 2 4-4"/></svg>',
+  plan:'<svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg>',
+  registro:'<svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M21 19H3"/></svg>',
+  compras:'<svg viewBox="0 0 24 24"><path d="M4 8h16l-1.5 11h-13z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/></svg>',
+  ventas:'<svg viewBox="0 0 24 24"><ellipse cx="12" cy="13" rx="6" ry="7.5"/><path d="M12 9v8M10 11h3.2a1.6 1.6 0 0 1 0 3.2H10.8a1.6 1.6 0 0 0 0 3.2H14"/></svg>',
+  resumen:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V12l6 6"/></svg>'};
+const TABS=[['hoy','Hoy'],['plan','Plan'],['registro','Registro'],['compras','Compras'],['ventas','Ventas'],['resumen','Resumen']];
+
+/* ================= render ================= */
+function render(){
+  const app=$('#app'),tabs=$('#tabs');
+  if(st.view==='project'&&!cur()){st.view='home';}
+  if(st.view==='home'){app.innerHTML=viewHome();tabs.hidden=true;}
+  else if(st.view==='wizard'){app.innerHTML=viewWizard();tabs.hidden=true;}
+  else{
+    const p=cur();
+    tabs.hidden=false;tabs.innerHTML='<div class="in">'+TABS.map(([k,n])=>'<button data-act="tab" data-v="'+k+'" class="'+(st.tab===k?'on':'')+'" aria-label="'+n+'">'+IC[k]+n+'</button>').join('')+'</div>';
+    const fn={hoy:tabHoy,plan:tabPlan,registro:tabRegistro,compras:tabCompras,ventas:tabVentas,resumen:tabResumen}[st.tab];
+    app.innerHTML=projectHead(p)+fn(p);
+  }
+}
+
+function projectHead(p){
+  const l=L(p),d=todayStr(),a=ageOn(p,d);
+  let status;if(a<p.startAge)status='<span class="pill y">Llegan en '+(p.startAge-a)+' '+plural(p.startAge-a,'día','días')+'</span>';
+  else if(a>maxAge(p))status='<span class="pill">Ciclo terminado</span>';
+  else status='<span class="pill g">Día '+a+' · Semana '+weekOf(a)+'</span>';
+  return '<div class="stack" style="padding-top:16px;margin-bottom:14px"><div class="row" style="align-items:flex-start"><div class="grow"><div class="eyebrow">'+esc(l.name)+(p.type==='layer'?' · '+(p.system==='jaula'?'Jaula':'Piso'):'')+' · '+esc(zoneOf(p).name)+'</div><h1>'+esc(p.name)+'</h1></div></div><div class="row">'+status+'<span class="pill">'+aliveEnd(p,d<p.startDate?p.startDate:d>dateOfAge(p,maxAge(p))?dateOfAge(p,maxAge(p)):d)+' aves vivas</span></div></div>';
+}
+
+/* ---------- inicio ---------- */
+function viewHome(){
+  const list=Object.values(S.projects).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  let h='<div class="stack" style="padding-top:20px">';
+  h+='<div><div class="eyebrow">Tus crianzas</div><h1>Proyectos</h1></div>';
+  if(!list.length){
+    h+='<div class="card hero-empty stack"><h2>Arma tu primer lote</h2><p class="muted">Elige pollos de engorde o gallinas ponedoras, la línea genética, cuántas aves y tu zona de Lima. Te armo el galpón, la lista de compras y lo que debes hacer cada día, con el alimento exacto según las aves vivas.</p><div class="row"><button class="btn primary" data-act="new">Nuevo proyecto</button><button class="btn" data-act="example">Ver un ejemplo</button></div><p class="note">El ejemplo crea un lote de muestra con datos inventados para que veas cómo funciona. Lo puedes borrar después.</p></div>';
+  }else{
+    h+='<button class="btn primary block" data-act="new">+ Nuevo proyecto</button>';
+    for(const p of list){
+      const d=todayStr(),a=ageOn(p,d),l=L(p),inCycle=a>=p.startAge&&a<=maxAge(p);
+      const tk=inCycle?tasksFor(p,d):[],done=((p.tasksDone||{})[d]||[]).length;
+      const pct=Math.min(100,Math.max(0,(a-p.startAge)/(maxAge(p)-p.startAge)*100));
+      h+='<button class="card pcard" data-act="open" data-id="'+p.id+'"><div class="row"><div class="grow"><div class="eyebrow">'+esc(l.name)+' · '+(p.type==='broiler'?'Engorde':'Ponedoras '+(p.system==='jaula'?'en jaula':'en piso'))+'</div><h2>'+esc(p.name)+'</h2></div>'+
+      (a<p.startAge?'<span class="pill y">Llegan '+fDate(p.startDate)+'</span>':a>maxAge(p)?'<span class="pill">Terminado</span>':'<span class="pill g">Día '+a+'</span>')+'</div>'+
+      '<div class="bar" aria-hidden="true"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="row small muted"><span class="num">'+aliveEnd(p,inCycle?d:p.startDate)+' aves</span>'+(inCycle?'<span>·</span><span class="num">Tareas de hoy: '+Math.min(done,tk.length)+'/'+tk.length+'</span><span>·</span><span class="num">Alimento hoy: '+nf(planKg(p,d),1)+' kg</span>':'')+'</div></button>';
+    }
+  }
+  h+=backupCard();
+  h+='<p class="note">Los valores de crecimiento, alimento y postura son referenciales, tomados de las guías de cada línea genética y ajustados a manejo común en Lima. Cambian con la genética, el alimento y la sanidad de tu zona. Consulta a un médico veterinario o zootecnista antes de decidir.</p></div>';
+  return h;
+}
+
+function backupCard(){
+  let last='';try{last=localStorage.getItem('migalpon.lastBackup')||'';}catch(e){}
+  const days=last?diffDays(last,todayStr()):null;
+  return '<div class="card stack" style="gap:10px"><div><h2>Respaldo de tus datos</h2><p class="small muted">Tus proyectos se guardan solo en este celular. Descarga un respaldo cada semana y guárdalo en Drive o envíatelo por WhatsApp. Si cambias o reseteas el celular, lo recuperas con "Restaurar respaldo".</p></div>'+
+  (Object.keys(S.projects).length&&(days===null||days>=7)?'<div class="alert y"><div><b>'+(last?'Tu último respaldo fue hace '+days+' días.':'Aún no tienes un respaldo.')+'</b> Descárgalo ahora.</div></div>':last?'<p class="tiny muted">Último respaldo: '+fDateY(last)+'</p>':'')+
+  '<div class="row"><button class="btn" data-act="backup">Descargar respaldo</button><label class="btn ghost" for="restoreFile" style="cursor:pointer">Restaurar respaldo</label><input type="file" id="restoreFile" accept=".json,application/json" hidden></div></div>';
+}
+function doBackup(){
+  const data=JSON.stringify({app:'mi-galpon',version:1,exportedAt:new Date().toISOString(),projects:S.projects});
+  saveFile('mi-galpon-respaldo-'+todayStr()+'.json',data,'application/json');
+  try{localStorage.setItem('migalpon.lastBackup',todayStr());}catch(e){}
+}
+function doRestore(file){
+  const r=new FileReader();
+  r.onload=()=>{try{const o=JSON.parse(r.result);if(!o||o.app!=='mi-galpon'||!o.projects)throw 0;
+      let n=0;for(const [id,p] of Object.entries(o.projects)){const lp=S.projects[id];if(!lp||(p.updatedAt||0)>=(lp.updatedAt||0)){S.projects[id]=p;n++;}}
+      cacheSave();render();toast(n+' '+plural(n,'proyecto restaurado','proyectos restaurados'));}
+    catch(e){toast('Ese archivo no es un respaldo de Mi Galpón');}};
+  r.readAsText(file);
+}
+/* ---------- asistente ---------- */
+function viewWizard(){
+  const w=st.wiz;let h='<div style="padding-top:16px"><button class="btn ghost sm" data-act="'+(w.step>1?'wback':'home')+'">← '+(w.step>1?'Atrás':'Cancelar')+'</button></div>';
+  h+='<div class="steps">'+[1,2,3].map(i=>'<span class="'+(i<=w.step?'on':'')+'"></span>').join('')+'</div><div class="stack">';
+  if(w.step===1){
+    h+='<div><div class="eyebrow">Paso 1 de 3</div><h1>¿Dónde está tu galpón?</h1><p class="muted" style="margin-top:6px">La zona y la estación cambian la calefacción, la cama, la ventilación y cuántas aves caben por m².</p></div>';
+    h+='<div class="stack" style="gap:8px">'+ZONES.map(z=>'<button class="choice '+(w.zone===z.id?'on':'')+'" data-act="wset" data-k="zone" data-v="'+z.id+'"><span class="dot"></span><span><span class="t">'+z.name+'</span><br><span class="d">'+z.sub+' · '+z.alt+'</span></span></button>').join('')+'</div>';
+    h+='<label class="f">¿Qué día llegan las aves?<input type="date" id="w-start" data-wiz="startDate" value="'+w.startDate+'"></label>';
+    const z=ZONES.find(x=>x.id===w.zone),s=seasonOf(w.startDate),c=CLIMA[z.kind][s];
+    h+='<div class="card flat"><div class="eyebrow">Clima esperado al llegar · '+SEASONS[s]+'</div><p style="margin-top:4px"><b>'+c[0]+'</b> · humedad '+c[1]+'</p></div>';
+    h+='<button class="btn primary block" data-act="wnext">Siguiente →</button>';
+  }else if(w.step===2){
+    h+='<div><div class="eyebrow">Paso 2 de 3</div><h1>¿Qué aves vas a criar?</h1></div>';
+    h+='<div class="stack" style="gap:8px">'+
+      '<button class="choice '+(w.type==='broiler'?'on':'')+'" data-act="wset" data-k="type" data-v="broiler"><span class="dot"></span><span><span class="t">Pollos de engorde</span><br><span class="d">Siempre en galpón · venta entre los 35 y 49 días</span></span></button>'+
+      '<button class="choice '+(w.type==='layer'?'on':'')+'" data-act="wset" data-k="type" data-v="layer"><span class="dot"></span><span><span class="t">Gallinas ponedoras</span><br><span class="d">Recría y postura hasta la semana 80</span></span></button></div>';
+    if(w.type==='layer'){
+      h+='<div class="eyebrow" style="margin-top:6px">Alojamiento</div><div class="stack" style="gap:8px">'+
+      '<button class="choice '+(w.system==='piso'?'on':'')+'" data-act="wset" data-k="system" data-v="piso"><span class="dot"></span><span><span class="t">Piso con nidos</span><br><span class="d">Galpón con cama, nidos, perchas, líneas de alimento y agua.</span></span></button>'+
+      '<button class="choice '+(w.system==='jaula'?'on':'')+'" data-act="wset" data-k="system" data-v="jaula"><span class="dot"></span><span><span class="t">Jaula convencional</span><br><span class="d">Baterías de 3 niveles con pasillos de servicio. La recría va en piso hasta la semana 16.</span></span></button></div>';
+    }
+    h+='<div class="eyebrow" style="margin-top:6px">Línea genética</div><div class="stack" style="gap:8px">'+
+      Object.entries(LINES).filter(([,l])=>l.type===w.type).map(([k,l])=>'<button class="choice '+(w.line===k?'on':'')+'" data-act="wset" data-k="line" data-v="'+k+'"><span class="dot"></span><span><span class="t">'+l.name+'</span><br><span class="co">'+l.company+'</span><br><span class="d">'+l.desc+'</span></span></button>').join('')+'</div>';
+    h+='<label class="f">¿Cuántas aves?<input type="number" inputmode="numeric" min="1" id="w-qty" data-wiz="qty" value="'+w.qty+'"></label>';
+    h+='<div class="chips">'+[20,50,100,200,500,1000].map(n=>'<button class="chip '+(+w.qty===n?'on':'')+'" data-act="wset" data-k="qty" data-v="'+n+'">'+n.toLocaleString('es-PE')+'</button>').join('')+'</div>';
+    h+='<div class="eyebrow" style="margin-top:6px">¿Con qué edad llegan?</div><div class="seg"><button class="'+(w.ageUnit==='dia'?'on':'')+'" data-act="wset" data-k="ageUnit" data-v="dia">Días de vida</button><button class="'+(w.ageUnit==='sem'?'on':'')+'" data-act="wset" data-k="ageUnit" data-v="sem">Semanas cumplidas</button></div>';
+    h+='<label class="f">'+(w.ageUnit==='dia'?'Día de vida al llegar (1 = pollito BB)':'Semanas cumplidas al llegar (ej. 16 para pollita recriada)')+'<input type="number" inputmode="numeric" min="'+(w.ageUnit==='dia'?1:0)+'" id="w-age" data-wiz="ageVal" value="'+w.ageVal+'"></label>';
+    if(w.type==='broiler')h+='<label class="f">Día de venta planificado<input type="number" inputmode="numeric" min="28" max="56" id="w-sale" data-wiz="saleDay" value="'+w.saleDay+'"></label>';
+    h+='<button class="btn primary block" data-act="wnext">Siguiente →</button>';
+  }else{
+    const l=LINES[w.line];if(!w.name)w.name=(w.type==='broiler'?'Lote ':'Ponedoras ')+l.name+' · '+fDate(w.startDate);
+    h+='<div><div class="eyebrow">Paso 3 de 3</div><h1>Nombre y precios</h1><p class="muted" style="margin-top:6px">Los precios son solo para estimar. Después registras cada compra real con su precio.</p></div>';
+    h+='<label class="f">Nombre del proyecto<input type="text" id="w-name" data-wiz="name" value="'+esc(w.name)+'" maxlength="60"></label>';
+    h+='<div class="grid2"><label class="f">Precio del alimento (S/ por kg)<input type="number" step="0.01" inputmode="decimal" id="w-fp" data-wiz="feedPrice" value="'+w.feedPrice+'"></label><label class="f">Peso del saco (kg)<input type="number" inputmode="numeric" id="w-saco" data-wiz="sacoKg" value="'+w.sacoKg+'"></label></div>';
+    h+='<label class="f">Precio por '+(w.type==='broiler'?'pollito':'pollita')+' (S/), opcional<input type="number" step="0.01" inputmode="decimal" id="w-cp" data-wiz="chickPrice" value="'+w.chickPrice+'" placeholder="Si lo pones, se registra como compra"></label>';
+    h+='<button class="btn primary block" data-act="create">Crear mi plan</button>';
+  }
+  return h+'</div>';
+}
+function createProject(w,extra){
+  const startAge=w.ageUnit==='dia'?Math.max(1,parseInt(w.ageVal)||1):Math.max(0,parseInt(w.ageVal)||0)*7+1;
+  const p={id:uid(),name:(w.name||'Mi lote').trim(),createdAt:Date.now(),zone:w.zone,type:w.type,system:w.type==='layer'?w.system:null,line:w.line,qty:Math.max(1,parseInt(w.qty)||1),
+    startDate:w.startDate,startAge,saleDay:Math.min(56,Math.max(28,parseInt(w.saleDay)||42)),endWeek:80,feedPrice:num(w.feedPrice)||3.2,sacoKg:num(w.sacoKg)||40,
+    records:{},tasksDone:{},weights:{},purchases:[],sales:[],vaccines:defaultVaccines(w.type).filter(v=>v.age>=startAge||v.age===1&&startAge<=1)};
+  if(startAge>1)p.vaccines=defaultVaccines(w.type).filter(v=>v.age>=startAge);
+  if(num(w.chickPrice)>0)p.purchases.push({id:uid(),date:w.startDate,cat:'aves',desc:p.qty+' '+(p.type==='broiler'?'pollitos':'pollitas')+' '+LINES[p.line].name,qty:p.qty,total:Math.round(num(w.chickPrice)*p.qty*100)/100});
+  Object.assign(p,extra||{});
+  persist(p);return p;
+}
+function createExample(){
+  const start=addDays(todayStr(),-12);
+  const p=createProject({zone:'lima-sur',startDate:start,type:'broiler',system:'piso',line:'ross308',qty:100,ageUnit:'dia',ageVal:1,name:'Ejemplo · Ross 308 (datos de muestra)',feedPrice:3.2,chickPrice:2.8,sacoKg:40,saleDay:42});
+  const deadDays={1:1,3:1,6:1,9:1};
+  for(let i=0;i<12;i++){const d=addDays(start,i),a=i+1,pl=planKg(p,d);p.records[d]={dead:deadDays[a]||0,cause:deadDays[a]?'Sin causa clara':'',feedKg:Math.round(pl*(.95+((a*37)%10)/100)*10)/10,tmin:a<8?30:27,tmax:a<8?33:30};
+    p.tasksDone[d]=['alimento','agua','muertas','temp'];}
+  p.weights[7]={vals:[195,205,188,210,199,203,192,201],avg:199};
+  p.purchases.push({id:uid(),date:start,cat:'alimento',feedType:'Preinicio',kg:40,price:3.2,total:128,desc:'1 saco preinicio'});
+  p.purchases.push({id:uid(),date:addDays(start,8),cat:'alimento',feedType:'Inicio',kg:80,price:3.1,total:248,desc:'2 sacos inicio'});
+  p.purchases.push({id:uid(),date:start,cat:'cama',desc:'Cascarilla y cal',total:45});
+  p.purchases.push({id:uid(),date:start,cat:'energia',desc:'Focos infrarrojos',total:60});
+  persist(p);return p;
+}
+
+/* ---------- pestaña HOY ---------- */
+function tabHoy(p){
+  const d=st.day,a=ageOn(p,d),T=todayStr();
+  let h='<div class="stack">';
+  h+='<div class="daynav"><button class="iconbtn" data-act="day" data-v="-1" aria-label="Día anterior">‹</button><div class="lbl"><div>'+(d===T?'Hoy, ':'')+fDate(d,true)+'</div><div class="tiny muted num">'+(a>=1?'Día '+a+' de vida · semana '+weekOf(a):'Antes de la llegada')+'</div></div><button class="iconbtn" data-act="day" data-v="1" aria-label="Día siguiente">›</button></div>';
+  if(d!==T)h+='<button class="btn sm ghost" data-act="today">Volver a hoy</button>';
+  const alerts=d<=T?alertsFor(p,d):[];
+  for(const x of alerts)h+='<div class="alert '+x.k+'"><div><b>'+esc(x.t)+'.</b> '+esc(x.d)+'</div></div>';
+  if(a<p.startAge){
+    h+='<div class="card"><div class="eyebrow">Preparación</div><div class="mid" style="margin-top:4px">Faltan '+(p.startAge-a)+' '+plural(p.startAge-a,'día','días')+'</div><p class="muted small">Las aves llegan el '+fDateY(p.startDate)+'.</p></div>';
+    h+=taskList(p,d);return h+'</div>';
+  }
+  if(a>maxAge(p)){
+    h+='<div class="card"><div class="eyebrow">Ciclo terminado</div><p style="margin-top:6px">Este lote terminó el '+fDateY(dateOfAge(p,maxAge(p)))+'. Revisa el resultado en Resumen. Después de sacar las aves: limpieza total, desinfección y vacío sanitario de 10–15 días.</p></div>';
+    return h+'</div>';
+  }
+  const alive=aliveStart(p,d),g=feedG(p,a),kg=alive*g/1000,s=stageAt(p,a),tr=tempRange(p,a),r=(p.records||{})[d]||{};
+  const z=zoneOf(p),sea=seasonOf(d),fs=feedStock(p);
+  h+='<div class="card stack" style="gap:10px"><div class="row" style="align-items:flex-end"><div class="grow"><div class="eyebrow">Alimento del día · '+esc(s.n)+'</div><div class="big num" style="margin-top:6px">'+nf(kg,kg<10?2:1)+' <span style="font-size:1.1rem">kg</span></div></div><div style="text-align:right"><div class="mid num">'+nf(g,0)+' g</div><div class="tiny muted">por ave</div></div></div>'+
+    '<p class="small muted num">'+alive+' aves vivas al empezar el día'+(p.sacoKg?' · '+nf(kg/p.sacoKg,2)+' sacos de '+p.sacoKg+' kg':'')+'</p>'+
+    (r.feedKg>0?'<div class="pill '+(r.feedKg<kg*.85?'y':'g')+'">Real registrado: '+nf(r.feedKg,2)+' kg ('+nf(r.feedKg/kg*100,0)+' %)</div>':'')+
+    (fs.bought>0?'<div class="sep"></div><p class="small"><b class="num">Stock: '+nf(fs.stock,1)+' kg</b> <span class="muted">· alcanza '+(fs.daysLeft>=400?'para todo el ciclo':'hasta el '+fDate(fs.until)+' ('+fs.daysLeft+' '+plural(fs.daysLeft,'día','días')+')')+'</span></p>':'<p class="small muted">Registra tus compras de alimento en Compras para ver cuánto stock te queda.</p>')+
+    '</div>';
+  h+='<div class="grid2"><div class="card"><div class="eyebrow">Temperatura</div><div class="mid num" style="margin-top:4px">'+tr[0]+'–'+tr[1]+' °C</div><p class="tiny muted">a la altura de las aves</p></div><div class="card"><div class="eyebrow">Luz</div><div class="mid num" style="margin-top:4px">'+nf(lightH(p,a))+' h</div><p class="tiny muted">'+esc(lightNote(p,a))+'</p></div></div>';
+  if(p.type==='layer'&&layPct(p,a)>0){const ex=layPct(p,a),eggs=Math.round(alive*ex/100),real=r.eggs!=null?(r.eggs||0)+(r.broken||0)+(r.dirty||0):null;
+    h+='<div class="card"><div class="eyebrow">Postura esperada</div><div class="row" style="margin-top:4px"><div class="mid num grow">'+eggs.toLocaleString('es-PE')+' huevos</div><span class="pill">'+nf(ex,0)+' % · '+nf(eggW(p,a),0)+' g c/u</span></div>'+(real!=null?'<p class="small" style="margin-top:6px">Recogidos: <b class="num">'+real+'</b> ('+nf(alive?real/alive*100:0,1)+' %)</p>':'')+'</div>';}
+  if(p.type==='layer'&&a<=18*7||p.type==='broiler')h+='<div class="card flat small"><span class="eyebrow">Peso objetivo hoy</span> <b class="num">'+nf(targetW(p,a),0)+' g</b> por ave</div>';
+  const c=CLIMA[z.kind][sea];
+  h+='<details class="card"><summary>Clima de tu zona · '+SEASONS[sea]+'</summary><p class="small muted" style="margin:8px 0">'+esc(z.name)+': '+c[0]+', humedad '+c[1]+'.</p><ul class="small" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">'+climaTips(z.kind,sea,p.type).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></details>';
+  h+=taskList(p,d);
+  h+=recordForm(p,d);
+  return h+'</div>';
+}
+function taskList(p,d){
+  const T=tasksFor(p,d),done=(p.tasksDone||{})[d]||[];
+  const n=T.filter(t=>done.includes(t.id)).length;
+  let h='<div class="stack" style="gap:10px"><div class="row"><h2 class="grow">Tareas</h2><span class="pill '+(n===T.length&&T.length?'g':'')+' num">'+n+'/'+T.length+'</span></div><div class="tasks">';
+  for(const t of T)h+='<button class="task '+(done.includes(t.id)?'done ':'')+(t.k==='ev'?'ev':t.k==='vac'?'vac':'')+'" data-act="task" data-id="'+t.id+'"><span class="box"></span><span class="grow"><span class="tt">'+esc(t.t)+'</span><br><span class="td">'+esc(t.d)+'</span></span></button>';
+  return h+'</div></div>';
+}
+function recordForm(p,d){
+  const r=(p.records||{})[d]||{},lay=p.type==='layer'&&layPct(p,ageOn(p,d))>0;const v=x=>x==null||x===''?'':x;
+  let h='<form class="card stack" data-form="record"><div><h2>Registro del día</h2><p class="small muted">Lo que pasó realmente. Con esto se calculan las aves vivas, el stock y las alertas.</p></div>';
+  h+='<div class="grid2"><label class="f">Aves muertas<input type="number" min="0" inputmode="numeric" name="dead" id="r-dead" value="'+v(r.dead)+'"></label><label class="f">Causa<select name="cause" id="r-cause">'+CAUSES.map(c=>'<option'+(r.cause===c?' selected':'')+'>'+c+'</option>').join('')+'</select></label></div>';
+  h+='<div class="grid2"><label class="f">Descartadas (enfermas, retiradas)<input type="number" min="0" inputmode="numeric" name="cull" id="r-cull" value="'+v(r.cull)+'"></label><label class="f">Alimento dado (kg)<input type="number" step="0.01" min="0" inputmode="decimal" name="feedKg" id="r-feed" value="'+v(r.feedKg)+'" placeholder="Plan: '+nf(planKg(p,d),2)+'"></label></div>';
+  h+='<div class="grid3"><label class="f">Agua (L)<input type="number" step="0.1" min="0" inputmode="decimal" name="waterL" id="r-water" value="'+v(r.waterL)+'"></label><label class="f">T° mínima<input type="number" step="0.1" inputmode="decimal" name="tmin" id="r-tmin" value="'+v(r.tmin)+'"></label><label class="f">T° máxima<input type="number" step="0.1" inputmode="decimal" name="tmax" id="r-tmax" value="'+v(r.tmax)+'"></label></div>';
+  if(lay)h+='<div class="grid3"><label class="f">Huevos buenos<input type="number" min="0" inputmode="numeric" name="eggs" id="r-eggs" value="'+v(r.eggs)+'"></label><label class="f">Rotos<input type="number" min="0" inputmode="numeric" name="broken" id="r-broken" value="'+v(r.broken)+'"></label><label class="f">Sucios<input type="number" min="0" inputmode="numeric" name="dirty" id="r-dirty" value="'+v(r.dirty)+'"></label></div>';
+  h+='<label class="f">Notas<textarea name="notes" id="r-notes" placeholder="Algo que observaste: tos, diarrea, se amontonan, cambio de proveedor…">'+esc(r.notes||'')+'</textarea></label>';
+  h+='<button class="btn primary" type="submit">Guardar registro</button></form>';
+  return h;
+}
+
+/* ---------- pestaña PLAN ---------- */
+function tabPlan(p){
+  const D=design(p),fp=feedPlan(p),fs=feedStock(p),price=fs.avg||p.feedPrice||0;
+  const totalKg=sum(fp,s=>s.kg);
+  let h='<div class="stack">';
+  h+='<div class="row"><h2 class="grow">Tu plan</h2><button class="btn sm" data-act="pdf">Descargar PDF</button></div>';
+  // galpón
+  h+='<div class="card stack" style="gap:10px"><div class="eyebrow">Galpón · '+esc(zoneOf(p).name)+' · llegada en '+SEASONS[seasonOf(p.startDate)].toLowerCase()+'</div>';
+  h+='<div class="kv"><div><b>'+nf(D.dims[0])+' × '+nf(D.dims[1])+' m</b><span>ancho × largo</span></div><div><b>'+nf(D.area)+' m²</b><span>área de piso</span></div><div><b>'+(p.type==='layer'&&p.system==='jaula'?nf(D.cage.jaulas,0)+' jaulas':nf(D.dens)+' aves/m²')+'</b><span>'+(p.type==='layer'&&p.system==='jaula'?D.cage.mod+' baterías en '+D.cage.rows+' '+plural(D.cage.rows,'fila','filas'):'densidad final')+'</span></div><div><b>'+nf(D.wall)+' m</b><span>alto de pared</span></div></div>';
+  if(p.type==='layer'&&p.system==='jaula')h+='<p class="small">La recría (semanas 1 a 16) va en piso: necesitas un área de <b>'+D.rearArea+' m²</b> con cama, o una parte del galpón separada.</p>';
+  h+=galponSvg(p,D);
+  h+='<ul class="small" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">'+D.notes.map(n=>'<li>'+esc(n)+'</li>').join('')+'</ul></div>';
+  // equipos
+  h+='<div class="stack" style="gap:10px"><h2>Equipos</h2><div class="equip">'+D.eq.map(e=>'<div class="eq"><span class="pill '+(e.ph==='Toda la crianza'?'g':'y')+'" style="align-self:flex-start">'+esc(e.ph)+'</span><span class="q">'+nf(e.q)+(e.u?' <span style="font-size:.9rem">'+e.u+'</span>':'')+'</span><span class="n">'+esc(e.n)+'</span><span class="d">'+esc(e.d)+'</span></div>').join('')+'</div></div>';
+  h+='<div class="stack" style="gap:10px"><h2>Materiales e insumos</h2><div class="equip">'+D.mat.map(e=>'<div class="eq"><span class="q">'+nf(e.q)+' <span style="font-size:.9rem">'+esc(e.u)+'</span></span><span class="n">'+esc(e.n)+'</span><span class="d">'+esc(e.d)+'</span></div>').join('')+'</div></div>';
+  // alimento por etapas
+  h+='<div class="card stack" style="gap:10px"><div class="row"><h2 class="grow">Alimento por etapas</h2><span class="pill">'+nf(totalKg,0)+' kg en total</span></div>';
+  h+='<div class="tbl"><table><thead><tr><th>Etapa</th><th>Días</th><th>Proteína</th><th>Total kg</th><th>Sacos</th><th>Costo est.</th></tr></thead><tbody>'+
+    fp.map(s=>'<tr class="'+(stageAt(p,Math.max(p.startAge,ageOn(p,todayStr()))).k===s.k?'cur':'')+'"><td><b>'+s.n+'</b><br><span class="tiny muted">'+esc(s.extra)+'</span></td><td>'+Math.max(s.from,p.startAge)+'–'+(s.to>9000?maxAge(p):Math.min(s.to,maxAge(p)))+'</td><td>'+s.prot+'</td><td>'+nf(s.kg,1)+'</td><td>'+Math.ceil(s.kg/p.sacoKg)+'</td><td>'+money(s.kg*price)+'</td></tr>').join('')+
+    '<tr><td><b>Total</b></td><td></td><td></td><td><b>'+nf(totalKg,1)+'</b></td><td><b>'+Math.ceil(sum(fp,s=>Math.ceil(s.kg/p.sacoKg)))+'</b></td><td><b>'+money(totalKg*price)+'</b></td></tr></tbody></table></div>';
+  h+='<p class="note">Calculado con la mortalidad esperada. En la pestaña Hoy la cantidad diaria se recalcula con tus aves vivas reales. Costo estimado a '+money(price)+' por kg'+(fs.avg?' (tu precio promedio de compra).':' (precio de referencia).')+' Sacos de '+p.sacoKg+' kg.</p></div>';
+  // vacunas
+  h+=vaccineSection(p);
+  // semanal
+  h+=weeklyTable(p);
+  // bioseguridad
+  h+='<div class="card stack" style="gap:8px"><h2>Cómo evitar que se enfermen</h2><ul class="small" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">'+
+    ['Vacío sanitario de 10–15 días entre lotes: galpón vacío, limpio y seco.','Limpieza, desinfección y encalado del piso antes de cada lote.','Pediluvio con cal o desinfectante en la entrada; renuévalo cada 2–3 días.','Ropa y botas solo para el galpón. Limita y anota las visitas.','Controla ratas, insectos y aves silvestres: pueden traer enfermedades.','Agua limpia y clorada. Lava comederos y bebederos seguido.','Retira las aves muertas cada día: fosa con cal o compostaje, nunca a la basura.','No mezcles aves de distintas edades ni de otro origen en el mismo galpón.'].map(t=>'<li>'+t+'</li>').join('')+'</ul></div>';
+  h+='<div class="card flat stack" style="gap:6px"><h3>Formalidad</h3><p class="small">En Perú las granjas avícolas deben registrarse ante SENASA y, si aparece una enfermedad grave como la influenza aviar o Newcastle, hay que avisar a SENASA. Confirma qué aplica a tu tamaño de granja.</p></div>';
+  h+='<p class="note">Valores referenciales basados en las guías de Aviagen (Ross 308), Cobb-Vantress (Cobb 500), Lohmann, Hy-Line e ISA. Este plan no reemplaza a un veterinario: una vacuna equivocada o fuera de tiempo puede hacerte perder el lote.</p>';
+  return h+'</div>';
+}
+function galponSvg(p,D){
+  const [W,Lg]=D.dims,sc=Math.min(300/Lg,170/W),w=Lg*sc,hh=W*sc,ox=(340-w)/2,oy=24;
+  let s='<svg viewBox="0 0 340 '+(hh+60)+'" role="img" aria-label="Planta del galpón de '+nf(W)+' por '+nf(Lg)+' metros">';
+  s+='<rect x="'+ox+'" y="'+oy+'" width="'+w+'" height="'+hh+'" fill="var(--surface2)" stroke="var(--ink)" stroke-width="2" rx="2"/>';
+  s+='<text x="170" y="15" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Figtree,sans-serif">Largo '+nf(Lg)+' m (Este – Oeste)</text>';
+  s+='<text x="'+(ox-6)+'" y="'+(oy+hh/2)+'" text-anchor="end" font-size="11" fill="var(--muted)" font-family="Figtree,sans-serif">'+nf(W)+' m</text>';
+  s+='<text x="'+(ox+w+6)+'" y="'+(oy+12)+'" font-size="11" fill="var(--muted)" font-family="Figtree,sans-serif">N ↑</text>';
+  if(p.type==='layer'&&p.system==='jaula'){
+    const rows=D.cage.rows;for(let i=0;i<rows;i++){const yy=oy+(1+i*2.8)*sc;s+='<rect x="'+(ox+sc)+'" y="'+yy+'" width="'+(w-2*sc)+'" height="'+(1.8*sc)+'" fill="var(--yolk-soft)" stroke="var(--yolk)" rx="2"/>';}
+    s+='<text x="'+(ox+w/2)+'" y="'+(oy+hh+16)+'" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Figtree,sans-serif">Filas de baterías (amarillo) con pasillos de 1 m</text>';
+  }else{
+    const nf_=D.eq.find(e=>/Comederos de tolva/.test(e.n))?.q||1,nb=D.eq.find(e=>/Bebederos (autom|manuales de 10)/.test(e.n))?.q||1;
+    const cols=Math.max(nf_,nb),step=w/(cols+1);
+    for(let i=0;i<nf_;i++){const x=ox+step*(i+1)-step*.18;s+='<circle cx="'+x+'" cy="'+(oy+hh*.35)+'" r="'+Math.max(4,Math.min(9,sc*.25))+'" fill="var(--yolk)"/>';}
+    for(let i=0;i<nb;i++){const x=ox+step*(i+1)+step*.18;s+='<circle cx="'+x+'" cy="'+(oy+hh*.68)+'" r="'+Math.max(4,Math.min(9,sc*.25))+'" fill="var(--green)"/>';}
+    if(p.type==='layer')s+='<rect x="'+(ox+4)+'" y="'+(oy+4)+'" width="'+Math.min(w*.25,40)+'" height="'+Math.min(hh*.2,16)+'" fill="none" stroke="var(--muted)" stroke-dasharray="3 2"/>';
+    s+='<circle cx="'+(ox+12)+'" cy="'+(oy+hh+16)+'" r="5" fill="var(--yolk)"/><text x="'+(ox+21)+'" y="'+(oy+hh+20)+'" font-size="11" fill="var(--muted)" font-family="Figtree,sans-serif">Comederos</text>';
+    s+='<circle cx="'+(ox+92)+'" cy="'+(oy+hh+16)+'" r="5" fill="var(--green)"/><text x="'+(ox+101)+'" y="'+(oy+hh+20)+'" font-size="11" fill="var(--muted)" font-family="Figtree,sans-serif">Bebederos</text>';
+    if(p.type==='layer')s+='<text x="'+(ox+170)+'" y="'+(oy+hh+20)+'" font-size="11" fill="var(--muted)" font-family="Figtree,sans-serif">- - Nidos</text>';
+  }
+  s+='<rect x="'+(ox+w/2-10)+'" y="'+(oy+hh-3)+'" width="20" height="6" fill="var(--bg)" stroke="var(--ink)"/>';
+  return '<div class="chart" style="max-width:420px">'+s+'</svg></div>';
+}
+function vaccineSection(p){
+  const vs=[...(p.vaccines||[])].sort((a,b)=>a.age-b.age),T=todayStr();
+  let h='<div class="card stack" style="gap:10px"><div><h2>Calendario de vacunas</h2><p class="small muted">Calendario de referencia usado en Lima. Ajústalo con tu veterinario: cambia según tu zona y lo que ya trae el lote de la incubadora.</p></div><div class="list">';
+  for(const v of vs){const d=dateOfAge(p,v.age),done=((p.tasksDone||{})[d]||[]).includes('vac-'+v.id);
+    h+='<div class="li"><div style="width:58px;flex:none"><div class="mid num" style="font-size:1.1rem">Día '+v.age+'</div><div class="tiny muted">'+fDate(d)+'</div></div><div class="grow"><b>'+esc(v.name)+'</b><div class="tiny muted">'+esc(v.how||'')+'</div></div>'+(done?'<span class="pill g">Hecha</span>':d<T?'<span class="pill r">Pendiente</span>':'')+
+    (st.confirm==='vac-'+v.id?'<button class="btn sm danger solid" data-act="delvac" data-id="'+v.id+'">Eliminar</button>':'<button class="iconbtn" style="width:34px;height:34px" data-act="confirm" data-v="vac-'+v.id+'" aria-label="Quitar vacuna">×</button>')+'</div>';}
+  h+='</div><form class="stack" data-form="vaccine" style="gap:8px"><div class="eyebrow">Agregar vacuna</div><div class="grid2"><label class="f">Día de vida<input type="number" min="1" name="age" id="v-age" inputmode="numeric" required></label><label class="f">Vacuna<input type="text" name="name" id="v-name" required placeholder="Ej. Newcastle"></label></div><label class="f">Cómo se aplica<input type="text" name="how" id="v-how" placeholder="Ej. en el agua de bebida"></label><button class="btn" type="submit">Agregar al calendario</button></form></div>';
+  return h;
+}
+function weeklyTable(p){
+  const w0=weekOf(p.startAge),w1=weekOf(maxAge(p)),curW=weekOf(ageOn(p,todayStr()));
+  let rows='';
+  for(let wk=w0;wk<=w1;wk++){const a=Math.min(maxAge(p),wk*7),aMid=Math.max(p.startAge,wk*7-3);
+    let kgw=0;for(let x=Math.max(p.startAge,wk*7-6);x<=Math.min(maxAge(p),wk*7);x++)kgw+=expAlive(p,x)*feedG(p,x)/1000;
+    const tr=tempRange(p,aMid),lp=layPct(p,aMid);
+    rows+='<tr class="'+(wk===curW?'cur':'')+'"><td>Sem '+wk+'<br><span class="tiny muted">'+fDate(dateOfAge(p,Math.max(p.startAge,wk*7-6)))+'</span></td><td>'+nf(targetW(p,a),0)+'</td><td>'+nf(feedG(p,aMid),0)+'</td><td>'+nf(kgw,1)+'</td><td>'+(weekOf(aMid)<=4?tr[0]+'–'+tr[1]:tr[0]+'–'+tr[1])+'</td><td>'+nf(lightH(p,aMid))+'</td>'+(p.type==='layer'?'<td>'+(lp?nf(lp,0)+' %':'–')+'</td><td>'+(lp?Math.round(expAlive(p,aMid)*lp/100*7).toLocaleString('es-PE'):'–')+'</td>':'')+'</tr>';}
+  return '<details class="card" '+(p.type==='broiler'?'open':'')+'><summary>Plan semana por semana</summary><p class="small muted" style="margin:6px 0 10px">Peso al final de la semana, alimento por ave al día y total del lote en la semana.</p><div class="tbl"><table><thead><tr><th>Semana</th><th>Peso g</th><th>g/ave/día</th><th>kg lote</th><th>°C</th><th>Luz h</th>'+(p.type==='layer'?'<th>Postura</th><th>Huevos/sem</th>':'')+'</tr></thead><tbody>'+rows+'</tbody></table></div></details>';
+}
+
+/* ---------- pestaña REGISTRO ---------- */
+function tabRegistro(p){
+  let h='<div class="stack"><div class="seg"><button class="'+(st.regView==='diario'?'on':'')+'" data-act="reg" data-v="diario">Días</button><button class="'+(st.regView==='pesos'?'on':'')+'" data-act="reg" data-v="pesos">Pesajes</button></div>';
+  if(st.regView==='pesos'){
+    h+=weightChart(p);
+    h+='<div class="card stack" style="gap:6px"><h2>Pesajes programados</h2><p class="small muted">Pesa una muestra al azar (5 % del lote, mínimo 5 aves) de distintas partes del galpón. Escribe cada peso en gramos separado por comas, o solo el promedio.</p>';
+    const T=todayStr();
+    for(const a of weighAges(p)){const d=dateOfAge(p,a),w=(p.weights||{})[a],t=targetW(p,a);
+      const unif=w&&w.vals&&w.vals.length>2?w.vals.filter(x=>Math.abs(x-w.avg)<=w.avg*.1).length/w.vals.length*100:null;
+      h+='<form class="li" data-form="weight" data-age="'+a+'" style="flex-wrap:wrap"><div style="width:96px"><b class="num">Día '+a+'</b><div class="tiny muted">'+fDate(d)+' · objetivo '+nf(t,0)+' g</div></div>';
+      if(w&&w.avg)h+='<div class="grow"><span class="mid num" style="font-size:1.1rem">'+nf(w.avg,0)+' g</span> <span class="pill '+(w.avg>=t*.95?'g':w.avg>=t*.9?'y':'r')+'">'+nf(w.avg/t*100,0)+' %</span>'+(unif!=null?' <span class="pill">Uniformidad '+nf(unif,0)+' %</span>':'')+'</div><button class="btn sm ghost" type="button" data-act="clrw" data-age="'+a+'">Borrar</button>';
+      else if(d<=T)h+='<input class="grow" type="text" name="vals" id="w-'+a+'" inputmode="decimal" placeholder="Ej. 540, 525, 560" style="min-width:150px"><button class="btn sm primary" type="submit">Guardar</button>';
+      else h+='<span class="muted small grow">Próximamente</span>';
+      h+='</form>';}
+    h+='<p class="note">Uniformidad = % de aves con peso dentro de ±10 % del promedio. Lo ideal es más de 80 %.</p></div>';
+    return h+'</div>';
+  }
+  const days=Object.keys(p.records||{}).sort().reverse();
+  h+='<div class="row"><h2 class="grow">Historial</h2><button class="btn sm" data-act="csv">Exportar CSV</button></div>';
+  if(!days.length)h+='<div class="card"><p class="muted">Aún no hay registros. En la pestaña Hoy llena el "Registro del día": aves muertas, alimento dado, temperatura'+(p.type==='layer'?' y huevos':'')+'.</p></div>';
+  else{
+    h+='<div class="tbl"><table><thead><tr><th>Fecha</th><th>Día</th><th>Vivas</th><th>Muertas</th><th>Alim. kg</th><th>Plan kg</th>'+(p.type==='layer'?'<th>Huevos</th><th>%</th>':'')+'<th>T° mín/máx</th></tr></thead><tbody>';
+    for(const d of days){const r=p.records[d],pl=planKg(p,d),al=aliveEnd(p,d),eg=(r.eggs||0)+(r.broken||0)+(r.dirty||0);
+      h+='<tr data-act="goday" data-v="'+d+'" style="cursor:pointer"><td>'+fDate(d,true)+'</td><td>'+ageOn(p,d)+'</td><td>'+al+'</td><td>'+(r.dead||0)+(r.cull?' +'+r.cull:'')+'</td><td>'+(r.feedKg?nf(r.feedKg,2):'–')+'</td><td>'+nf(pl,2)+'</td>'+(p.type==='layer'?'<td>'+(eg||'–')+'</td><td>'+(eg?nf(eg/aliveStart(p,d)*100,1):'–')+'</td>':'')+'<td>'+(r.tmin??'–')+' / '+(r.tmax??'–')+'</td></tr>';}
+    h+='</tbody></table></div><p class="note">Toca un día para abrirlo y corregirlo.</p>';
+  }
+  return h+'</div>';
+}
+function weightChart(p){
+  const ages=weighAges(p),maxA=maxAge(p),minA=p.startAge;
+  const pts=[];for(let a=minA;a<=maxA;a+=Math.max(1,Math.round((maxA-minA)/60)))pts.push([a,targetW(p,a)]);pts.push([maxA,targetW(p,maxA)]);
+  const real=ages.filter(a=>p.weights&&p.weights[a]&&p.weights[a].avg).map(a=>[a,p.weights[a].avg]);
+  const ymax=Math.max(...pts.map(x=>x[1]),...real.map(x=>x[1]))*1.08;
+  const W=340,H=180,l=40,r=10,t=12,b=26,X=a=>l+(a-minA)/(maxA-minA||1)*(W-l-r),Y=v=>t+(1-v/ymax)*(H-t-b);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Peso objetivo y peso real">';
+  const step=ymax>2500?1000:ymax>1200?500:250;
+  for(let v=0;v<=ymax;v+=step)s+='<line x1="'+l+'" x2="'+(W-r)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="var(--line)"/><text x="'+(l-5)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="10" fill="var(--muted)" font-family="Figtree,sans-serif">'+(v>=1000?nf(v/1000,1)+' kg':v+' g')+'</text>';
+  const xs=p.type==='broiler'?7:56;for(let a=Math.ceil(minA/xs)*xs;a<=maxA;a+=xs)s+='<text x="'+X(a)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="Figtree,sans-serif">'+(p.type==='broiler'?'d'+a:'s'+a/7)+'</text>';
+  s+='<polyline fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 4" points="'+pts.map(([a,v])=>X(a).toFixed(1)+','+Y(v).toFixed(1)).join(' ')+'"/>';
+  if(real.length>1)s+='<polyline fill="none" stroke="var(--green)" stroke-width="2.5" points="'+real.map(([a,v])=>X(a).toFixed(1)+','+Y(v).toFixed(1)).join(' ')+'"/>';
+  for(const [a,v] of real)s+='<circle cx="'+X(a)+'" cy="'+Y(v)+'" r="4.5" fill="var(--green)" stroke="var(--surface)" stroke-width="2"/>';
+  s+='</svg>';
+  return '<div class="card stack" style="gap:6px"><div class="row"><h2 class="grow">Peso: objetivo vs real</h2></div><div class="chart">'+s+'</div><div class="row tiny muted"><span>– – Objetivo de la línea</span><span style="color:var(--green)">● Tus pesajes</span></div></div>';
+}
+
+/* ---------- pestaña COMPRAS ---------- */
+function tabCompras(p){
+  const fs=feedStock(p),T=todayStr();let h='<div class="stack">';
+  h+='<div class="card stack" style="gap:10px"><div class="eyebrow">Alimento</div><div class="kv"><div><b>'+nf(fs.stock,1)+' kg</b><span>stock estimado</span></div><div><b>'+(fs.avg?money(fs.avg):'–')+'</b><span>precio promedio por kg</span></div><div><b>'+(fs.bought?(fs.daysLeft>=400?'Todo el ciclo':fs.daysLeft+' '+plural(fs.daysLeft,'día','días')):'–')+'</b><span>'+(fs.bought&&fs.daysLeft<400?'alcanza hasta el '+fDate(fs.until):'alcance')+'</span></div><div><b>'+nf(fs.bought,1)+' kg</b><span>comprado · '+nf(fs.used,1)+' kg usado</span></div></div>'+
+    (fs.usedEst?'<p class="note">Para los días sin registro de alimento uso la cantidad del plan. Registra lo que das en Hoy para que el stock sea exacto.</p>':'')+'</div>';
+  const c=st.buyCat;
+  h+='<form class="card stack" data-form="purchase"><h2>Registrar compra</h2><label class="f">Tipo de gasto<select name="cat" id="b-cat" data-act-change="buycat">'+Object.entries(CATS).map(([k,n])=>'<option value="'+k+'"'+(k===c?' selected':'')+'>'+n+'</option>').join('')+'</select></label>';
+  h+='<label class="f">Fecha<input type="date" name="date" id="b-date" value="'+T+'" required></label>';
+  if(c==='alimento'){
+    const curS=stageAt(p,Math.min(maxAge(p),Math.max(p.startAge,ageOn(p,T))));
+    h+='<label class="f">Tipo de alimento<select name="feedType" id="b-ft">'+stages(p).map(s=>'<option'+(s.k===curS.k?' selected':'')+'>'+s.n+'</option>').join('')+'</select></label>';
+    h+='<div class="grid2"><label class="f">Kilos comprados<input type="number" step="0.1" min="0" inputmode="decimal" name="kg" id="b-kg" required data-calc="1"></label><label class="f">Precio por kg (S/)<input type="number" step="0.01" min="0" inputmode="decimal" name="price" id="b-price" value="'+(fs.avg?fs.avg.toFixed(2):p.feedPrice)+'" data-calc="1"></label></div>';
+    h+='<div class="chips">'+[1,2,3,5].map(n=>'<button type="button" class="chip" data-act="sacos" data-v="'+n+'">'+n+' '+plural(n,'saco','sacos')+' ('+n*p.sacoKg+' kg)</button>').join('')+'</div>';
+    h+='<label class="f">Total pagado (S/)<input type="number" step="0.01" min="0" inputmode="decimal" name="total" id="b-total" placeholder="Se calcula solo"></label>';
+  }else{
+    h+='<label class="f">Detalle<input type="text" name="desc" id="b-desc" placeholder="'+({aves:'Ej. 100 pollitos Ross 308',sanidad:'Ej. vacuna Newcastle 1000 dosis',energia:'Ej. balón de gas 45 kg',cama:'Ej. 10 sacos de cascarilla',equipos:'Ej. 2 comederos de tolva',mano:'Ej. ayudante semana 3',agua:'Ej. cisterna',transporte:'Ej. flete de alimento',alquiler:'Ej. alquiler del terreno, octubre',otros:''})[c]+'"></label>';
+    h+='<div class="grid2"><label class="f">Cantidad (opcional)<input type="number" step="0.01" min="0" inputmode="decimal" name="qty" id="b-qty"></label><label class="f">Monto total (S/)<input type="number" step="0.01" min="0" inputmode="decimal" name="total" id="b-total" required></label></div>';
+  }
+  h+='<button class="btn primary" type="submit">Guardar compra</button></form>';
+  const list=[...(p.purchases||[])].sort((a,b)=>b.date.localeCompare(a.date));
+  h+='<div class="card"><div class="row" style="margin-bottom:6px"><h2 class="grow">Compras</h2><span class="pill num">'+money(sum(list,x=>x.total||0))+'</span></div>';
+  if(!list.length)h+='<p class="muted small">Todavía no registras compras.</p>';
+  h+='<div class="list">'+list.map(x=>'<div class="li"><div class="grow"><b>'+(x.cat==='alimento'?'Alimento '+esc(x.feedType||'')+' · '+nf(x.kg,1)+' kg':esc(x.desc||CATS[x.cat]))+'</b><div class="tiny muted">'+fDate(x.date)+' · '+CATS[x.cat]+(x.cat==='alimento'&&x.kg?' · '+money(x.total/x.kg)+'/kg':'')+'</div></div><b class="num">'+money(x.total)+'</b>'+
+    (st.confirm==='buy-'+x.id?'<button class="btn sm danger solid" data-act="delbuy" data-id="'+x.id+'">Eliminar</button>':'<button class="iconbtn" style="width:34px;height:34px" data-act="confirm" data-v="buy-'+x.id+'" aria-label="Eliminar compra">×</button>')+'</div>').join('')+'</div></div>';
+  return h+'</div>';
+}
+
+/* ---------- pestaña VENTAS ---------- */
+function tabVentas(p){
+  const T=todayStr(),prods=p.type==='broiler'?['pollo','gallinaza','otro']:['huevo','gallina','gallinaza','otro'];
+  if(!st.saleProduct||!prods.includes(st.saleProduct))st.saleProduct=prods[0];
+  const pr=SALE_PRODUCTS[st.saleProduct];
+  let h='<div class="stack"><form class="card stack" data-form="sale"><h2>Registrar venta</h2>';
+  h+='<div class="chips">'+prods.map(k=>'<button type="button" class="chip '+(k===st.saleProduct?'on':'')+'" data-act="saleprod" data-v="'+k+'">'+SALE_PRODUCTS[k].n+'</button>').join('')+'</div>';
+  h+='<div class="grid2"><label class="f">Fecha<input type="date" name="date" id="s-date" value="'+T+'" required></label><label class="f">Forma de venta<select name="mode" id="s-mode">'+Object.entries(pr.modes).map(([k,n])=>'<option value="'+k+'">'+n+'</option>').join('')+'</select></label></div>';
+  h+='<div class="grid2"><label class="f">Cantidad (kg, unidades o paquetes)<input type="number" step="0.01" min="0" inputmode="decimal" name="qty" id="s-qty" required data-calc="1"></label><label class="f">Precio por unidad de venta (S/)<input type="number" step="0.01" min="0" inputmode="decimal" name="price" id="s-price" required data-calc="1"></label></div>';
+  if(pr.birds)h+='<label class="f">¿Cuántas aves salieron en esta venta?<input type="number" min="0" inputmode="numeric" name="birds" id="s-birds" placeholder="Se descuentan de las aves vivas"></label>';
+  if(st.saleProduct==='huevo')h+='<label class="f">Huevos por paquete (solo para "otro empaque")<input type="number" min="1" inputmode="numeric" name="perPack" id="s-pack" placeholder="Ej. 180"></label>';
+  h+='<label class="f">Comprador o nota (opcional)<input type="text" name="desc" id="s-desc"></label>';
+  h+='<div class="row"><span class="grow muted small">Total</span><span class="mid num" id="s-total">S/ 0.00</span></div>';
+  h+='<button class="btn primary" type="submit">Guardar venta</button></form>';
+  const list=[...(p.sales||[])].sort((a,b)=>b.date.localeCompare(a.date));
+  h+='<div class="card"><div class="row" style="margin-bottom:6px"><h2 class="grow">Ventas</h2><span class="pill g num">'+money(sum(list,x=>x.total||0))+'</span></div>';
+  if(!list.length)h+='<p class="muted small">Aún no registras ventas.</p>';
+  h+='<div class="list">'+list.map(x=>{const P=SALE_PRODUCTS[x.product]||SALE_PRODUCTS.otro;return'<div class="li"><div class="grow"><b>'+P.n+' · '+nf(x.qty,2)+' '+(MODE_UNIT[x.mode]||'')+'</b><div class="tiny muted">'+fDate(x.date)+' · '+(P.modes[x.mode]||'')+' · '+money(x.price)+(x.birds?' · '+x.birds+' aves':'')+(x.desc?' · '+esc(x.desc):'')+'</div></div><b class="num">'+money(x.total)+'</b>'+
+    (st.confirm==='sale-'+x.id?'<button class="btn sm danger solid" data-act="delsale" data-id="'+x.id+'">Eliminar</button>':'<button class="iconbtn" style="width:34px;height:34px" data-act="confirm" data-v="sale-'+x.id+'" aria-label="Eliminar venta">×</button>')+'</div>';}).join('')+'</div></div>';
+  return h+'</div>';
+}
+
+/* ---------- pestaña RESUMEN ---------- */
+function tabResumen(p){
+  const t=totals(p),T=todayStr(),last=T>dateOfAge(p,maxAge(p))?dateOfAge(p,maxAge(p)):T<p.startDate?p.startDate:T;
+  const alive=aliveEnd(p,last),fs=feedStock(p);
+  let h='<div class="stack"><div class="card stack" style="gap:12px"><div class="eyebrow">Resultado hasta hoy</div><div class="row" style="align-items:flex-end"><div class="grow"><div class="big num" style="color:'+(t.profit>=0?'var(--green)':'var(--red)')+'">'+money(t.profit)+'</div><p class="small muted">'+(t.profit>=0?'Ganancia':'Diferencia')+' = ventas − gastos</p></div></div>';
+  h+='<div class="kv"><div><b>'+money(t.incT)+'</b><span>ventas</span></div><div><b>'+money(t.costT)+'</b><span>gastos</span></div>';
+  const mort=p.qty?t.dead/p.qty*100:0;
+  h+='<div><b>'+nf(mort,1)+' %</b><span>mortalidad ('+t.dead+' aves)</span></div><div><b>'+alive+'</b><span>aves vivas</span></div>';
+  if(p.type==='broiler'){
+    const wa=Object.keys(p.weights||{}).map(Number).sort((a,b)=>b-a)[0];const lastW=wa?p.weights[wa].avg:targetW(p,Math.min(maxAge(p),Math.max(p.startAge,ageOn(p,last))));
+    const kgLive=t.kgSold>0?t.kgSold+alive*lastW/1000:alive*lastW/1000;
+    h+='<div><b>'+(kgLive>0?money(t.costT/kgLive):'–')+'</b><span>costo por kg '+(t.kgSold>0?'producido':'(estimado con el último peso)')+'</span></div>';
+    h+='<div><b>'+(kgLive>0&&fs.used>0?nf(fs.used/kgLive,2):'–')+'</b><span>conversión (kg alimento / kg pollo)</span></div>';
+    h+='<div><b>'+(p.qty?money(t.costT/p.qty):'–')+'</b><span>costo por ave inicial</span></div>';
+  }else{
+    h+='<div><b>'+t.eggs.toLocaleString('es-PE')+'</b><span>huevos recogidos</span></div><div><b>'+(t.eggs?money(t.costT/t.eggs):'–')+'</b><span>costo por huevo</span></div>';
+    let e7=0,a7=0;for(let i=1;i<=7;i++){const d=addDays(T,-i),r=(p.records||{})[d];if(r&&r.eggs!=null){e7+=(r.eggs||0)+(r.broken||0)+(r.dirty||0);a7+=aliveStart(p,d);}}
+    h+='<div><b>'+(a7?nf(e7/a7*100,1)+' %':'–')+'</b><span>postura últimos 7 días</span></div>';
+    h+='<div><b>'+(t.eggs?nf((t.eggs-t.goodEggs)/t.eggs*100,1)+' %':'–')+'</b><span>huevos rotos o sucios</span></div>';
+  }
+  h+='</div></div>';
+  // gastos por categoría
+  const cs=Object.entries(t.costs).sort((a,b)=>b[1]-a[1]),mx=cs.length?cs[0][1]:1;
+  h+='<div class="card stack" style="gap:10px"><h2>Gastos por tipo</h2>';
+  if(!cs.length)h+='<p class="muted small">Registra tus compras en la pestaña Compras para ver en qué se va el dinero.</p>';
+  for(const [k,v] of cs)h+='<div><div class="row small"><span class="grow">'+CATS[k]+'</span><b class="num">'+money(v)+'</b><span class="muted num" style="width:44px;text-align:right">'+nf(v/t.costT*100,0)+' %</span></div><div class="bar" style="margin-top:4px"><i style="width:'+(v/mx*100)+'%"></i></div></div>';
+  h+='</div>';
+  // proyección
+  const fp=feedPlan(p),price=fs.avg||p.feedPrice;
+  if(p.type==='broiler'){const kgEnd=expAlive(p,maxAge(p))*targetW(p,maxAge(p))/1000;h+='<div class="card flat small"><b>Proyección al día '+maxAge(p)+':</b> unas '+Math.round(expAlive(p,maxAge(p)))+' aves de '+nf(targetW(p,maxAge(p))/1000,2)+' kg ≈ '+nf(kgEnd,0)+' kg de pollo vivo. Alimento total ≈ '+nf(sum(fp,s=>s.kg),0)+' kg ('+money(sum(fp,s=>s.kg)*price)+').</div>';}
+  else{let eggs=0;for(let a=Math.max(p.startAge,127);a<=maxAge(p);a++)eggs+=expAlive(p,a)*layPct(p,a)/100;h+='<div class="card flat small"><b>Proyección del ciclo:</b> unos '+Math.round(eggs).toLocaleString('es-PE')+' huevos hasta la semana '+(p.endWeek||80)+' (≈ '+nf(eggs*62/1e6*1000/1000,0)+' kg). Alimento total ≈ '+nf(sum(fp,s=>s.kg),0)+' kg ('+money(sum(fp,s=>s.kg)*price)+').</div>';}
+  // ajustes
+  h+='<form class="card stack" data-form="settings"><h2>Ajustes del proyecto</h2><label class="f">Nombre<input type="text" name="name" id="c-name" value="'+esc(p.name)+'" maxlength="60"></label>'+
+    '<div class="grid2"><label class="f">Peso del saco (kg)<input type="number" name="sacoKg" id="c-saco" value="'+p.sacoKg+'" inputmode="numeric"></label>'+(p.type==='broiler'?'<label class="f">Día de venta<input type="number" name="saleDay" id="c-sale" min="28" max="56" value="'+p.saleDay+'" inputmode="numeric"></label>':'<label class="f">Semana de descarte<input type="number" name="endWeek" id="c-end" min="60" max="100" value="'+(p.endWeek||80)+'" inputmode="numeric"></label>')+'</div>'+
+    '<div class="grid2"><label class="f">Fecha de llegada<input type="date" name="startDate" id="c-start" value="'+p.startDate+'"></label><label class="f">Aves iniciales<input type="number" name="qty" id="c-qty" min="1" value="'+p.qty+'" inputmode="numeric"></label></div>'+
+    '<label class="f">Zona<select name="zone" id="c-zone">'+ZONES.map(z=>'<option value="'+z.id+'"'+(z.id===p.zone?' selected':'')+'>'+z.name+'</option>').join('')+'</select></label>'+
+    '<button class="btn" type="submit">Guardar cambios</button></form>';
+  h+='<div class="card flat stack" style="gap:8px"><h3>Eliminar proyecto</h3><p class="small muted">Se borran todos sus registros, compras y ventas. No se puede deshacer.</p>'+
+    (st.confirm==='delproj'?'<div class="row"><button class="btn danger solid" data-act="delproj">Sí, eliminar</button><button class="btn" data-act="confirm" data-v="">Cancelar</button></div>':'<button class="btn danger" data-act="confirm" data-v="delproj">Eliminar proyecto</button>')+'</div>';
+  return h+'</div>';
+}
+
+/* ================= exportaciones ================= */
+function saveFile(name,data,type){
+  try{const blob=data instanceof Blob?data:new Blob([data],{type:type||'application/octet-stream'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1500);toast('Archivo descargado');}
+  catch(e){toast('No se pudo descargar el archivo');}
+}
+const slug=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'proyecto';
+function exportCSV(p){
+  const lay=p.type==='layer';const head=['fecha','dia_vida','aves_vivas','muertas','causa','descartadas','alimento_real_kg','alimento_plan_kg','agua_l','t_min','t_max'].concat(lay?['huevos_buenos','rotos','sucios']:[]).concat(['notas']);
+  const rows=[head.join(';')];
+  for(const d of Object.keys(p.records||{}).sort()){const r=p.records[d];rows.push([d,ageOn(p,d),aliveEnd(p,d),r.dead||0,r.cause||'',r.cull||0,r.feedKg??'',nf(planKg(p,d),2),r.waterL??'',r.tmin??'',r.tmax??''].concat(lay?[r.eggs??'',r.broken??'',r.dirty??'']:[]).concat(['"'+String(r.notes||'').replace(/"/g,'""')+'"']).join(';'));}
+  saveFile(slug(p.name)+'-registros.csv','\ufeff'+rows.join('\n'),'text/csv');
+}
+function loadScript(src){return new Promise((ok,ko)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=ko;document.head.appendChild(s);});}
+async function exportPDF(p){
+  toast('Preparando PDF…');
+  try{
+    if(!window.jspdf)await loadScript('vendor/jspdf.umd.min.js');
+    if(!window.jspdf.jsPDF.API.autoTable)await loadScript('vendor/jspdf.plugin.autotable.min.js');
+  }catch(e){toast('No se pudo cargar el generador de PDF');return;}
+  const {jsPDF}=window.jspdf,doc=new jsPDF({unit:'mm',format:'a4'}),D=design(p),fp=feedPlan(p),l=L(p),z=zoneOf(p),fs=feedStock(p),price=fs.avg||p.feedPrice;
+  const G=[46,106,76];let y=16;
+  const title=(t)=>{if(y>255){doc.addPage();y=16;}doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(27,37,30);doc.text(t,14,y);y+=6;};
+  const para=(t,size=9.5)=>{doc.setFont('helvetica','normal');doc.setFontSize(size);doc.setTextColor(70,80,72);const lines=doc.splitTextToSize(t,182);if(y+lines.length*4.5>280){doc.addPage();y=16;}doc.text(lines,14,y);y+=lines.length*4.5+2;};
+  const table=(head,body,opts)=>{doc.autoTable(Object.assign({head:[head],body,startY:y,theme:'grid',styles:{fontSize:8.5,cellPadding:1.8,textColor:[27,37,30]},headStyles:{fillColor:G,textColor:255},margin:{left:14,right:14}},opts||{}));y=doc.lastAutoTable.finalY+7;};
+  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...G);doc.text('MI GALPON · PLAN DE CRIANZA',14,y);y+=8;
+  doc.setFontSize(20);doc.setTextColor(27,37,30);doc.text(doc.splitTextToSize(p.name,182),14,y);y+=9;
+  para(l.name+' ('+l.company+') · '+(p.type==='broiler'?'Pollos de engorde':'Ponedoras en '+(p.system==='jaula'?'jaula':'piso'))+' · '+p.qty+' aves · '+z.name+' · llegada '+fDateY(p.startDate)+' (dia '+p.startAge+' de vida) · ciclo hasta el dia '+maxAge(p)+'.',10);
+  title('Galpon');
+  table(['Dato','Valor'],[['Medidas',nf(D.dims[0])+' x '+nf(D.dims[1])+' m ('+nf(D.area)+' m2)'],[p.type==='layer'&&p.system==='jaula'?'Jaulas':'Densidad',p.type==='layer'&&p.system==='jaula'?D.cage.jaulas+' jaulas en '+D.cage.mod+' baterias':nf(D.dens)+' aves por m2'],['Alto de pared',nf(D.wall)+' m'],['Calefaccion',D.heatDays+' dias aprox.']].concat(D.rearArea?[['Area de recria (piso)',D.rearArea+' m2']]:[]),{columnStyles:{0:{fontStyle:'bold',cellWidth:50}}});
+  D.notes.forEach(n=>para('- '+n));
+  title('Equipos');table(['Cantidad','Equipo','Cuando','Detalle'],D.eq.map(e=>[nf(e.q)+(e.u?' '+e.u:''),e.n,e.ph,e.d.replace(/≈/g,'aprox.')]),{columnStyles:{0:{cellWidth:20},1:{cellWidth:45,fontStyle:'bold'},2:{cellWidth:28}}});
+  title('Materiales e insumos');table(['Cantidad','Material','Detalle'],D.mat.map(e=>[nf(e.q)+' '+e.u,e.n,e.d]),{columnStyles:{0:{cellWidth:28},1:{cellWidth:50,fontStyle:'bold'}}});
+  title('Alimento por etapas');table(['Etapa','Dias','Proteina','Total kg','Sacos '+p.sacoKg+' kg','Costo est.'],fp.map(s=>[s.n,Math.max(s.from,p.startAge)+'-'+(s.to>9000?maxAge(p):Math.min(s.to,maxAge(p))),s.prot,nf(s.kg,1),Math.ceil(s.kg/p.sacoKg),money(s.kg*price)]).concat([['Total','','',nf(sum(fp,s=>s.kg),1),sum(fp,s=>Math.ceil(s.kg/p.sacoKg)),money(sum(fp,s=>s.kg)*price)]]));
+  title('Plan semana por semana');
+  const wr=[];for(let wk=weekOf(p.startAge);wk<=weekOf(maxAge(p));wk++){const a=Math.min(maxAge(p),wk*7),am=Math.max(p.startAge,wk*7-3);let kgw=0;for(let x=Math.max(p.startAge,wk*7-6);x<=Math.min(maxAge(p),wk*7);x++)kgw+=expAlive(p,x)*feedG(p,x)/1000;const tr=tempRange(p,am),lp=layPct(p,am);
+    wr.push(['Sem '+wk,fDate(dateOfAge(p,Math.max(p.startAge,wk*7-6))),nf(targetW(p,a),0),nf(feedG(p,am),0),nf(kgw,1),tr[0]+'-'+tr[1],nf(lightH(p,am))].concat(p.type==='layer'?[lp?nf(lp,0)+' %':'-']:[]));}
+  table(['Semana','Desde','Peso g','g/ave/dia','kg lote','Temp C','Luz h'].concat(p.type==='layer'?['Postura']:[]),wr);
+  title('Calendario de vacunas (referencial)');
+  table(['Dia','Fecha','Vacuna','Como'],[...(p.vaccines||[])].sort((a,b)=>a.age-b.age).map(v=>[v.age,fDate(dateOfAge(p,v.age)),v.name,v.how||'']),{columnStyles:{2:{fontStyle:'bold'}}});
+  para('Confirma el calendario con tu veterinario. Pide al proveedor el certificado de vacunas del lote para no repetir ni dejar huecos.');
+  title('Clima de tu zona');const sea=seasonOf(p.startDate),c=CLIMA[z.kind][sea];para(z.name+' en '+SEASONS[sea].toLowerCase()+': '+c[0]+', humedad '+c[1]+'.');climaTips(z.kind,sea,p.type).forEach(t=>para('- '+t));
+  title('Bioseguridad');['Vacio sanitario de 10-15 dias entre lotes.','Limpieza, desinfeccion y encalado antes de cada lote.','Pediluvio en la entrada, renovado cada 2-3 dias.','Ropa y botas solo para el galpon; limita las visitas.','Control de ratas, insectos y aves silvestres.','Agua limpia y clorada; lava comederos y bebederos.','Retira las aves muertas a diario (fosa con cal o compostaje).','Registra la granja ante SENASA segun corresponda.'].forEach(t=>para('- '+t));
+  para('Valores referenciales basados en guias de las lineas geneticas (Aviagen, Cobb-Vantress, Lohmann, Hy-Line, ISA). Varian segun genetica, alimento, manejo y sanidad de la zona. Consulta a un medico veterinario o zootecnista. Generado por Mi Galpon el '+fDateY(todayStr())+'.',8);
+  const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(120);doc.text('Mi Galpon · '+p.name.slice(0,60),14,290);doc.text('Pagina '+i+' de '+n,196,290,{align:'right'});}
+  saveFile(slug(p.name)+'-plan.pdf',doc.output('blob'),'application/pdf');
+}
+
+/* ================= eventos ================= */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const act=b.dataset.act,v=b.dataset.v,p=cur();
+  switch(act){
+    case'home':st.view='home';st.confirm=null;break;
+    case'new':st.wiz=newWiz();st.view='wizard';break;
+    case'example':{const x=createExample();st.pid=x.id;st.view='project';st.tab='hoy';st.day=todayStr();break;}
+    case'open':st.pid=b.dataset.id;st.view='project';st.tab='hoy';st.day=todayStr();st.confirm=null;break;
+    case'tab':st.tab=v;st.confirm=null;window.scrollTo(0,0);break;
+    case'wset':{const w=st.wiz;w[b.dataset.k]=b.dataset.k==='qty'?+v:v;if(b.dataset.k==='type'){w.line=v==='broiler'?'ross308':'lohmann';if(v==='layer'&&w.ageUnit==='dia')w.ageVal=1;}break;}
+    case'wnext':syncWiz();if(st.wiz.step===2&&!(parseInt(st.wiz.qty)>0)){toast('Escribe cuántas aves vas a criar');return;}st.wiz.step++;window.scrollTo(0,0);break;
+    case'wback':syncWiz();st.wiz.step--;break;
+    case'create':{syncWiz();const x=createProject(st.wiz);st.pid=x.id;st.view='project';st.tab='plan';st.day=todayStr();toast('Proyecto creado');window.scrollTo(0,0);break;}
+    case'day':st.day=addDays(st.day,+v);break;
+    case'today':st.day=todayStr();break;
+    case'goday':st.day=v;st.tab='hoy';window.scrollTo(0,0);break;
+    case'task':{const d=st.day,arr=(p.tasksDone[d]=p.tasksDone[d]||[]);const i=arr.indexOf(b.dataset.id);if(i>=0)arr.splice(i,1);else arr.push(b.dataset.id);persist(p);break;}
+    case'confirm':st.confirm=v||null;break;
+    case'delvac':p.vaccines=p.vaccines.filter(x=>x.id!==b.dataset.id);st.confirm=null;persist(p);break;
+    case'delbuy':p.purchases=p.purchases.filter(x=>x.id!==b.dataset.id);st.confirm=null;persist(p);toast('Compra eliminada');break;
+    case'delsale':p.sales=p.sales.filter(x=>x.id!==b.dataset.id);st.confirm=null;persist(p);toast('Venta eliminada');break;
+    case'delproj':removeProject(p.id);st.view='home';st.confirm=null;toast('Proyecto eliminado');break;
+    case'reg':st.regView=v;break;
+    case'clrw':delete p.weights[b.dataset.age];persist(p);break;
+    case'saleprod':st.saleProduct=v;break;
+    case'sacos':{const kg=$('#b-kg');kg.value=+v*p.sacoKg;calcBuy();return;}
+    case'csv':exportCSV(p);return;
+    case'backup':doBackup();break;
+    case'pdf':exportPDF(p);return;
+    default:return;
+  }
+  render();
+});
+function syncWiz(){document.querySelectorAll('[data-wiz]').forEach(i=>st.wiz[i.dataset.wiz]=i.value);}
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.wiz){st.wiz[t.dataset.wiz]=t.value;if(t.dataset.wiz==='startDate'){render();}return;}
+  if(t.dataset.calc){if(t.closest('[data-form="purchase"]'))calcBuy();if(t.closest('[data-form="sale"]'))calcSale();}
+});
+document.addEventListener('change',e=>{const t=e.target;if(t.id==='restoreFile'&&t.files&&t.files[0]){doRestore(t.files[0]);t.value='';return;}if(t.id==='b-cat'){st.buyCat=t.value;render();}});
+function calcBuy(){const kg=num($('#b-kg')?.value),pr=num($('#b-price')?.value),tt=$('#b-total');if(tt)tt.value=kg&&pr?(kg*pr).toFixed(2):'';}
+function calcSale(){const q=num($('#s-qty')?.value),pr=num($('#s-price')?.value);$('#s-total').textContent=money(q*pr);}
+document.addEventListener('submit',e=>{
+  const f=e.target,kind=f.dataset.form;if(!kind)return;e.preventDefault();const p=cur();const fd=Object.fromEntries(new FormData(f));
+  if(kind==='record'){
+    const r={};const ints=['dead','cull','eggs','broken','dirty'],flts=['feedKg','waterL','tmin','tmax'];
+    for(const k of ints)if(fd[k]!==undefined&&fd[k]!=='')r[k]=Math.max(0,parseInt(fd[k])||0);
+    for(const k of flts)if(fd[k]!==undefined&&fd[k]!=='')r[k]=num(fd[k]);
+    if(r.dead)r.cause=fd.cause;if(fd.notes&&fd.notes.trim())r.notes=fd.notes.trim();
+    if(Object.keys(r).length)p.records[st.day]=r;else delete p.records[st.day];
+    persist(p);toast('Registro guardado');
+  }else if(kind==='purchase'){
+    const x={id:uid(),date:fd.date||todayStr(),cat:fd.cat};
+    if(x.cat==='alimento'){x.feedType=fd.feedType;x.kg=num(fd.kg);x.price=num(fd.price);x.total=num(fd.total)||Math.round(x.kg*x.price*100)/100;if(!x.kg){toast('Escribe los kilos comprados');return;}if(!x.price&&x.total)x.price=x.total/x.kg;}
+    else{x.desc=(fd.desc||'').trim();x.qty=num(fd.qty)||null;x.total=num(fd.total);if(!x.total){toast('Escribe el monto');return;}}
+    p.purchases.push(x);persist(p);toast('Compra guardada');
+  }else if(kind==='sale'){
+    const x={id:uid(),date:fd.date||todayStr(),product:st.saleProduct,mode:fd.mode,qty:num(fd.qty),price:num(fd.price),birds:parseInt(fd.birds)||0,desc:(fd.desc||'').trim()};
+    if(fd.perPack)x.perPack=parseInt(fd.perPack)||null;
+    x.total=Math.round(x.qty*x.price*100)/100;if(!x.qty||!x.price){toast('Completa cantidad y precio');return;}
+    if(x.birds>aliveEnd(p,x.date)){toast('Hay menos aves vivas que las que indicas');return;}
+    p.sales.push(x);persist(p);toast('Venta guardada');
+  }else if(kind==='vaccine'){
+    const age=parseInt(fd.age);if(!(age>0)||!fd.name.trim())return;
+    p.vaccines.push({id:uid(),age,name:fd.name.trim(),how:(fd.how||'').trim()});persist(p);toast('Vacuna agregada');
+  }else if(kind==='weight'){
+    const age=+f.dataset.age;const vals=String(fd.vals||'').split(/[,;\s]+/).map(num).filter(x=>x>0);
+    if(!vals.length){toast('Escribe al menos un peso en gramos');return;}
+    const avg=sum(vals)/vals.length;p.weights[age]={vals,avg:Math.round(avg)};persist(p);toast('Pesaje guardado');
+  }else if(kind==='settings'){
+    p.name=(fd.name||p.name).trim();p.sacoKg=num(fd.sacoKg)||p.sacoKg;
+    if(fd.saleDay)p.saleDay=Math.min(56,Math.max(28,parseInt(fd.saleDay)||p.saleDay));
+    if(fd.endWeek)p.endWeek=Math.min(100,Math.max(60,parseInt(fd.endWeek)||80));
+    if(fd.startDate)p.startDate=fd.startDate;if(parseInt(fd.qty)>0)p.qty=parseInt(fd.qty);if(fd.zone)p.zone=fd.zone;
+    persist(p);toast('Cambios guardados');
+  }
+  render();
+});
+
+/* ================= inicio ================= */
+cacheLoad();render();setSync('local');
+/* instalación y modo sin conexión */
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
+let deferredInstall=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('#installBtn').hidden=false;});
+$('#installBtn').addEventListener('click',async()=>{if(!deferredInstall)return;deferredInstall.prompt();try{await deferredInstall.userChoice;}catch(e){}deferredInstall=null;$('#installBtn').hidden=true;});
+window.addEventListener('appinstalled',()=>{$('#installBtn').hidden=true;toast('App instalada');});
+window.addEventListener('storage',e=>{if(e.key===CACHE){cacheLoad();rerenderSafe();}});
+</script>
+</body>
+</html>

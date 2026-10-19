@@ -1,0 +1,17 @@
+{
+  "name": "Mi Galpón",
+  "short_name": "Mi Galpón",
+  "description": "Plan y control diario de crianza de pollos de engorde y gallinas ponedoras en Lima.",
+  "lang": "es-PE",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EEF1EA",
+  "theme_color": "#2E6A4C",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
