@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#2E6A4C">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Curso: tu granja de pollos de engorde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF0EA; --surface:#F9FAF6; --ink:#1E2922; --muted:#56635A; --line:#C9D1C6;
+  --yolk:#D9622B; --yolk-soft:#F8DFCF; --shell:#8C4F2B; --leaf:#2F6446; --leaf-soft:#DCE8DE;
+  --warn:#A3401F; --warn-soft:#F6DDD2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Literata", Georgia, "Times New Roman", serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141916; --surface:#1C231E; --ink:#E6ECE5; --muted:#9FAEA2; --line:#314036;
+    --yolk:#EB8452; --yolk-soft:#3D2418; --shell:#D8976C; --leaf:#86C09B; --leaf-soft:#1F3226;
+    --warn:#E8927A; --warn-soft:#3A231B;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141916; --surface:#1C231E; --ink:#E6ECE5; --muted:#9FAEA2; --line:#314036;
+  --yolk:#EB8452; --yolk-soft:#3D2418; --shell:#D8976C; --leaf:#86C09B; --leaf-soft:#1F3226;
+  --warn:#E8927A; --warn-soft:#3A231B;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.7;min-height:100%}
+img,svg{max-width:100%}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.15;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800}
+h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:800}
+h3{font-size:1.3rem;font-weight:700;margin-top:1.6em}
+h4{font-size:1.05rem;font-weight:700;margin-top:1.2em}
+p{margin:0 0 1em}
+a{color:var(--leaf)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--yolk);outline-offset:2px;border-radius:4px}
+
+.app{display:grid;grid-template-columns:290px minmax(0,1fr);min-height:100vh}
+aside{background:var(--surface);border-right:1px solid var(--line);padding:1.4rem 1rem 2rem;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{font-family:var(--display);font-weight:800;font-size:1.15rem;line-height:1.2;margin:0 .4rem 1.2rem;display:block;color:var(--ink);text-decoration:none}
+.brand small{display:block;font-weight:500;font-size:.85rem;color:var(--muted);margin-top:.25rem}
+.nav-group{font-family:var(--display);font-size:.8rem;color:var(--muted);margin:1.2rem .5rem .4rem}
+.nav-btn{display:flex;align-items:center;gap:.7rem;width:100%;text-align:left;background:none;border:0;color:var(--ink);padding:.5rem .55rem;border-radius:10px;font-family:var(--display);font-size:.95rem;line-height:1.25}
+.nav-btn:hover{background:var(--leaf-soft)}
+.nav-btn[aria-current="page"]{background:var(--yolk-soft);font-weight:700}
+.nav-btn .num{font-weight:800;color:var(--shell);min-width:1.2em}
+.egg{width:22px;height:28px;flex:none}
+.menu-toggle{display:none}
+.topbar-mg{display:contents}
+a.mg-home{text-decoration:none}
+.backlink{display:block;font-family:var(--display);font-size:.85rem;color:var(--muted);margin:0 .5rem .6rem;text-decoration:none}
+.backlink:hover{color:var(--ink);text-decoration:underline}
+
+main{padding:2.4rem clamp(1.1rem,4vw,3.5rem) 5rem;max-width:960px;width:100%}
+.reading{max-width:70ch}
+.muted{color:var(--muted)}
+
+/* Inicio */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:2rem;align-items:center;margin-bottom:2.5rem}
+.hero-egg{width:190px;height:240px}
+.hero p.lead{font-size:1.2rem;color:var(--muted);max-width:52ch}
+.btn{display:inline-flex;align-items:center;gap:.4rem;border-radius:999px;border:2px solid var(--ink);background:var(--ink);color:var(--bg);padding:.55rem 1.2rem;font-family:var(--display);font-weight:700;font-size:1rem;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.small{padding:.3rem .9rem;font-size:.9rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
+.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem;margin:1.5rem 0}
+.map button{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1rem 1rem 1.1rem;text-align:left;color:var(--ink);display:grid;grid-template-columns:auto 1fr;gap:.2rem .8rem;align-items:start}
+.map button:hover{border-color:var(--shell)}
+.map .egg{grid-row:span 2;width:30px;height:38px}
+.map strong{font-family:var(--display);font-size:1rem;line-height:1.25}
+.map span{font-size:.85rem;color:var(--muted);font-family:var(--display)}
+
+/* Módulo */
+.mod-head{border-bottom:2px solid var(--ink);padding-bottom:1rem;margin-bottom:1.5rem}
+.mod-head .src{font-family:var(--display);font-size:.9rem;color:var(--shell);margin-bottom:.4rem}
+.mod-head .bignum{font-family:var(--display);font-weight:800;font-size:4.5rem;line-height:.9;color:var(--yolk);float:right;margin-left:1rem}
+.tabs{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1.4rem;-webkit-overflow-scrolling:touch}
+.tabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:.35rem .9rem;font-family:var(--display);font-size:.9rem;white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--leaf);border-color:var(--leaf);color:var(--bg);font-weight:700}
+.tabs button.done::after{content:" ✓"}
+.lesson h3:first-child{margin-top:0}
+.lesson ul,.lesson ol{padding-left:1.3rem;margin:0 0 1em}
+.lesson li{margin-bottom:.35em}
+.box{border-radius:12px;padding:1rem 1.2rem;margin:1.3rem 0;border-left:6px solid}
+.box > :last-child{margin-bottom:0}
+.box .bt{font-family:var(--display);font-weight:700;display:block;margin-bottom:.3rem}
+.idea{background:var(--yolk-soft);border-color:var(--yolk)}
+.granja{background:var(--leaf-soft);border-color:var(--leaf)}
+.ojo{background:var(--warn-soft);border-color:var(--warn)}
+.tbl{overflow-x:auto;margin:1.2rem 0}
+table{border-collapse:collapse;width:100%;font-size:.95rem;min-width:480px}
+th,td{border-bottom:1px solid var(--line);padding:.5rem .6rem;text-align:left;vertical-align:top}
+th{font-family:var(--display);font-weight:700;background:var(--surface)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.timeline{list-style:none;padding:0!important;border-left:3px solid var(--yolk);margin-left:.4rem!important}
+.timeline li{padding-left:1rem;position:relative;margin-bottom:.8em!important}
+.timeline li::before{content:"";position:absolute;left:-9px;top:.55em;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--yolk)}
+.timeline b{font-family:var(--display)}
+.lesson-foot{display:flex;justify-content:space-between;gap:.8rem;flex-wrap:wrap;margin:2rem 0 2.5rem;padding-top:1rem;border-top:1px solid var(--line)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:1.3rem 1.4rem;margin:2rem 0}
+.panel h3{margin-top:0}
+.tasks label{display:flex;gap:.7rem;align-items:flex-start;padding:.35rem 0;cursor:pointer}
+.tasks input{margin-top:.45rem;width:18px;height:18px;accent-color:var(--leaf);flex:none}
+.q{margin-bottom:1.4rem}
+.q p{font-weight:600;margin-bottom:.5rem}
+.q .opts{display:grid;gap:.4rem}
+.q .opt{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:.55rem .8rem;color:var(--ink);font-family:var(--body);font-size:1rem;line-height:1.45}
+.q .opt:hover:not(:disabled){border-color:var(--shell)}
+.q .opt.ok{background:var(--leaf-soft);border-color:var(--leaf)}
+.q .opt.bad{background:var(--warn-soft);border-color:var(--warn)}
+.q .fb{font-size:.95rem;margin-top:.5rem;color:var(--muted)}
+.q .fb b{color:var(--ink)}
+.score{font-family:var(--display);font-weight:700}
+
+/* Calculadora */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.6rem;align-items:start}
+.fields{display:grid;gap:.75rem}
+.field label{display:block;font-family:var(--display);font-size:.9rem;font-weight:700}
+.field small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35;margin-bottom:.25rem}
+.field input{width:100%;padding:.5rem .6rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-variant-numeric:tabular-nums}
+.results{position:sticky;top:1rem}
+.results .res{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px dashed var(--line);padding:.4rem 0;font-size:.97rem}
+.results .res b{font-family:var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.results .res.total{border-bottom:0;border-top:2px solid var(--ink);margin-top:.5rem;padding-top:.7rem;font-size:1.1rem}
+.pos{color:var(--leaf)} .neg{color:var(--warn)}
+.verdict{margin-top:1rem;padding:.8rem 1rem;border-radius:10px;font-size:.95rem}
+.presets button{margin:0 .4rem .5rem 0}
+
+/* Plan */
+.plan-sec{margin-bottom:1.6rem}
+.plan-sec textarea{width:100%;min-height:110px;padding:.7rem .8rem;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;font-size:1rem;line-height:1.55;resize:vertical}
+.plan-sec label{font-family:var(--display);font-weight:700;display:block}
+.plan-sec small{display:block;color:var(--muted);margin-bottom:.4rem;font-size:.9rem;line-height:1.45}
+.saved{font-family:var(--display);font-size:.85rem;color:var(--leaf)}
+#planPreview{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:1.5rem 1.7rem;margin-top:1.5rem}
+#planPreview h4{margin-top:1.4em}
+#planPreview .empty{color:var(--muted);font-style:italic}
+dl.gloss dt{font-family:var(--display);font-weight:700;margin-top:1rem}
+dl.gloss dd{margin:0 0 0 0}
+
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  main{min-width:0}
+  aside{position:fixed;inset:0 auto 0 0;width:min(86vw,320px);z-index:20;transform:translateX(-105%);transition:transform .25s ease;height:100%;padding-top:calc(1.4rem + env(safe-area-inset-top,0px));box-shadow:0 0 40px rgba(0,0,0,.25)}
+  aside.open{transform:none}
+  .topbar-mg{display:flex;gap:.5rem;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);padding:.6rem 1rem;margin:0}
+  .topbar-mg .menu-toggle{position:static!important;margin:0!important}
+  .menu-toggle{display:inline-flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:10;margin:.8rem 1rem 0;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:.4rem 1rem;font-family:var(--display);font-weight:700}
+  main{padding-top:1.2rem}
+  .hero{grid-template-columns:1fr}
+  .hero > div:last-child{order:-1;display:flex;align-items:center;gap:.8rem}
+  .hero > div:last-child p{margin:0!important}
+  .hero-egg{width:44px;height:56px}
+  .calc{grid-template-columns:1fr}
+  .results{position:static}
+  .mod-head .bignum{font-size:3.2rem}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
+@media print{
+  aside,.menu-toggle,.no-print{display:none!important}
+  .app{display:block} main{padding:0;max-width:none}
+  body{background:#fff;color:#000}
+  #planPreview{border:0;padding:0}
+}
+</style>
+</head>
+<body>
+<div class="topbar-mg"><a class="menu-toggle mg-home" href="../index.html#academia">← Mi Galpón</a><button class="menu-toggle" id="menuToggle" aria-controls="sidebar" aria-expanded="false">☰ Módulos</button></div>
+<div class="app">
+  <aside id="sidebar" aria-label="Contenido del curso">
+    <a href="#" class="brand" data-go="inicio">Tu granja de pollos de engorde<small>Curso práctico basado en dos diplomas de ESAN</small></a>
+    <a href="../index.html#academia" class="backlink">← Volver a Mi Galpón</a>
+    <nav id="nav"></nav>
+    <a href="ponedoras.html" class="backlink" style="margin-top:1.4rem">Ir al curso de gallinas ponedoras</a>
+  </aside>
+  <main id="main" tabindex="-1"></main>
+</div>
+<script>
+const MODULES = [
+{
+id:"m1", num:1, title:"El mercado del pollo y tus oportunidades",
+src:"Planes de Negocios, curso 1 · Gestión de Negocios Avícolas, curso 1",
+intro:"El pollo es la carne que más come el Perú. Eso es una gran oportunidad, pero también significa competir con empresas enormes. Antes de comprar tu primer lote de pollitos, entiende cómo se mueve este mercado y dónde cabe una granja pequeña.",
+lessons:[
+{t:"Panorama mundial y del Perú", html:`
+<h3>El pollo en el mundo</h3>
+<p>La carne de pollo es la más producida del mundo, por delante del cerdo y la res. Estados Unidos, Brasil, China y la Unión Europea son los grandes productores, y Brasil es el mayor exportador. Tres tendencias globales te afectan directamente:</p>
+<ul>
+<li><b>El alimento manda.</b> Entre 65% y 75% del costo de producir un pollo es alimento balanceado, hecho sobre todo con maíz amarillo duro y torta de soya, cuyos precios se fijan en mercados internacionales.</li>
+<li><b>La genética mejora cada año.</b> Las líneas comerciales (Cobb 500 y Ross 308 son las más usadas en el Perú) llegan a pesos de venta en unas 6 semanas.</li>
+<li><b>La influenza aviar mueve el mercado.</b> Un brote puede obligar a sacrificar lotes enteros y cerrar la movilización de aves en una zona.</li>
+</ul>
+<h3>El pollo en el Perú</h3>
+<p>El Perú es uno de los países de la región con mayor consumo de pollo por persona, y SENASA estima que el pollo y el huevo juntos representan alrededor del 70% de la proteína animal que consume la población. Algunas características propias del mercado peruano:</p>
+<ul>
+<li><b>Gran parte se vende como pollo vivo.</b> El pollo sale de la granja a centros de distribución y comerciantes, y se beneficia cerca del punto de venta. Las normas empujan cada vez más a que el beneficio se haga en centros autorizados.</li>
+<li><b>Muy concentrado:</b> unas pocas empresas integradas (con reproductoras, incubadoras, plantas de alimento, granjas y beneficio propios) producen la mayor parte del pollo, sobre todo en Lima, La Libertad, Arequipa e Ica.</li>
+<li><b>Precios muy volátiles.</b> El precio del pollo vivo puede duplicarse o caer a la mitad en semanas. En 2026, por ejemplo, el pollo vivo llegó a cotizar unos S/ 3.40 por kg a mediados de junio y subió a S/ 6.90 a inicios de julio, en medio de la emergencia sanitaria. En marzo el promedio había sido S/ 7.99.</li>
+<li><b>Precios publicados:</b> MIDAGRI publica a diario los precios mayoristas del pollo vivo y minoristas del pollo eviscerado en Lima. Úsalos como referencia antes de cada venta.</li>
+<li>El Perú importa la mayor parte del maíz amarillo duro, así que <b>el tipo de cambio y el precio internacional del maíz afectan tu costo</b>.</li>
+</ul>
+<div class="box ojo"><span class="bt">Contexto sanitario (2026)</span><p>El 13 de julio de 2026 SENASA declaró emergencia sanitaria preventiva nacional por 90 días por influenza aviar H5N1, con restricciones para movilizar aves vivas y prohibición de ferias avícolas. Antes de comprar pollitos, confirma en la web de SENASA si la medida terminó, se prorrogó o cambió.</p></div>
+<div class="box idea"><span class="bt">Idea clave</span><p>Las grandes integraciones producen el pollo más barato del país y fijan el precio. Una granja pequeña no gana compitiendo en costo; gana con mejor manejo, ventas más cercanas al consumidor, un producto distinto (como el pollo de campo) o asociándose.</p></div>
+`},
+{t:"Segmentación y competencia", html:`
+<h3>¿Quién compra pollo?</h3>
+<div class="tbl"><table>
+<tr><th>Segmento</th><th>Qué compra</th><th>Qué valora</th><th>Qué exige de ti</th></tr>
+<tr><td>Comerciante o acopiador</td><td>Pollo vivo en volumen</td><td>Precio bajo, peso uniforme</td><td>Lote completo en el día pactado</td></tr>
+<tr><td>Puestos de mercado</td><td>Pollo vivo o beneficiado</td><td>Precio, frescura</td><td>Entregas frecuentes</td></tr>
+<tr><td>Pollerías y restaurantes</td><td>Pollo beneficiado de peso exacto</td><td>Tamaño uniforme, puntualidad</td><td>Abastecimiento constante todas las semanas; comprobante</td></tr>
+<tr><td>Familias del barrio</td><td>Pollo beneficiado entero o en piezas</td><td>Frescura, confianza, precio justo</td><td>Beneficio en lugar autorizado, cadena de frío</td></tr>
+<tr><td>Consumidor "premium"</td><td>Pollo de campo o de crianza lenta</td><td>Sabor, crianza natural, bienestar animal</td><td>Historia creíble, calidad constante</td></tr>
+</table></div>
+<h3>¿Contra quién compites?</h3>
+<ul>
+<li><b>Empresas integradas:</b> costos muy bajos, gran volumen, marcas conocidas en supermercados.</li>
+<li><b>Granjas medianas</b> que venden pollo vivo a los centros de distribución.</li>
+<li><b>Criadores familiares y "pollo de chacra"</b> que compiten en confianza y cercanía.</li>
+</ul>
+<p>Haz una tabla con 4 o 5 competidores: precio por kg (vivo y beneficiado), tamaño del pollo, dónde venden, cada cuánto abastecen y qué opinan sus clientes. Complétala visitando mercados y pollerías.</p>
+<h3>Tu FODA</h3>
+<p>Resume tus <b>Fortalezas</b> y <b>Debilidades</b> (lo interno) y las <b>Oportunidades</b> y <b>Amenazas</b> (lo externo, como la volatilidad del precio o la influenza aviar).</p>
+<div class="box granja"><span class="bt">En tu granja</span><p>Un lote de 500 pollos produce unos 1,300 kg de pollo vivo cada 6 semanas. Es poco para un acopiador grande, pero suficiente para abastecer a unas pocas pollerías o a un grupo grande de familias si lo vendes beneficiado.</p></div>
+`},
+{t:"Investigación de mercado y consumidor", html:`
+<h3>Investiga con poco dinero</h3>
+<ol>
+<li><b>Precios:</b> registra durante 4 semanas el precio del pollo vivo mayorista (MIDAGRI) y el precio del pollo eviscerado en 3 mercados de tu zona. Verás lo mucho que se mueve.</li>
+<li><b>Clientes de volumen:</b> conversa con 5 pollerías o restaurantes. Pregunta cuántos pollos usan por semana, de qué peso, a quién compran, cuánto pagan y qué les molesta de su proveedor.</li>
+<li><b>Comerciantes:</b> pregunta a 2 o 3 acopiadores cómo pagan (contado o crédito), qué peso prefieren y qué descuentos aplican.</li>
+<li><b>Familias:</b> 30 encuestas cortas sobre cuánto pollo compran, dónde, y si pagarían más por pollo de campo o con entrega a domicilio.</li>
+<li><b>Prueba real:</b> cría un primer lote pequeño y mide cuánto vendes y a qué precio.</li>
+</ol>
+<h3>Cómo decide el consumidor</h3>
+<p>El ama de casa mira sobre todo el precio por kilo, el color y la frescura de la carne, y la confianza en quien vende. Los restaurantes y pollerías miran el peso exacto y la regularidad: una pollería que vende pollo a la brasa necesita pollos del mismo tamaño todos los días.</p>
+<div class="box idea"><span class="bt">Idea clave</span><p>Da más peso a lo que observas (precios reales, ventas de prueba) que a lo que la gente dice que haría en una encuesta.</p></div>
+`},
+{t:"Identificar oportunidades", html:`
+<h3>Oportunidades típicas para una granja pequeña</h3>
+<ul>
+<li><b>Pollo beneficiado con entrega directa</b> a familias, con mejor precio que el pollo vivo.</li>
+<li><b>Proveedor de pollerías y restaurantes cercanos</b> con peso uniforme y entrega puntual.</li>
+<li><b>Pollo de campo</b> (líneas de crecimiento más lento, con acceso a pastoreo), que se vende bastante más caro.</li>
+<li><b>Crianza por encargo para una empresa integradora</b>: la empresa pone pollitos, alimento y asesoría, y tú pones el galpón y el manejo; te pagan según los resultados del lote. Menos riesgo de precio, pero menos margen.</li>
+<li><b>Zonas alejadas</b> de los centros de distribución, donde el flete encarece el pollo.</li>
+</ul>
+<h3>Cómo elegir</h3>
+<p>Califica del 1 al 5 cada idea en: demanda confirmada, margen, inversión necesaria, riesgo y tu capacidad (tiempo, espacio, conocimiento). La de mayor puntaje es tu punto de partida.</p>
+<h3>Tu propuesta en una frase</h3>
+<p><i>"Ofrezco [producto] a [cliente] que necesita [necesidad], y me diferencio porque [razón]."</i></p>
+<div class="box granja"><span class="bt">Ejemplo</span><p>"Ofrezco pollo beneficiado fresco de 2.2 a 2.5 kg a pollerías de mi distrito que necesitan tamaño parejo cada semana, y me diferencio porque entrego dos veces por semana a la hora que ellos eligen."</p></div>
+`}
+],
+tasks:["Registrar 4 semanas de precios de pollo vivo y eviscerado","Conversar con al menos 5 pollerías o restaurantes","Conversar con 2 o 3 comerciantes de pollo vivo","Llenar la tabla de 4 competidores","Escribir tu propuesta en una frase"],
+quiz:[
+{q:"¿Cuál es el costo más grande al producir pollo de engorde?", o:["La mano de obra","El alimento balanceado","El pollito BB","La luz y el gas"], a:1, e:"El alimento suele ser entre 65% y 75% del costo total."},
+{q:"¿Qué característica del precio del pollo vivo debes tener muy presente?", o:["Es fijo todo el año","Es muy volátil y puede duplicarse o caer a la mitad en semanas","Solo sube","Lo fija el criador"], a:1, e:"El precio cambia mucho según la oferta. Por eso conviene vender parte de la producción con precio pactado o con valor agregado."},
+{q:"¿Qué ofrece la crianza por encargo para una integradora?", o:["Más margen y más riesgo","Menos riesgo de precio a cambio de menos margen","Ningún riesgo y mucho margen","Libertad para vender a quien quieras"], a:1, e:"La integradora asume el riesgo de precio y aporta insumos; tú pones instalaciones y manejo y recibes un pago por resultados."}
+]
+},
+{
+id:"m2", num:2, title:"Marketing y marca para tu pollo",
+src:"Planes de Negocios, curso 2 · Gestión de Negocios Avícolas, curso 2",
+intro:"Si vendes pollo vivo al acopiador, el marketing casi no importa: te pagan el precio del día. En cuanto vendes más cerca del consumidor, tu marca empieza a valer dinero.",
+lessons:[
+{t:"Estrategias de marketing", html:`
+<h3>Las 4P aplicadas al pollo</h3>
+<div class="tbl"><table>
+<tr><th>P</th><th>Qué decides</th><th>Ejemplo</th></tr>
+<tr><td>Producto</td><td>Vivo o beneficiado, peso, entero o en piezas, convencional o de campo</td><td>Pollo beneficiado de 2.3 kg en bolsa con etiqueta y fecha de beneficio</td></tr>
+<tr><td>Precio</td><td>Por kg o por unidad, fijo o según mercado</td><td>Precio por kg revisado cada semana según la referencia de MIDAGRI</td></tr>
+<tr><td>Plaza</td><td>Dónde y cómo llega</td><td>Reparto en caja térmica los martes y viernes</td></tr>
+<tr><td>Promoción</td><td>Cómo te conocen</td><td>WhatsApp, pollerías aliadas, recomendaciones</td></tr>
+</table></div>
+<h3>Cómo poner el precio</h3>
+<ol>
+<li><b>Piso:</b> tu costo por kg (módulo 6). Por debajo pierdes dinero.</li>
+<li><b>Referencia:</b> el precio del mercado esa semana.</li>
+<li><b>Tu precio</b> depende de lo que agregas: beneficio, entrega, peso exacto, crianza de campo.</li>
+</ol>
+<p>Con clientes fijos (pollerías) conviene pactar un precio estable por un periodo, o una fórmula sencilla como "precio de referencia de MIDAGRI más un monto fijo por kg". Así ninguno de los dos sufre tanto con los saltos del mercado.</p>
+<div class="box idea"><span class="bt">Idea clave</span><p>Vender beneficiado o en piezas te permite cobrar más por kg, pero agrega costos (beneficio, empaque, frío) y obligaciones sanitarias. Haz los números antes de decidir.</p></div>
+`},
+{t:"Marca y diferenciación", html:`
+<h3>Tu marca es una promesa</h3>
+<ul>
+<li><b>Nombre</b> corto y fácil de recordar, ligado a tu zona o tu historia.</li>
+<li><b>Promesa</b> clara: "fresco del día", "peso exacto", "criado en tu distrito".</li>
+<li><b>Identidad visual sencilla:</b> logo, color y etiqueta en la bolsa.</li>
+<li><b>Consistencia:</b> el mismo tamaño y la misma calidad cada vez.</li>
+</ul>
+<h3>Formas de diferenciarte</h3>
+<ul>
+<li><b>Frescura:</b> beneficiado el mismo día o el día anterior, con fecha en la etiqueta.</li>
+<li><b>Peso uniforme</b> para pollerías.</li>
+<li><b>Presentación:</b> entero, en piezas, trozado para pollo a la brasa o para caldo.</li>
+<li><b>Crianza de campo:</b> línea de crecimiento lento, más días de crianza y acceso al aire libre.</li>
+<li><b>Servicio:</b> entrega a domicilio, pedidos por WhatsApp, reposición si hay un problema.</li>
+</ul>
+<div class="box ojo"><span class="bt">Cuidado con lo que prometes</span><p>No digas "orgánico" sin certificación orgánica (en el Perú la autoridad es SENASA), ni "sin antibióticos" o "sin hormonas" si no puedes demostrarlo. Además, en la crianza comercial de pollos no se usan hormonas para engordar; usar ese mensaje como diferenciación puede engañar al cliente.</p></div>
+`},
+{t:"Redes sociales", html:`
+<h3>WhatsApp Business primero</h3>
+<ul>
+<li><b>Catálogo</b> con presentaciones (entero, piezas) y precio por kg.</li>
+<li><b>Listas de difusión</b> para anunciar el día de entrega y tomar pedidos con anticipación.</li>
+<li><b>Estados</b> con fotos limpias del producto empacado, recetas y la granja vista desde fuera.</li>
+<li><b>Cobros</b> por Yape, Plin o efectivo.</li>
+</ul>
+<h3>Facebook, Instagram y TikTok</h3>
+<p>Útiles para conseguir clientes nuevos. Funcionan las recetas (pollo a la brasa en casa, caldo, ají de gallina), la comparación de tamaños, los testimonios de clientes y el proceso de empaque con higiene.</p>
+<p>Publica 3 veces por semana y organiza las ventas por pedido anticipado: así beneficias solo lo vendido.</p>
+<div class="box ojo"><span class="bt">Bioseguridad y buen gusto</span><p>No invites visitas al galpón para grabar contenido. Y evita mostrar la captura o el beneficio: al consumidor le interesa ver un producto limpio y fresco, no el proceso.</p></div>
+`},
+{t:"Medios tradicionales y digitales", html:`
+<h3>Lo tradicional en lo local</h3>
+<ul>
+<li><b>Visita en persona</b> a pollerías y restaurantes con una muestra.</li>
+<li><b>Volantes</b> en bodegas y mercados con tu WhatsApp y un código QR.</li>
+<li><b>Radio local</b> en provincias.</li>
+<li><b>Recomendación boca a boca</b> con un pequeño beneficio para quien te recomienda.</li>
+</ul>
+<h3>Lo digital básico</h3>
+<ul>
+<li><b>Perfil de empresa en Google Maps</b>, gratis.</li>
+<li><b>Grupos de Facebook</b> del distrito y Marketplace.</li>
+<li><b>Link directo a WhatsApp</b> en todas tus redes.</li>
+</ul>
+<div class="box idea"><span class="bt">Idea clave</span><p>Con pollerías y restaurantes vende la visita personal; con familias venden WhatsApp y las recomendaciones. Elige los medios que usan tus clientes.</p></div>
+`},
+{t:"Relaciones públicas", html:`
+<h3>Cuida tu entorno</h3>
+<ul>
+<li><b>Vecinos:</b> la cama sucia, las aves muertas mal manejadas y el amoníaco generan olores, moscas y quejas. Una granja de engorde bien manejada casi no se nota.</li>
+<li><b>Municipalidad y SENASA:</b> estar en regla y tener buena relación facilita permisos.</li>
+<li><b>Otros criadores:</b> compartir información de precios y alertas sanitarias protege a todos.</li>
+<li><b>Comunidad:</b> donar pollo a un comedor u olla común construye buena voluntad real.</li>
+</ul>
+<h3>Plan ante una crisis</h3>
+<ol>
+<li><b>Reclamo de un cliente:</b> reemplaza sin discutir y revisa qué falló (frío, beneficio, transporte).</li>
+<li><b>Mortalidad inusual:</b> aísla, llama al veterinario y notifica a SENASA. No vendas aves enfermas.</li>
+<li><b>Comunicación:</b> di la verdad y explica qué estás haciendo para resolverlo.</li>
+</ol>
+`}
+],
+tasks:["Decidir si venderás vivo, beneficiado o ambos","Elegir nombre y promesa de tu marca","Crear WhatsApp Business con catálogo","Preparar un volante con QR","Escribir tu protocolo de reclamos"],
+quiz:[
+{q:"¿Cuándo empieza a valer dinero tu marca?", o:["Cuando vendes pollo vivo al acopiador","Cuando vendes más cerca del consumidor final","Nunca en avicultura","Solo si exportas"], a:1, e:"El acopiador paga el precio del día; el consumidor y la pollería sí valoran confianza, frescura y servicio."},
+{q:"¿Qué fórmula de precio ayuda con clientes fijos en un mercado volátil?", o:["Cobrar siempre lo mismo pase lo que pase","Precio de referencia de MIDAGRI más un monto fijo por kg","Cambiar el precio cada día sin avisar","Cobrar lo que pida el cliente"], a:1, e:"Una fórmula transparente reparte el riesgo de los saltos de precio entre ambos."},
+{q:"¿Es buena idea anunciar 'pollo sin hormonas' como diferenciación?", o:["Sí, siempre","No, porque en la crianza comercial no se usan hormonas para engordar y el mensaje confunde","Solo en redes","Solo si es pollo vivo"], a:1, e:"Prometer algo que todos los pollos ya cumplen insinúa que los demás no lo hacen; no es honesto."}
+]
+},
+{
+id:"m3", num:3, title:"Comercialización, distribución y negociación",
+src:"Planes de Negocios, curso 3 · Gestión de Negocios Avícolas, curso 2",
+intro:"El pollo no espera: a partir del día 42 aproximadamente, cada día extra en el galpón cuesta alimento y empeora la conversión. Tener la venta asegurada antes de la saca es parte del negocio.",
+lessons:[
+{t:"Canales de distribución", html:`
+<h3>Los canales posibles</h3>
+<div class="tbl"><table>
+<tr><th>Canal</th><th>Precio que recibes</th><th>Volumen</th><th>Exigencia</th></tr>
+<tr><td>Acopiador o comerciante de pollo vivo</td><td>Bajo (precio del día)</td><td>Todo el lote</td><td>Poca; se lleva el lote completo</td></tr>
+<tr><td>Centros de distribución mayorista</td><td>Bajo a medio</td><td>Alto</td><td>Transporte y certificado sanitario de movilización</td></tr>
+<tr><td>Pollerías y restaurantes</td><td>Medio</td><td>Medio, estable</td><td>Peso uniforme, beneficio autorizado, entregas fijas</td></tr>
+<tr><td>Venta directa beneficiado</td><td>Alto</td><td>Bajo a medio</td><td>Beneficio autorizado, cadena de frío, tiempo de reparto</td></tr>
+<tr><td>Crianza por encargo (integradora)</td><td>Pago por resultados</td><td>Todo el lote</td><td>Seguir sus protocolos y metas</td></tr>
+</table></div>
+<p>Lo más sano para empezar es combinar <b>un canal que se lleve el lote completo</b> (acopiador o integradora) con <b>uno de mejor precio</b> (pollerías o venta directa), e ir subiendo la parte de mejor precio a medida que consigues clientes.</p>
+<h3>Logística del pollo</h3>
+<ul>
+<li><b>Ayuno antes de la saca:</b> retira el alimento unas 8 a 12 horas antes (siempre con agua), para que el buche y el intestino estén vacíos. Mejora la higiene del beneficio y no pagas alimento que no se convierte en carne.</li>
+<li><b>Captura</b> en horas frescas o de noche, con luz tenue, sin agarrar a las aves de las alas.</li>
+<li><b>Transporte</b> en jabas, sin sobrecargar, con ventilación y a la sombra.</li>
+<li><b>Beneficio</b> en un centro de beneficio autorizado.</li>
+<li><b>Cadena de frío:</b> el pollo beneficiado se mantiene refrigerado (0 a 4 °C) hasta la entrega, en cajas térmicas o vehículo refrigerado.</li>
+</ul>
+`},
+{t:"Clientes clave", html:`
+<h3>La regla 80/20</h3>
+<p>Pocos clientes compran la mayor parte. Identifícalos y cuídalos.</p>
+<h3>Cómo gestionarlos</h3>
+<ul>
+<li><b>Ficha:</b> nombre, contacto, pollos por semana, peso preferido, día y hora de entrega, forma de pago.</li>
+<li><b>Planifica tus lotes según sus pedidos.</b> Si una pollería necesita 80 pollos por semana todas las semanas, un solo lote cada 8 semanas no le sirve: necesitas lotes escalonados (por ejemplo, un lote nuevo cada 2 semanas en galpones o corrales separados).</li>
+<li><b>Acuerdo por escrito</b> (aunque sea por WhatsApp): cantidad, peso, precio o fórmula de precio, día y forma de pago.</li>
+<li><b>Postventa:</b> pregunta cómo les fue con el producto.</li>
+<li><b>Crédito con límite:</b> monto y plazo máximos.</li>
+</ul>
+<div class="box ojo"><span class="bt">Riesgo de concentración</span><p>Si un cliente se lleva más del 40% de tu producción, depender de él es riesgoso. Con un producto que no puede esperar en el galpón, perder un cliente grande te obliga a vender al acopiador al precio que te pongan.</p></div>
+`},
+{t:"Normativa y exportación", html:`
+<h3>En el mercado local</h3>
+<ul>
+<li><b>SUNAT:</b> RUC y comprobantes electrónicos; pollerías y restaurantes te pedirán factura.</li>
+<li><b>SENASA:</b> las granjas avícolas deben registrarse ante SENASA según el Reglamento del Sistema Sanitario Avícola. Consulta en tu oficina regional los requisitos para tu tamaño.</li>
+<li><b>Movilización:</b> el traslado de aves vivas requiere el certificado sanitario que exija la autoridad, con controles más estrictos durante emergencias sanitarias.</li>
+<li><b>Beneficio:</b> debe hacerse en un centro de beneficio autorizado; el beneficio informal en casa o en el mercado expone a sanciones y riesgos para la salud.</li>
+<li><b>Municipalidad:</b> zonificación compatible y licencia de funcionamiento.</li>
+</ul>
+<h3>¿Y exportar?</h3>
+<p>Exportar carne de pollo exige planta de beneficio y establecimiento certificados, cumplir los requisitos sanitarios de cada país de destino, trazabilidad completa y estar en zonas o compartimentos reconocidos como libres de enfermedades en acuerdos sanitarios. Además, el mercado internacional lo dominan países con costos muy bajos como Brasil.</p>
+<div class="box idea"><span class="bt">Idea clave</span><p>Para una granja pequeña, exportar no es una meta inicial. El camino realista es: mercado local → formalización → proveer a empresas procesadoras o integradoras → asociarse con otros criadores para ganar escala.</p></div>
+`},
+{t:"Técnicas de negociación", html:`
+<h3>Prepárate</h3>
+<ol>
+<li><b>Conoce tu piso:</b> costo por kg más margen mínimo.</li>
+<li><b>Conoce tu alternativa:</b> si este cliente no acepta, ¿a quién vendes el lote? Con el pollo, tu alternativa empeora cada día que pasa; por eso negocia antes de que el lote esté listo, no el día de la saca.</li>
+<li><b>Averigua qué le importa al otro:</b> peso exacto, puntualidad, crédito o precio estable.</li>
+</ol>
+<h3>Durante la negociación</h3>
+<ul>
+<li>Escucha más de lo que hablas.</li>
+<li><b>No concedas gratis:</b> si bajas el precio, pide algo (más volumen, pago al contado, compromiso por varias semanas).</li>
+<li>Acuerda cómo se pesa: en tu balanza, en la suya o en una balanza de referencia, y quién asume la merma del transporte.</li>
+<li>Cierra por escrito.</li>
+</ul>
+<div class="box granja"><span class="bt">Ejemplo con un acopiador</span><p><i>Acopiador:</i> "Te compro el lote a S/ 0.50 menos por kilo que el precio de hoy."<br><i>Tú:</i> "Acepto S/ 0.30 menos si me pagas al contado al pesar y te comprometes con mis próximos 3 lotes."</p></div>
+`}
+],
+tasks:["Elegir tus 2 canales principales","Ubicar el centro de beneficio autorizado más cercano","Diseñar tu calendario de lotes según tus clientes","Averiguar en SENASA y la municipalidad los requisitos","Definir tu precio mínimo por kg"],
+quiz:[
+{q:"¿Para qué sirve el ayuno antes de la saca?", o:["Para que pesen más","Para que el intestino esté vacío y el beneficio sea más higiénico","Para ahorrar agua","No sirve"], a:1, e:"Con 8 a 12 horas sin alimento (y con agua) el beneficio es más limpio y no pagas alimento que no se convierte en carne."},
+{q:"Una pollería necesita pollos todas las semanas. ¿Qué necesitas?", o:["Un solo lote grande","Lotes escalonados","Pollos más pesados","Vender vivo"], a:1, e:"Con lotes que empiezan en fechas distintas siempre tienes pollos listos."},
+{q:"¿Cuándo conviene negociar la venta del lote?", o:["El mismo día de la saca","Antes de que el lote esté listo","Después de beneficiar","Nunca, se vende al precio del día"], a:1, e:"El día de la saca tu alternativa es mala; negociando antes tienes más poder."}
+]
+},
+{
+id:"m4", num:4, title:"La granja por dentro: producción y sanidad",
+src:"Gestión de Negocios Avícolas, curso 3",
+intro:"Un pollo de engorde pasa de 40 gramos a casi 3 kilos en unas 6 semanas. Ese crecimiento tan rápido es lo que hace rentable el negocio, y también lo que hace que cualquier error se pague caro. Las cifras son referenciales: la guía de manejo de tu línea genética y tu veterinario tienen la última palabra.",
+lessons:[
+{t:"La cadena de valor", html:`
+<h3>Del huevo fértil a la mesa</h3>
+<ol>
+<li><b>Abuelas y reproductoras:</b> granjas especializadas que producen huevo fértil (procesos reproductivos).</li>
+<li><b>Incubadora:</b> incuba el huevo unos 21 días y entrega el <b>pollito BB</b> de un día, normalmente ya con algunas vacunas aplicadas.</li>
+<li><b>Planta de alimento:</b> produce alimento por etapas.</li>
+<li><b>Granja de engorde:</b> tu eslabón. Recibe el pollito y lo cría hasta el peso de venta.</li>
+<li><b>Saca y transporte.</b></li>
+<li><b>Centro de beneficio:</b> convierte el pollo vivo en carcasa (pollo beneficiado).</li>
+<li><b>Distribución y venta:</b> mercados, pollerías, supermercados, consumidores.</li>
+<li><b>Subproductos:</b> la pollinaza (cama con excretas) se usa como abono.</li>
+</ol>
+<div class="box idea"><span class="bt">Idea clave</span><p>Las integradoras controlan casi toda la cadena y por eso producen barato. Una granja pequeña controla el eslabón 4 y puede sumar valor en los eslabones 6 a 8 (beneficio autorizado, venta directa, aprovechar la pollinaza).</p></div>
+`},
+{t:"El ciclo del pollo", html:`
+<h3>Una campaña de engorde</h3>
+<p>En engorde se trabaja por <b>campañas</b>: entra un lote de pollitos BB de la misma edad, se cría, se vende completo, se limpia y desinfecta el galpón, y entra el siguiente.</p>
+<ul class="timeline">
+<li><b>Antes de la llegada:</b> galpón limpio, desinfectado y con al menos 10 a 15 días de vacío sanitario. Cama nueva, criadoras encendidas desde 24 horas antes para calentar el piso.</li>
+<li><b>Días 1 a 7: arranque.</b> La semana más importante. El pollito no regula bien su temperatura; necesita calor, agua y alimento al alcance. Su peso al día 7 predice el peso final.</li>
+<li><b>Días 8 a 21: inicio y crecimiento.</b> Se va bajando la temperatura, ampliando el espacio y cambiando a comederos y bebederos de adulto.</li>
+<li><b>Días 22 a 35: crecimiento rápido.</b> El pollo come mucho; cuidar ventilación, calor excesivo y calidad de la cama.</li>
+<li><b>Días 36 a 42 aproximadamente: acabado y saca.</b> Alimento de acabado y venta al peso objetivo (en la costa suele ser entre 2.5 y 3 kg de peso vivo).</li>
+<li><b>Después de la saca:</b> retiro de cama, lavado, desinfección y vacío sanitario.</li>
+</ul>
+<h3>Referencias para líneas como Cobb 500 o Ross 308</h3>
+<div class="tbl"><table>
+<tr><th>Edad</th><th class="n">Peso aprox. (kg)</th><th class="n">Conversión acumulada aprox.</th></tr>
+<tr><td>Día 7</td><td class="n">0.17 a 0.20</td><td class="n">0.9</td></tr>
+<tr><td>Día 14</td><td class="n">0.45 a 0.50</td><td class="n">1.1</td></tr>
+<tr><td>Día 21</td><td class="n">0.90 a 1.00</td><td class="n">1.3</td></tr>
+<tr><td>Día 28</td><td class="n">1.5 a 1.6</td><td class="n">1.4</td></tr>
+<tr><td>Día 35</td><td class="n">2.1 a 2.3</td><td class="n">1.5</td></tr>
+<tr><td>Día 42</td><td class="n">2.7 a 3.0</td><td class="n">1.6 a 1.7</td></tr>
+</table></div>
+<p>Son valores de referencia en buenas condiciones. En granjas pequeñas lo realista al empezar es una conversión de 1.7 a 1.9.</p>
+<div class="box granja"><span class="bt">En tu granja</span><p>Cada día que el pollo pasa en el galpón después del peso óptimo, come más alimento por cada kilo que gana. Vender a tiempo es tan importante como criar bien.</p></div>
+<div class="box ojo"><span class="bt">Si crías en la sierra</span><p>Por encima de unos 1,500 a 2,000 metros de altitud, los pollos de crecimiento rápido sufren más el <b>síndrome ascítico</b> (acumulación de líquido por falta de oxígeno). En altura se usan programas de alimentación y luz que frenan un poco el crecimiento al inicio, y se vende con menos peso. Consulta a un veterinario de la zona.</p></div>
+`},
+{t:"Instalaciones y equipos", html:`
+<h3>El galpón</h3>
+<ul>
+<li><b>Orientación</b> de este a oeste en la costa, para que el sol no entre directo en las horas de calor.</li>
+<li><b>Cortinas</b> laterales para regular viento, frío y calor.</li>
+<li><b>Techo</b> que aísle del calor (con cielo raso o aislante si es de calamina).</li>
+<li><b>Malla</b> que impida la entrada de aves silvestres y roedores.</li>
+<li><b>Piso</b> de concreto o tierra compactada, fácil de limpiar.</li>
+<li><b>Almacén</b> aparte para alimento, y una zona de entrada con pediluvio y cambio de ropa.</li>
+</ul>
+<h3>Medidas de referencia</h3>
+<div class="tbl"><table>
+<tr><th>Elemento</th><th>Referencia</th></tr>
+<tr><td>Densidad al final</td><td>Unos 10 a 12 pollos por m² en la costa (menos en zonas calurosas o con poca ventilación), o unos 30 a 35 kg de peso vivo por m²</td></tr>
+<tr><td>Cama</td><td>Viruta o cascarilla de arroz seca, de 5 a 10 cm</td></tr>
+<tr><td>Criadoras</td><td>Campanas a gas o criadoras eléctricas; una campana suele atender 500 a 1,000 pollitos según su potencia</td></tr>
+<tr><td>Comederos</td><td>Bandejas de inicio los primeros días; luego tolvas colgantes, aproximadamente 1 por cada 30 a 40 pollos</td></tr>
+<tr><td>Bebederos</td><td>Bebederos de inicio los primeros días; luego tipo campana (1 por cada 60 a 80) o niples (1 por cada 10 a 12)</td></tr>
+</table></div>
+<h3>La zona de crianza</h3>
+<p>Los primeros días los pollitos se ubican en un área reducida con cercos (círculos de cartón o malla) alrededor de la criadora, que se amplía cada pocos días. Así el calor no se pierde y ahorras gas.</p>
+<h3>Temperatura de referencia (a la altura de los pollitos)</h3>
+<ul>
+<li>Días 1 a 3: unos 32 a 33 °C.</li>
+<li>Luego se baja de a poco, alrededor de 2 a 3 °C por semana.</li>
+<li>Desde la semana 4: unos 20 a 23 °C.</li>
+</ul>
+<p><b>El mejor termómetro es el pollito:</b> si se amontonan bajo la criadora, tienen frío; si se alejan, jadean y abren las alas, tienen calor; si están repartidos y activos, la temperatura es correcta.</p>
+`},
+{t:"Alimentación, agua y luz", html:`
+<h3>Alimento por fases</h3>
+<div class="tbl"><table>
+<tr><th>Fase</th><th>Días aprox.</th><th>Para qué</th></tr>
+<tr><td>Preinicio o inicio</td><td>1 a 10</td><td>Desarrollar órganos y huesos; muy nutritivo, en migaja</td></tr>
+<tr><td>Crecimiento</td><td>11 a 24</td><td>Crecimiento rápido de músculo</td></tr>
+<tr><td>Acabado</td><td>25 a la saca</td><td>Ganar peso con buena conversión</td></tr>
+</table></div>
+<p>Un pollo come en total unos 4.5 a 5 kg de alimento hasta los 42 días. Compra alimento de una planta reconocida; preparar fórmulas propias exige nutricionista y volumen.</p>
+<h3>Agua</h3>
+<ul>
+<li>El pollo toma aproximadamente el doble de agua que alimento, y mucho más con calor.</li>
+<li>Agua limpia, fresca y siempre disponible; lava bebederos a diario los primeros días.</li>
+<li>Mide el consumo de agua: si baja de golpe, algo anda mal (enfermedad, calor, equipo malogrado).</li>
+<li>Analiza la calidad del agua al menos una vez antes de empezar.</li>
+</ul>
+<h3>Luz</h3>
+<ul>
+<li>Los primeros días, luz casi continua para que los pollitos encuentren comida y agua.</li>
+<li>Después, dales períodos de oscuridad cada noche (al menos unas 4 horas): mejora la salud de las patas, el corazón y el bienestar.</li>
+</ul>
+<div class="box ojo"><span class="bt">Calor</span><p>El golpe de calor puede matar muchos pollos grandes en una tarde. En días calurosos: agua fresca, cortinas abiertas, ventiladores si tienes, no molestar a las aves en las horas de más calor y, si hace falta, retirar el alimento en esas horas.</p></div>
+`},
+{t:"Sanidad y bioseguridad", html:`
+<h3>Bioseguridad: que la enfermedad no entre</h3>
+<ul>
+<li>Cerco y una sola entrada controlada.</li>
+<li>Pediluvio y lavado de manos al entrar a cada galpón.</li>
+<li>Ropa y botas exclusivas.</li>
+<li>Pocas visitas, con registro. Nadie que haya estado ese día en otra granja, mercado de aves o centro de beneficio.</li>
+<li>Sin aves de traspatio, patos ni gallos de pelea cerca.</li>
+<li>Malla contra aves silvestres; no dejar alimento expuesto.</li>
+<li>Control de roedores e insectos.</li>
+<li>Retiro diario de aves muertas, con disposición correcta (compostaje o entierro con cal, según indique la autoridad).</li>
+<li><b>"Todo dentro, todo fuera":</b> una sola edad por galpón, y limpieza total con vacío sanitario entre campañas.</li>
+<li>El vehículo y el personal del comprador no entran al galpón; la carga se hace en la entrada.</li>
+</ul>
+<h3>Vacunación y enfermedades</h3>
+<p>El programa sanitario lo define un <b>médico veterinario</b> según tu zona. Muchas vacunas se aplican en la incubadora (pregunta cuáles trae tu pollito BB) y otras en la granja, en el agua o por gota ocular. Suelen cubrir enfermedades como Newcastle, Gumboro y bronquitis infecciosa. Otros problemas frecuentes son la coccidiosis (relacionada con cama húmeda) y los problemas respiratorios por amoníaco o mala ventilación.</p>
+<h3>Señales de alarma</h3>
+<ul>
+<li>Mortalidad que sube de un día a otro.</li>
+<li>Caída del consumo de agua o alimento.</li>
+<li>Estornudos, ronquidos, ojos hinchados, crestas moradas, diarrea con sangre o verde.</li>
+<li>Pollos decaídos, que no se levantan o cojean mucho.</li>
+</ul>
+<div class="box ojo"><span class="bt">Ante sospecha de influenza aviar o Newcastle</span><p>Aísla el galpón, no muevas ni vendas aves y notifica de inmediato a SENASA (teléfono 946 922 469 y correo reporta.peru@senasa.gob.pe; verifica que sigan vigentes). Notificar es obligatorio.</p></div>
+<h3>Medicamentos y periodo de retiro</h3>
+<p>Usa medicamentos solo con receta veterinaria y respeta el <b>periodo de retiro</b> antes de la saca: si das un antibiótico pocos días antes de vender, la carne puede tener residuos. Planifica los tratamientos considerando la fecha de venta.</p>
+`},
+{t:"Saca, beneficio y registros", html:`
+<h3>Preparar la saca</h3>
+<ol>
+<li>Pesa una muestra de 50 a 100 pollos dos o tres días antes para confirmar el peso y avisar al comprador.</li>
+<li>Ayuno de alimento de 8 a 12 horas antes del beneficio, con agua disponible.</li>
+<li>Captura con calma, en horas frescas, con luz tenue; tomar al pollo por el cuerpo o ambas patas, nunca de las alas.</li>
+<li>Jabas limpias, sin sobrecarga, transporte ventilado y rápido.</li>
+<li>Pesaje acordado con el comprador y registro de la venta.</li>
+</ol>
+<h3>Si vendes beneficiado</h3>
+<ul>
+<li>El beneficio debe hacerse en un <b>centro de beneficio autorizado</b>.</li>
+<li>Rendimiento de referencia: el pollo beneficiado (eviscerado, sin plumas ni vísceras) pesa alrededor del 72% a 78% del peso vivo, según cómo se presente.</li>
+<li>Mantén el producto refrigerado hasta la entrega.</li>
+</ul>
+<h3>Registros diarios</h3>
+<div class="tbl"><table>
+<tr><th>Dato</th><th>Para qué sirve</th></tr>
+<tr><td>Muertos del día y causa probable</td><td>Detectar problemas sanitarios a tiempo</td></tr>
+<tr><td>Kilos de alimento dados</td><td>Controlar el mayor costo y calcular la conversión</td></tr>
+<tr><td>Agua consumida</td><td>Primera señal de enfermedad o calor</td></tr>
+<tr><td>Temperatura máxima y mínima</td><td>Ajustar criadoras, cortinas y ventilación</td></tr>
+<tr><td>Peso de una muestra cada semana</td><td>Comparar con la tabla de la línea genética</td></tr>
+<tr><td>Vacunas, tratamientos y visitas</td><td>Trazabilidad, periodo de retiro y bioseguridad</td></tr>
+</table></div>
+`},
+{t:"Proveedores y logística", html:`
+<h3>Elige bien</h3>
+<ul>
+<li><b>Pollito BB:</b> de incubadoras formales con registro en SENASA, línea genética conocida y vacunas de incubadora detalladas. Un buen pollito es activo, de ombligo bien cerrado, patas brillantes y peso parejo (unos 38 a 45 g). Revisa una muestra al recibirlo.</li>
+<li><b>Alimento:</b> planta reconocida, fórmula por fase y entrega puntual.</li>
+<li><b>Vacunas y medicinas:</b> en tiendas veterinarias autorizadas, con cadena de frío.</li>
+<li><b>Cama, gas, jabas y transporte.</b></li>
+<li><b>Centro de beneficio</b> autorizado, si venderás beneficiado.</li>
+</ul>
+<h3>Planifica cada campaña</h3>
+<ul>
+<li>Reserva tus pollitos con semanas de anticipación: en épocas de alta demanda escasean.</li>
+<li>Calcula el alimento total de la campaña y programa las entregas por fase.</li>
+<li>Ten al menos 2 proveedores posibles de pollito y de alimento.</li>
+<li>Agenda la saca y el comprador antes de que entre el lote.</li>
+</ul>
+<div class="box granja"><span class="bt">Ejemplo de consumo</span><p>500 pollitos × 4.8 kg de alimento cada uno ≈ 2.4 toneladas de alimento por campaña, unos 48 sacos de 50 kg repartidos entre inicio, crecimiento y acabado.</p></div>
+`}
+],
+tasks:["Elegir tu línea genética y 2 incubadoras posibles","Calcular el área de galpón y equipos para tu número de pollos","Contactar a un médico veterinario para el plan sanitario","Escribir tu protocolo de bioseguridad","Preparar tu hoja de registros diarios","Ubicar el centro de beneficio y cotizar el servicio"],
+quiz:[
+{q:"¿Qué semana es la más importante en la crianza?", o:["La primera","La tercera","La quinta","La de la saca"], a:0, e:"El arranque define el desarrollo del pollito; su peso al día 7 anticipa el resultado final."},
+{q:"Los pollitos están amontonados bajo la criadora. ¿Qué pasa?", o:["Tienen calor","Tienen frío","Tienen hambre","Están bien"], a:1, e:"Se juntan bajo la fuente de calor cuando la temperatura está baja."},
+{q:"¿Por qué se respeta el periodo de retiro de los medicamentos?", o:["Para ahorrar","Para que la carne no tenga residuos","Porque lo pide el comprador","Para que pesen más"], a:1, e:"Es una norma de inocuidad: vender antes de que pase el retiro puede dejar residuos en la carne."},
+{q:"¿Qué significa 'todo dentro, todo fuera'?", o:["Sacar a los pollos a pastorear","Una sola edad por galpón y limpieza total entre campañas","Vender todo el mismo día sin pesar","Comprar todo el alimento al inicio"], a:1, e:"Evita que las enfermedades pasen de un lote viejo a uno nuevo."}
+]
+},
+{
+id:"m5", num:5, title:"Innovación y sostenibilidad",
+src:"Planes de Negocios, curso 4",
+intro:"En engorde, innovar es sobre todo controlar mejor el ambiente y medir lo que pasa en el galpón. Y ser sostenible es, en buena parte, manejar bien la pollinaza y la energía.",
+lessons:[
+{t:"Tecnología al alcance", html:`
+<h3>Lo que usan las grandes granjas</h3>
+<p>Galpones de ambiente controlado con ventilación de túnel y paneles de enfriamiento, comederos y bebederos automáticos, sensores de temperatura, humedad y amoníaco, y software que compara cada lote con la curva de la línea genética.</p>
+<h3>Lo que puedes usar tú</h3>
+<ul>
+<li><b>Termohigrómetro</b> con registro de máximas y mínimas.</li>
+<li><b>Balanza colgante</b> para pesar muestras de pollos cada semana.</li>
+<li><b>Bebederos de niple:</b> mantienen la cama más seca y el agua más limpia.</li>
+<li><b>Ventiladores</b> para las semanas de calor.</li>
+<li><b>Criadoras eficientes</b> y cercos de crianza para ahorrar gas.</li>
+<li><b>Hoja de cálculo o app</b> con tus registros y la curva de peso esperada.</li>
+<li><b>Paneles solares</b> para luz, bombeo y ventiladores donde la electricidad falla o es cara.</li>
+<li><b>Yape, Plin y WhatsApp Business</b> para vender y cobrar.</li>
+</ul>
+<div class="box idea"><span class="bt">Idea clave</span><p>Antes de comprar algo, pregúntate qué indicador mejora (conversión, mortalidad, peso, gas) y en cuántas campañas lo recuperas.</p></div>
+`},
+{t:"Responsabilidad social", html:`
+<h3>La RSC en tu escala</h3>
+<ul>
+<li><b>Trabajadores:</b> pago justo, equipo de protección (mascarilla al manipular cama, guantes), capacitación.</li>
+<li><b>Aves:</b> bienestar animal. Una referencia son las "cinco libertades": libres de hambre y sed, de incomodidad, de dolor y enfermedad, de miedo y estrés, y libres para expresar su comportamiento natural. En engorde se traduce en densidad adecuada, cama seca, periodos de oscuridad y captura y transporte cuidadosos.</li>
+<li><b>Vecinos:</b> sin olores fuertes, moscas ni aves muertas mal manejadas.</li>
+<li><b>Clientes:</b> carne inocua, beneficio autorizado, respeto de los periodos de retiro.</li>
+<li><b>Comunidad:</b> empleo local y apoyo a comedores u ollas comunes.</li>
+</ul>
+`},
+{t:"Sostenibilidad en la cadena", html:`
+<h3>La pollinaza</h3>
+<p>Al final de cada campaña retiras toneladas de cama mezclada con excretas. Bien manejada es un ingreso; mal manejada es un foco de moscas y enfermedades.</p>
+<ul>
+<li><b>Compostaje o tratamiento:</b> amontónala, cúbrela y deja que caliente antes de sacarla de la granja; el calor reduce patógenos y moscas.</li>
+<li><b>Venta como abono</b> a agricultores.</li>
+<li><b>No la uses como alimento de otros animales</b> y averigua si en tu zona hay reglas para transportarla.</li>
+</ul>
+<h3>Otras prácticas</h3>
+<ul>
+<li><b>Energía:</b> el gas de las criadoras es un costo importante; los cercos de crianza, cortinas en buen estado y techos aislados lo reducen.</li>
+<li><b>Agua:</b> sin fugas ni derrames.</li>
+<li><b>Alimento:</b> comederos bien regulados para no desperdiciar.</li>
+<li><b>Aves muertas:</b> compostaje o disposición indicada por la autoridad, nunca botarlas a un río o terreno abierto.</li>
+</ul>
+`},
+{t:"Casos de estudio", html:`
+<p>Casos tipo, construidos para ilustrar decisiones reales de granjas pequeñas.</p>
+<h3>Caso A: el pollo de campo con pedidos anticipados</h3>
+<p>Una familia cría lotes de 300 pollos de una línea de crecimiento más lento, con acceso a un patio cercado y unos 60 a 70 días de crianza. Vende todo beneficiado en un centro autorizado, por pedido anticipado vía WhatsApp, a un precio bastante mayor que el pollo común. Su conversión es peor y el ciclo más largo, pero su margen por kilo compensa porque no depende del precio del pollo vivo.</p>
+<p><b>Lección:</b> diferenciarte cambia de qué precio dependes.</p>
+<h3>Caso B: el que dependió del precio del día</h3>
+<p>Un criador metió 2,000 pollos y vendió todo vivo al acopiador. Su campaña coincidió con una caída fuerte del precio del pollo vivo: vendió por debajo de su costo y perdió casi todo lo que había ganado en las dos campañas anteriores.</p>
+<p><b>Lección:</b> vender solo al precio del día es apostar. Diversifica canales, pacta precios con parte de tus clientes y guarda un fondo de reserva.</p>
+<h3>Caso C: la crianza por encargo</h3>
+<p>Un productor con un galpón de 3,000 pollos firmó con una empresa integradora: ella pone pollito, alimento, vacunas y asesoría; él pone galpón, cama, gas y trabajo, y cobra por cada kilo según una tabla que premia buena conversión y baja mortalidad. Gana menos por kilo que si vendiera por su cuenta en un buen momento, pero no ha perdido en ninguna campaña.</p>
+<p><b>Lección:</b> el riesgo y el margen van juntos; elige cuánto riesgo puedes soportar.</p>
+<div class="box granja"><span class="bt">Para pensar</span><p>¿A qué caso se parece tu idea? ¿Cómo evitarías lo que le pasó al caso B?</p></div>
+`}
+],
+tasks:["Elegir 2 tecnologías simples para tu primera campaña","Definir tu manejo de pollinaza y aves muertas","Escribir 3 compromisos de responsabilidad social","Responder: ¿a qué caso se parece tu idea?"],
+quiz:[
+{q:"¿Qué beneficio dan los bebederos de niple?", o:["Pollos más grandes por sí solos","Cama más seca y agua más limpia","Menos alimento","Ninguno"], a:1, e:"Derraman menos agua; la cama seca reduce coccidiosis, amoníaco y problemas de patas."},
+{q:"La pollinaza, antes de salir de la granja, conviene...", o:["Venderla fresca para alimento animal","Compostarla o tratarla para reducir patógenos","Quemarla","Botarla al río"], a:1, e:"El tratamiento por calor reduce riesgos sanitarios y moscas, y la convierte en buen abono."},
+{q:"¿Qué enseña el caso C?", o:["Que las integradoras siempre pagan mal","Que menos riesgo suele venir con menos margen","Que no hay que tener galpón","Que el pollo de campo no sirve"], a:1, e:"Elegir modelo es elegir cuánto riesgo asumes y cuánto margen esperas."}
+]
+},
+{
+id:"m6", num:6, title:"Contabilidad y costos de tu granja",
+src:"Gestión de Negocios Avícolas, curso 4",
+intro:"En engorde el resultado se mide por campaña: cuánto costó producir cada kilo de pollo y cuánto te pagaron por él. Si no conoces ese número, el mercado decide por ti si ganas o pierdes.",
+lessons:[
+{t:"Conceptos contables básicos", html:`
+<h3>El vocabulario mínimo</h3>
+<div class="tbl"><table>
+<tr><th>Concepto</th><th>Qué es</th><th>Ejemplo en tu granja</th></tr>
+<tr><td>Activo</td><td>Lo que tienes y genera valor</td><td>Galpón, criadoras, comederos, pollos en crianza, alimento en almacén, dinero</td></tr>
+<tr><td>Pasivo</td><td>Lo que debes</td><td>Préstamo, deuda con la planta de alimento</td></tr>
+<tr><td>Patrimonio</td><td>Lo que realmente es tuyo (activo menos pasivo)</td><td>Tu aporte más las ganancias acumuladas</td></tr>
+<tr><td>Ingreso</td><td>Lo que entra por vender</td><td>Venta de pollo vivo o beneficiado, venta de pollinaza</td></tr>
+<tr><td>Gasto o costo</td><td>Lo que consumes para producir y vender</td><td>Pollitos, alimento, gas, vacunas, cama, sueldos, transporte</td></tr>
+</table></div>
+<h3>Activo fijo y activo biológico</h3>
+<ul>
+<li><b>Activo fijo:</b> bienes que duran años (galpón, criadoras, comederos). Se reparten en su vida útil con la <b>depreciación</b>. Ejemplo: S/ 12,000 en instalaciones que duran 5 años, con unas 6 campañas al año, son unos S/ 400 por campaña.</li>
+<li><b>Activo biológico:</b> los pollos en crianza. Contablemente siguen la NIC 41; en la práctica, para gestionar, todo lo que gastas en un lote (pollito, alimento, sanidad) se acumula como costo de esa campaña y se compara con lo que vendes.</li>
+<li><b>Intangible:</b> tu marca, un software.</li>
+</ul>
+<div class="box idea"><span class="bt">Idea clave</span><p>Separa el dinero de la granja del de tu casa desde el primer día. Una cuenta o billetera digital solo para la granja ya hace la diferencia.</p></div>
+`},
+{t:"Estados financieros", html:`
+<h3>Tres reportes que debes entender</h3>
+<p><b>1. Resultado por campaña:</b> ¿gané o perdí con este lote? (ejemplo con 500 pollitos)</p>
+<div class="tbl"><table>
+<tr><th>Concepto</th><th class="n">S/</th></tr>
+<tr><td>Venta de 1,330 kg de pollo vivo a S/ 7.00</td><td class="n">9,310</td></tr>
+<tr><td>(−) Pollitos BB (500 × S/ 3.00)</td><td class="n">1,500</td></tr>
+<tr><td>(−) Alimento (2,330 kg × S/ 2.30)</td><td class="n">5,359</td></tr>
+<tr><td>(−) Vacunas, cama, gas, luz, agua, transporte</td><td class="n">600</td></tr>
+<tr><td>(−) Mano de obra de la campaña</td><td class="n">920</td></tr>
+<tr><td>(−) Depreciación de instalaciones</td><td class="n">370</td></tr>
+<tr><th>= Utilidad de la campaña</th><th class="n">561</th></tr>
+</table></div>
+<p>Con el mismo lote, si el pollo vivo se vendiera a S/ 6.00 el resultado sería una pérdida de unos S/ 770. Por eso el precio de venta pesa tanto.</p>
+<p><b>2. Flujo de caja:</b> el dinero real que entra y sale. En engorde pagas pollitos y alimento durante 6 semanas y cobras recién al vender: necesitas capital de trabajo para toda la campaña.</p>
+<p><b>3. Balance general:</b> lo que tienes, lo que debes y lo que es tuyo en una fecha. Siempre: <b>Activo = Pasivo + Patrimonio</b>.</p>
+<div class="box granja"><span class="bt">En tu granja</span><p>Cierra los números de cada campaña apenas vendes el lote, y haz un resumen anual. Comparar campaña con campaña es la mejor forma de mejorar.</p></div>
+`},
+{t:"Costos avícolas", html:`
+<h3>Clasificar los costos</h3>
+<ul>
+<li><b>Variables:</b> cambian con el número de pollos. Pollito, alimento, vacunas, cama, beneficio.</li>
+<li><b>Fijos:</b> los pagas aunque el galpón esté vacío. Alquiler, sueldo fijo, depreciación.</li>
+<li><b>Directos e indirectos:</b> directos los que se asignan claramente al lote (pollito, alimento); indirectos los que se reparten (luz de la oficina, administración).</li>
+</ul>
+<h3>El número clave: costo por kilo</h3>
+<div class="box idea"><p><b>Costo por kg de pollo vivo</b> = costo total de la campaña ÷ kilos vivos vendidos</p></div>
+<p>En el ejemplo anterior: S/ 8,749 ÷ 1,330 kg = <b>S/ 6.58 por kg</b>. Cualquier precio por debajo de eso es pérdida.</p>
+<h3>Cómo se reparte el costo</h3>
+<p>En una granja típica, aproximadamente: alimento 60% a 70%, pollito BB 15% a 20%, y el resto entre sanidad, gas, cama, mano de obra y depreciación. Por eso la <b>conversión alimenticia</b> es el indicador que más dinero mueve: bajar la conversión de 1.85 a 1.70 en el ejemplo ahorra unos 200 kg de alimento por campaña.</p>
+<h3>Los meses sin pollos también cuestan</h3>
+<p>El vacío sanitario entre campañas es necesario, pero en esas semanas siguen corriendo los costos fijos. Al calcular tu resultado anual, cuenta cuántas campañas reales haces: con 42 días de crianza y 14 de vacío, son unas 6.5 campañas por año.</p>
+<div class="box ojo"><span class="bt">Error frecuente</span><p>No contar tu propio trabajo ni la depreciación del galpón. El negocio parece rentable hasta que hay que reparar el techo o tú te cansas de trabajar gratis.</p></div>
+`},
+{t:"Indicadores clave (KPI)", html:`
+<p>Valores de referencia para líneas comerciales bien manejadas en la costa; compáralos con la guía de tu línea genética.</p>
+<div class="tbl"><table>
+<tr><th>Indicador</th><th>Cómo se calcula</th><th>Referencia</th></tr>
+<tr><td>Mortalidad</td><td>Muertos ÷ pollitos recibidos × 100</td><td>Idealmente menos de 5%; la primera semana, menos de 1%</td></tr>
+<tr><td>Viabilidad</td><td>100 − mortalidad</td><td>95% o más</td></tr>
+<tr><td>Peso promedio a la saca</td><td>Kg vendidos ÷ pollos vendidos</td><td>2.7 a 3.0 kg a los 42 días</td></tr>
+<tr><td>Ganancia diaria de peso</td><td>Peso final ÷ días de edad (en g)</td><td>60 a 70 g por día</td></tr>
+<tr><td>Conversión alimenticia</td><td>Kg de alimento ÷ kg de pollo vivo</td><td>1.6 a 1.8 (al empezar, hasta 1.9)</td></tr>
+<tr><td>Peso al día 7</td><td>Muestra de pollitos</td><td>Unas 4 a 5 veces el peso de llegada</td></tr>
+<tr><td>Índice de eficiencia productiva (IEP)</td><td>(Viabilidad % × peso kg) ÷ (edad días × conversión) × 100</td><td>Más de 300 es bueno; más de 350, muy bueno</td></tr>
+<tr><td>Costo por kg</td><td>Costo de la campaña ÷ kg vendidos</td><td>Claramente debajo del precio de venta</td></tr>
+</table></div>
+<div class="box granja"><span class="bt">Ejemplo de IEP</span><p>Viabilidad 95%, peso 2.8 kg, 42 días, conversión 1.7: (95 × 2.8) ÷ (42 × 1.7) × 100 ≈ <b>373</b>. El IEP resume en un número qué tan bien te fue: sirve para comparar tus campañas entre sí.</p></div>
+`}
+],
+tasks:["Abrir una cuenta o billetera exclusiva para la granja","Listar tus costos fijos y variables","Calcular tu costo por kg con la calculadora del curso","Preparar una hoja de cierre por campaña","Calcular el IEP de tu primera campaña"],
+quiz:[
+{q:"¿Qué fórmula da el costo por kg de pollo vivo?", o:["Costo del pollito ÷ peso","Costo total de la campaña ÷ kg vivos vendidos","Precio de venta − alimento","Alimento ÷ número de pollos"], a:1, e:"Todo lo gastado en la campaña dividido entre los kilos que vendiste."},
+{q:"¿Qué indicador mueve más dinero en engorde?", o:["El color de la cama","La conversión alimenticia","El número de visitas","La hora de la saca"], a:1, e:"El alimento es el mayor costo, y la conversión dice cuánto alimento usas por kilo producido."},
+{q:"Viabilidad 96%, peso 2.6 kg, 40 días, conversión 1.65. ¿Cuál es el IEP aproximado?", o:["150","280","378","520"], a:2, e:"(96 × 2.6) ÷ (40 × 1.65) × 100 = 249.6 ÷ 66 × 100 ≈ 378."}
+]
+},
+{
+id:"m7", num:7, title:"Finanzas, financiamiento, normas y riesgos",
+src:"Planes de Negocios, curso 5 · Gestión de Negocios Avícolas, curso 5",
+intro:"Ya sabes cuánto cuesta un kilo. Ahora ves el proyecto completo: cuánto inviertes, cuándo lo recuperas, de dónde sale el dinero, qué obligaciones tienes y qué te puede hacer perder.",
+lessons:[
+{t:"Economía para decidir mejor", html:`
+<h3>Oferta y demanda del pollo</h3>
+<ul>
+<li>Cuando muchas granjas colocan pollitos al mismo tiempo, unas 6 semanas después sobra pollo y <b>el precio cae</b>.</li>
+<li>Cuando faltan pollos (brotes sanitarios, calor fuerte, menos colocaciones), <b>el precio sube</b>, a veces al doble en pocas semanas.</li>
+<li>La demanda sube en fechas como Fiestas Patrias, Navidad y Año Nuevo, y en días de fútbol y fines de semana para las pollerías.</li>
+</ul>
+<h3>Factores externos que te afectan</h3>
+<ul>
+<li><b>Precio internacional del maíz y la soya:</b> tu costo de alimento.</li>
+<li><b>Tipo de cambio:</b> el maíz es mayormente importado.</li>
+<li><b>Clima:</b> el calor reduce el peso y aumenta la mortalidad en la costa.</li>
+<li><b>Sanidad nacional:</b> una emergencia puede restringir la movilización de aves vivas.</li>
+<li><b>Economía de las familias:</b> si se ajusta el bolsillo, se compra menos o se busca lo más barato.</li>
+</ul>
+<div class="box idea"><span class="bt">Idea clave</span><p>Planifica tus campañas mirando el calendario: un lote que sale para Navidad o Fiestas Patrias suele venderse mejor. Y no controlas el precio, pero sí tu conversión, tu mortalidad y a quién le vendes.</p></div>
+`},
+{t:"Rentabilidad del proyecto", html:`
+<h3>Inversión inicial</h3>
+<ul>
+<li><b>Instalaciones y equipos:</b> galpón o adecuación, mallas, cortinas, criadoras, comederos, bebederos, balanza, jabas.</li>
+<li><b>Trámites:</b> registros y licencias.</li>
+<li><b>Capital de trabajo:</b> el costo de una campaña completa (pollitos, alimento, gas, sueldos), porque cobras recién al final, más un colchón para una campaña mala.</li>
+</ul>
+<h3>Cómo saber si vale la pena</h3>
+<ul>
+<li><b>Flujo de caja proyectado</b> campaña por campaña durante al menos un año.</li>
+<li><b>Periodo de recuperación:</b> cuántos meses o campañas tardas en recuperar lo invertido.</li>
+<li><b>VAN:</b> suma de los flujos futuros traídos a valor de hoy, menos la inversión. Positivo significa que el proyecto rinde más que lo que te cuesta el dinero.</li>
+<li><b>TIR:</b> rentabilidad anual del proyecto; compárala con la tasa de tu préstamo.</li>
+</ul>
+<h3>Escenarios</h3>
+<ul>
+<li><b>Pesimista:</b> precio 10% más bajo, alimento 10% más caro, mortalidad más alta.</li>
+<li><b>Esperado:</b> tus datos más realistas.</li>
+<li><b>Optimista:</b> buen precio y buen manejo.</li>
+</ul>
+<p>En engorde, el escenario pesimista no es raro: los precios del pollo vivo caen fuerte varias veces al año. Si el negocio solo funciona en el optimista, todavía no está listo.</p>
+<div class="box granja"><span class="bt">Úsalo ya</span><p>La <b>calculadora</b> del curso hace estos números por campaña, por mes y por año, e incluye el escenario pesimista.</p></div>
+`},
+{t:"Fuentes de financiamiento", html:`
+<div class="tbl"><table>
+<tr><th>Fuente</th><th>Para quién</th><th>Ten en cuenta</th></tr>
+<tr><td>Ahorros propios</td><td>Todos</td><td>Sin intereses, pero no arriesgues el fondo de emergencia de tu familia</td></tr>
+<tr><td>Familia o socios</td><td>Quien tiene red de apoyo</td><td>Por escrito: aportes, reparto de ganancias y pérdidas</td></tr>
+<tr><td>Agrobanco</td><td>Pequeños productores agropecuarios</td><td>Banco estatal orientado al agro; revisa productos y requisitos vigentes</td></tr>
+<tr><td>Cajas municipales y rurales, cooperativas</td><td>Micro y pequeños negocios</td><td>Compara la TCEA, no solo la tasa</td></tr>
+<tr><td>Crédito de proveedores</td><td>Clientes con historial</td><td>La planta de alimento o la incubadora pueden darte plazo</td></tr>
+<tr><td>Integradora (crianza por encargo)</td><td>Quien tiene galpón</td><td>La empresa financia pollito y alimento; tú pones instalaciones y manejo</td></tr>
+<tr><td>Fondos concursables (PROCOMPITE, programas de MIDAGRI)</td><td>Normalmente asociaciones de productores</td><td>Convocatorias con fechas; suelen pedir cofinanciamiento</td></tr>
+</table></div>
+<h3>Reglas sanas</h3>
+<ul>
+<li>Empieza con un lote pequeño y crece con resultados.</li>
+<li>Financia el galpón con plazos largos y el capital de trabajo con plazos cortos, alineados a la venta de cada campaña.</li>
+<li>Cuida que la cuota del préstamo deje margen para una campaña mala.</li>
+<li>Guarda un <b>fondo de reserva</b> equivalente a, al menos, el alimento de una campaña.</li>
+</ul>
+`},
+{t:"Obligaciones tributarias y financieras", html:`
+<h3>Formalizarte paso a paso</h3>
+<ol>
+<li><b>RUC en SUNAT</b> como persona natural con negocio o como empresa (EIRL, SAC) si tendrás socios o quieres separar responsabilidades.</li>
+<li><b>Régimen tributario:</b> Nuevo RUS, Régimen Especial (RER), Régimen MYPE Tributario o Régimen General. Tienen límites y obligaciones distintos y cambian con el tiempo. El Nuevo RUS no permite emitir factura, y pollerías y restaurantes suelen pedirla.</li>
+<li><b>IGV:</b> la venta de aves vivas y de carne de ave ha tenido tratamientos especiales en la Ley del IGV (exoneraciones que se prorrogan o cambian). Confirma con un contador cómo aplica hoy a tu venta, porque cambia tu precio y tu margen.</li>
+<li><b>Régimen agrario:</b> existe un régimen laboral y tributario para la actividad agraria (Ley 31110); consulta si te corresponde.</li>
+<li><b>Comprobantes electrónicos</b> y libros contables según tu régimen.</li>
+<li><b>REMYPE</b> para acceder a beneficios de micro y pequeña empresa.</li>
+</ol>
+<div class="box ojo"><span class="bt">Importante</span><p>Las normas tributarias cambian. Confirma en SUNAT o con un contador antes de decidir. No soy asesor tributario ni legal; esta lección te da las preguntas correctas.</p></div>
+<h3>Disciplina financiera</h3>
+<ul>
+<li>Guarda todos los comprobantes de compra.</li>
+<li>Paga tus cuotas a tiempo para construir historial.</li>
+<li>Cierra los números de cada campaña sin falta.</li>
+</ul>
+`},
+{t:"Riesgos y cómo mitigarlos", html:`
+<div class="tbl"><table>
+<tr><th>Riesgo</th><th>Probabilidad</th><th>Impacto</th><th>Cómo mitigarlo</th></tr>
+<tr><td>Caída del precio del pollo vivo</td><td>Alta</td><td>Alto</td><td>Varios canales, precios pactados, venta beneficiada, fondo de reserva</td></tr>
+<tr><td>Brote sanitario (influenza aviar, Newcastle)</td><td>Media</td><td>Muy alto</td><td>Bioseguridad estricta, vacunación, malla antiaves, notificación rápida</td></tr>
+<tr><td>Subida del alimento</td><td>Alta</td><td>Alto</td><td>Mejorar conversión, comprar planificado, crédito con la planta</td></tr>
+<tr><td>Golpe de calor</td><td>Media</td><td>Alto</td><td>Ventilación, cortinas, agua fresca, menor densidad en verano</td></tr>
+<tr><td>Comprador que no aparece el día de la saca</td><td>Media</td><td>Alto</td><td>Venta asegurada antes de colocar el lote; segundo comprador de respaldo</td></tr>
+<tr><td>Cliente que no paga</td><td>Media</td><td>Medio</td><td>Contado al pesar con acopiadores; crédito con límite a clientes fijos</td></tr>
+<tr><td>Robo de aves</td><td>Media</td><td>Medio</td><td>Cerco, iluminación, conteo diario</td></tr>
+<tr><td>Cambios normativos o multas</td><td>Baja</td><td>Medio</td><td>Formalización y contacto con SENASA y la municipalidad</td></tr>
+</table></div>
+<p>Califica tú la probabilidad y el impacto para tu zona y atiende primero los riesgos con ambos altos.</p>
+<div class="box idea"><span class="bt">Idea clave</span><p>En engorde hay dos riesgos que pueden borrar una campaña entera: un brote sanitario y una caída de precio el mes en que vendes. La bioseguridad cubre el primero; la diversificación de clientes y el fondo de reserva cubren el segundo.</p></div>
+`}
+],
+tasks:["Listar tu inversión inicial completa con capital de trabajo","Calcular 3 escenarios en la calculadora","Comparar 2 opciones de crédito por su TCEA","Preguntar a un contador por RUC, régimen e IGV","Armar tu mapa de 5 riesgos con mitigación"],
+quiz:[
+{q:"Muchas granjas colocaron pollitos al mismo tiempo. ¿Qué esperas en 6 semanas?", o:["Que suba el precio","Que baje el precio por exceso de oferta","Que no pase nada","Que falte alimento"], a:1, e:"Más pollos listos al mismo tiempo significan más oferta y precios más bajos."},
+{q:"¿Cuánto capital de trabajo necesitas como mínimo?", o:["Nada, se cobra al inicio","El costo de una campaña completa","Solo el de los pollitos","Un mes de luz"], a:1, e:"Pagas pollitos, alimento y gastos durante toda la crianza y cobras recién al vender."},
+{q:"¿Cuál es la mejor defensa contra un comprador que no aparece el día de la saca?", o:["Esperar unos días más","Tener la venta asegurada antes de colocar el lote y un comprador de respaldo","Bajar el precio a la mitad","Soltar a los pollos"], a:1, e:"El pollo no puede esperar en el galpón sin perder dinero; la venta se asegura antes."}
+]
+},
+{
+id:"m8", num:8, title:"Organización y personas",
+src:"Gestión de Negocios Avícolas, curso 6",
+intro:"Los pollos necesitan atención todos los días, a cualquier hora, durante 6 semanas seguidas. Organizar el trabajo es lo que te permite descansar sin poner en riesgo el lote.",
+lessons:[
+{t:"Cultura y estructura", html:`
+<h3>Los valores de tu granja</h3>
+<ul>
+<li><b>Bioseguridad sin excepciones.</b></li>
+<li><b>Atención constante:</b> la primera semana y los días de calor no admiten descuidos, incluidos domingos y feriados.</li>
+<li><b>Registro honesto:</b> anotar los muertos, el alimento y los errores tal como son.</li>
+</ul>
+<h3>Funciones básicas</h3>
+<div class="tbl"><table>
+<tr><th>Función</th><th>Tareas</th><th>Al inicio la hace</th></tr>
+<tr><td>Producción</td><td>Agua, alimento, temperatura, cama, recorrido del galpón, registros</td><td>Galponero o tú</td></tr>
+<tr><td>Sanidad</td><td>Vacunas, observación, contacto con el veterinario</td><td>Tú, con asesoría</td></tr>
+<tr><td>Comercial</td><td>Buscar compradores, pactar la saca, entregas, cobranza</td><td>Tú</td></tr>
+<tr><td>Administración</td><td>Compras, pagos, cierre de campaña, trámites</td><td>Tú y un contador externo</td></tr>
+</table></div>
+<h3>Rutina diaria escrita</h3>
+<p>Por ejemplo: 6:00 revisar temperatura, agua y alimento; recorrer el galpón y retirar muertos; 9:00 ajustar cortinas; 12:00 y 15:00 revisión por calor; 17:00 registro del día; 21:00 última revisión de criadoras y temperatura (las primeras dos semanas). Si te enfermas, otra persona puede seguirla.</p>
+`},
+{t:"Liderazgo y equipo", html:`
+<ul>
+<li><b>Da el ejemplo</b> con la bioseguridad.</li>
+<li><b>Explica el porqué:</b> quien entiende por qué el pollito con frío no come lo cuida mejor.</li>
+<li><b>Reunión corta semanal</b> con los indicadores del lote: peso de la muestra, mortalidad, alimento.</li>
+<li><b>Reconoce en público, corrige en privado.</b></li>
+<li><b>Incentivo por resultados:</b> un bono por campaña ligado a mortalidad baja o buen IEP alinea a todos.</li>
+</ul>
+`},
+{t:"Contratar y retener personal", html:`
+<h3>Selección</h3>
+<ul>
+<li><b>Perfil:</b> responsable, que pueda vivir o quedarse cerca del galpón en las noches críticas, sin aves propias en casa y dispuesto a cumplir la bioseguridad.</li>
+<li>Busca por recomendación y usa un periodo de prueba con tareas reales.</li>
+</ul>
+<h3>Capacitación inicial</h3>
+<ol>
+<li>Bioseguridad y su razón.</li>
+<li>Preparación del galpón y recepción del pollito.</li>
+<li>Leer el comportamiento de los pollos (frío, calor, enfermedad).</li>
+<li>Registros diarios y pesaje de muestras.</li>
+<li>Captura y carga cuidadosas.</li>
+<li>Equipo de protección: mascarilla al mover la cama (polvo y amoníaco).</li>
+</ol>
+<h3>Retención</h3>
+<ul>
+<li>Pago puntual y justo.</li>
+<li>Descansos organizados, sobre todo en el vacío sanitario.</li>
+<li>Posibilidad de crecer cuando la granja crezca.</li>
+</ul>
+<div class="box ojo"><span class="bt">Formalidad laboral</span><p>Contratar implica contrato, planilla y seguro. Los regímenes MYPE y agrario tienen reglas propias; confírmalas antes de contratar.</p></div>
+`}
+],
+tasks:["Escribir los 3 valores de tu granja","Asignar las 4 funciones","Escribir y pegar la rutina diaria","Preparar el plan de capacitación del galponero"],
+quiz:[
+{q:"¿Cuándo es más importante la atención nocturna?", o:["En la última semana","En las dos primeras semanas, por la temperatura","Nunca","Solo en el vacío sanitario"], a:1, e:"El pollito pequeño depende del calor de la criadora; una noche fría puede costar muchas aves."},
+{q:"Un buen incentivo para el galponero se liga a...", o:["Las horas trabajadas","Resultados del lote como mortalidad o IEP","El número de visitas","El precio del pollo"], a:1, e:"Premiar lo que el galponero controla alinea su esfuerzo con el resultado."},
+{q:"¿Por qué el galponero no debe tener aves en casa?", o:["Por costumbre","Porque puede llevar enfermedades al galpón","Porque comerá pollos","No importa"], a:1, e:"Las aves de traspatio pueden portar enfermedades que la persona trae en su ropa y calzado."}
+]
+},
+{
+id:"m9", num:9, title:"Plan integrador: tu plan de negocio",
+src:"Planes de Negocios, curso 6",
+intro:"Aquí juntas todo en un documento: tu plan de negocio de pollos de engorde. Sigue las asesorías y llena la plantilla en 'Mi plan de negocio'.",
+lessons:[
+{t:"Estructura del plan", html:`
+<h3>Las 10 partes</h3>
+<ol>
+<li><b>Resumen ejecutivo</b> (se escribe al final).</li>
+<li><b>Idea y propuesta de valor</b> (módulo 1).</li>
+<li><b>Mercado y competencia</b> (módulo 1).</li>
+<li><b>Marketing y marca</b> (módulo 2).</li>
+<li><b>Comercialización:</b> canales, compradores, beneficio, calendario de sacas (módulo 3).</li>
+<li><b>Operaciones:</b> ubicación, galpón, número de pollos por lote, campañas al año, línea genética, sanidad, proveedores (módulo 4).</li>
+<li><b>Sostenibilidad</b> (módulo 5).</li>
+<li><b>Organización y aspectos legales</b> (módulos 7 y 8).</li>
+<li><b>Plan financiero</b> (módulos 6 y 7).</li>
+<li><b>Riesgos y cronograma.</b></li>
+</ol>
+<div class="box idea"><span class="bt">Idea clave</span><p>Un buen plan es coherente: el tamaño del lote cuadra con lo que puedes vender en la semana de la saca, el precio con el costo por kg y la inversión con el financiamiento.</p></div>
+`},
+{t:"Asesoría 1: la idea y el mercado", html:`
+<ol>
+<li>Escribe tu propuesta en una frase.</li>
+<li>Resume tus precios registrados y lo que te dijeron compradores, pollerías y familias.</li>
+<li>Define cuántos kilos o pollos puedes vender <b>en la semana de la saca</b> con compromisos reales. <b>Ese número decide el tamaño del lote.</b></li>
+<li>Calcula los pollitos necesarios: pollos a vender ÷ viabilidad. Ejemplo: para vender 475 pollos con 95% de viabilidad, colocas 475 ÷ 0.95 = 500 pollitos.</li>
+<li>Si tus clientes compran todas las semanas, diseña lotes escalonados.</li>
+<li>Define marca, presentación (vivo o beneficiado), precio o fórmula de precio y canales.</li>
+</ol>
+<h3>Preguntas de revisión</h3>
+<ul>
+<li>¿Tengo compradores comprometidos o solo lo supongo?</li>
+<li>¿Qué hago si mi comprador principal no aparece el día de la saca?</li>
+<li>¿Mi diferenciación es real y la puedo cumplir en cada campaña?</li>
+</ul>
+`},
+{t:"Asesoría 2: operaciones y números", html:`
+<ol>
+<li>Define ubicación, galpón, equipos y número de pollos, con cotizaciones reales.</li>
+<li>Escribe el plan sanitario con el veterinario y tu protocolo de bioseguridad.</li>
+<li>Abre la <b>calculadora</b> y reemplaza los valores de ejemplo.</li>
+<li>Revisa: costo por kg, utilidad por campaña y por año, precio de equilibrio, recuperación.</li>
+<li>Mira el escenario pesimista y ajusta el modelo si sale negativo (más venta beneficiada, mejor conversión, menos inversión, crianza por encargo).</li>
+<li>Define el dinero total necesario (inversión + capital de trabajo) y su origen.</li>
+</ol>
+<div class="box ojo"><span class="bt">Señal de alerta</span><p>Si tu costo por kg está por encima del precio promedio que esperas recibir, no empieces así. Cambia el modelo antes de invertir.</p></div>
+`},
+{t:"Revisión final del plan", html:`
+<h3>Lista de verificación</h3>
+<ul>
+<li>¿El tamaño del lote se basa en compradores reales?</li>
+<li>¿El precio cubre el costo por kg con margen, incluyendo tu sueldo y la depreciación?</li>
+<li>¿Incluiste capital de trabajo para una campaña completa y un fondo de reserva?</li>
+<li>¿El negocio aguanta el escenario pesimista?</li>
+<li>¿Tienes veterinario, plan sanitario y protocolo de bioseguridad?</li>
+<li>¿Sabes dónde y cómo se hará el beneficio, si vendes beneficiado?</li>
+<li>¿Conoces los trámites y su orden?</li>
+<li>¿Tienes tus 5 riesgos principales con mitigación?</li>
+<li>¿Hay cronograma con fechas?</li>
+</ul>
+<h3>Preséntalo en 3 minutos</h3>
+<p>Cuéntalo a alguien de confianza o a un asesor de crédito: el problema, tu solución, tus compradores, tus números clave y lo que necesitas.</p>
+<h3>Cronograma tipo</h3>
+<ul class="timeline">
+<li><b>Mes 1:</b> investigación de mercado, compradores, cotizaciones, trámites iniciales.</li>
+<li><b>Mes 2:</b> adecuación del galpón, equipos, veterinario, reserva de pollitos, venta pactada del primer lote.</li>
+<li><b>Mes 3:</b> desinfección, recepción del primer lote, registros diarios.</li>
+<li><b>Mes 4:</b> saca y venta del primer lote, cierre de números, vacío sanitario.</li>
+<li><b>Meses 5 y 6:</b> segunda y tercera campaña con ajustes; primera evaluación con IEP y costo por kg reales.</li>
+</ul>
+`}
+],
+tasks:["Completar la Asesoría 1 en la plantilla","Poner tus cotizaciones reales en la calculadora","Completar la Asesoría 2 en la plantilla","Pasar la lista de verificación final","Presentar tu plan en 3 minutos"],
+quiz:[
+{q:"¿Qué debe decidir el tamaño de tu lote?", o:["El tamaño del galpón","Lo que puedes vender en la semana de la saca","El precio del pollito","Lo que crían tus vecinos"], a:1, e:"El pollo listo no puede esperar; el lote se dimensiona según la venta asegurada."},
+{q:"Quieres vender 380 pollos y esperas 95% de viabilidad. ¿Cuántos pollitos colocas?", o:["361","380","400","450"], a:2, e:"380 ÷ 0.95 = 400 pollitos."},
+{q:"Tu costo por kg supera el precio promedio esperado. ¿Qué haces?", o:["Empiezas igual","Cambias el modelo antes de invertir","Colocas más pollos","Esperas que suba el precio"], a:1, e:"Más pollos con pérdida por kilo solo agrandan la pérdida."}
+]
+}
+];
+
+const GLOSSARY = [
+["Activo biológico","Animales que crecen y generan ingresos, como los pollos en crianza."],
+["Alimento balanceado","Mezcla formulada con los nutrientes que el pollo necesita en cada fase."],
+["Ayuno","Retiro del alimento unas 8 a 12 horas antes del beneficio, manteniendo el agua."],
+["Beneficio","Proceso de sacrificio, desplumado y eviscerado en un centro autorizado."],
+["Bioseguridad","Medidas para que las enfermedades no entren ni salgan de la granja."],
+["Campaña","Ciclo completo de un lote: recepción, crianza, saca y limpieza."],
+["Capital de trabajo","Dinero para pagar pollitos, alimento y gastos hasta cobrar la venta."],
+["Conversión alimenticia","Kg de alimento por cada kg de pollo vivo producido. Menos es mejor."],
+["Criadora","Fuente de calor (campana a gas o eléctrica) para los pollitos."],
+["IEP","Índice de eficiencia productiva: resume viabilidad, peso, edad y conversión en un número."],
+["Integradora","Empresa que controla toda la cadena y puede encargar la crianza a terceros."],
+["Línea genética","Tipo comercial de pollo, como Cobb 500 o Ross 308."],
+["Periodo de retiro","Tiempo tras un medicamento en que el pollo no debe beneficiarse."],
+["Pollito BB","Pollito de un día que entrega la incubadora."],
+["Pollinaza","Cama usada mezclada con excretas; tratada sirve como abono."],
+["Rendimiento de carcasa","Peso del pollo beneficiado como porcentaje del peso vivo (unos 72% a 78%)."],
+["Saca","Captura y venta del lote al final de la crianza."],
+["Síndrome ascítico","Acumulación de líquido en el abdomen, frecuente en altura por falta de oxígeno."],
+["TCEA","Tasa de costo efectivo anual: costo real de un crédito."],
+["TIR","Tasa interna de retorno: rentabilidad anual del proyecto."],
+["Vacío sanitario","Días con el galpón vacío y desinfectado entre campañas."],
+["VAN","Valor actual neto: ganancia del proyecto en dinero de hoy."],
+["Viabilidad","Porcentaje de pollos que llegan vivos a la saca."]
+];
+
+const PLAN_FIELDS = [
+{id:"resumen", t:"1. Resumen ejecutivo", h:"Escríbelo al final: qué harás, para quién, cuántos pollos por campaña, cuánto necesitas y cuánto esperas ganar."},
+{id:"propuesta", t:"2. Idea y propuesta de valor", h:"Tu frase: 'Ofrezco [producto] a [cliente] que necesita [necesidad], y me diferencio porque [razón]'."},
+{id:"mercado", t:"3. Mercado y competencia", h:"Precios registrados, segmentos elegidos, compradores confirmados y competidores."},
+{id:"marketing", t:"4. Marketing y marca", h:"Vivo o beneficiado, presentaciones, marca, precio o fórmula de precio, cómo te darás a conocer."},
+{id:"comercial", t:"5. Comercialización", h:"Canales, compradores clave, centro de beneficio, calendario de sacas, forma de pago."},
+{id:"operaciones", t:"6. Plan de operaciones", h:"Ubicación, galpón, pollos por lote, campañas por año, línea genética, proveedores, plan sanitario y bioseguridad."},
+{id:"sostenibilidad", t:"7. Sostenibilidad y responsabilidad social", h:"Pollinaza, aves muertas, bienestar animal, vecinos y comunidad."},
+{id:"organizacion", t:"8. Organización y aspectos legales", h:"Quién hace qué, rutina, formalización (RUC, régimen, IGV, SENASA, municipalidad)."},
+{id:"finanzas", t:"9. Plan financiero", h:"Inversión, capital de trabajo, costo por kg, utilidad por campaña y por año, recuperación, escenarios, financiamiento. Usa la calculadora."},
+{id:"riesgos", t:"10. Riesgos y cronograma", h:"Tus 5 riesgos principales con mitigación y los pasos con fechas."}
+];
+
+</script>
+<script>
+(function(){
+const KEY = "avicurso-engorde:v1";
+let S = {read:{}, quiz:{}, tasks:{}, calc:null, plan:{}};
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
+
+const $ = (s, r=document) => r.querySelector(s);
+const main = $("#main"), nav = $("#nav"), aside = $("#sidebar"), toggle = $("#menuToggle");
+let eggId = 0;
+let current = {view:"inicio", lesson:0};
+
+function egg(pct, cls){
+  const id = "e" + (eggId++);
+  const h = Math.round(24 * Math.max(0, Math.min(1, pct)));
+  return `<svg class="${cls||"egg"}" viewBox="0 0 20 26" aria-hidden="true">
+    <defs><clipPath id="${id}"><path d="M10 1C5.2 1 1.5 9 1.5 15.2a8.5 8.5 0 0 0 17 0C18.5 9 14.8 1 10 1z"/></clipPath></defs>
+    <rect x="0" y="0" width="20" height="26" fill="var(--surface)" clip-path="url(#${id})"/>
+    <rect x="0" y="${26-h}" width="20" height="${h}" fill="var(--yolk)" clip-path="url(#${id})"/>
+    <path d="M10 1C5.2 1 1.5 9 1.5 15.2a8.5 8.5 0 0 0 17 0C18.5 9 14.8 1 10 1z" fill="none" stroke="var(--shell)" stroke-width="1.4"/>
+  </svg>`;
+}
+
+function modProgress(m){
+  const read = (S.read[m.id]||[]).length;
+  const q = S.quiz[m.id]||{};
+  const quizDone = Object.keys(q).length >= m.quiz.length ? 1 : 0;
+  return (read + quizDone) / (m.lessons.length + 1);
+}
+function totalProgress(){
+  return MODULES.reduce((a,m)=>a+modProgress(m),0) / MODULES.length;
+}
+
+function renderNav(){
+  let h = `<div class="nav-group">Empieza aquí</div>
+  <button class="nav-btn" data-go="inicio" ${current.view==="inicio"?'aria-current="page"':""}>${egg(totalProgress())}<span>Inicio y cómo usar el curso</span></button>
+  <div class="nav-group">Módulos</div>`;
+  MODULES.forEach(m=>{
+    h += `<button class="nav-btn" data-go="${m.id}" ${current.view===m.id?'aria-current="page"':""}>${egg(modProgress(m))}<span class="num">${m.num}</span><span>${m.title}</span></button>`;
+  });
+  h += `<div class="nav-group">Herramientas</div>
+  <button class="nav-btn" data-go="calc" ${current.view==="calc"?'aria-current="page"':""}><span class="num">S/</span><span>Calculadora de rentabilidad</span></button>
+  <button class="nav-btn" data-go="plan" ${current.view==="plan"?'aria-current="page"':""}><span class="num">✎</span><span>Mi plan de negocio</span></button>
+  <button class="nav-btn" data-go="glosario" ${current.view==="glosario"?'aria-current="page"':""}><span class="num">Aa</span><span>Glosario</span></button>`;
+  nav.innerHTML = h;
+}
+
+function go(view, lesson){
+  current = {view, lesson: lesson||0};
+  S.last = view; save();
+  render();
+  aside.classList.remove("open"); toggle.setAttribute("aria-expanded","false");
+  window.scrollTo(0,0);
+  main.focus({preventScroll:true});
+}
+
+document.addEventListener("click", e=>{
+  const g = e.target.closest("[data-go]");
+  if (g){ e.preventDefault(); go(g.dataset.go); }
+});
+toggle.addEventListener("click", ()=>{
+  const open = aside.classList.toggle("open");
+  toggle.setAttribute("aria-expanded", open ? "true":"false");
+});
+
+/* ---------- Inicio ---------- */
+function viewInicio(){
+  const p = Math.round(totalProgress()*100);
+  let cards = MODULES.map(m=>`<button data-go="${m.id}">${egg(modProgress(m))}<strong>${m.num}. ${m.title}</strong><span>${m.lessons.length} lecciones y quiz</span></button>`).join("");
+  return `<section class="hero">
+    <div>
+      <h1>De cero a tu granja de pollos de engorde</h1>
+      <p class="lead">Un curso práctico que resume los temas de los diplomas de ESAN en Gestión de Negocios Avícolas y en Planes de Negocios para Proyectos Avícolas, adaptado a una granja pequeña de pollos de engorde en el Perú.</p>
+      <div class="row">
+        <button class="btn" data-go="${S.last && S.last.startsWith("m") ? S.last : "m1"}">${p>0?"Continuar el curso":"Empezar el módulo 1"}</button>
+        <button class="btn ghost" data-go="calc">Abrir la calculadora</button>
+      </div>
+    </div>
+    <div>${egg(totalProgress(),"hero-egg")}<p class="muted" style="text-align:center;font-family:var(--display);margin-top:.3rem">${p}% completado</p></div>
+  </section>
+  <div class="reading">
+    <h2>Cómo usar este curso</h2>
+    <p>Cada módulo tiene lecciones cortas, recuadros con ideas clave, tareas para hacer en el campo y un quiz de repaso. El huevo al lado de cada módulo se llena a medida que marcas lecciones como leídas y respondes el quiz. Tu avance, tus respuestas y tu plan se guardan en este navegador.</p>
+    <p>El orden recomendado es del 1 al 9: primero el mercado, luego cómo vender, después cómo criar y, al final, los números y el plan. El módulo 9 te guía para armar tu plan de negocio en la plantilla del menú, apoyándote en la calculadora.</p>
+    <div class="box ojo"><span class="bt">Antes de empezar</span><p>Las cifras técnicas y de precios son referencias para aprender. Reemplázalas siempre por cotizaciones reales de tu zona, la guía de manejo de tu línea genética y la asesoría de un médico veterinario y un contador.</p></div>
+  </div>
+  <h2 style="margin-top:2rem">Mapa del curso</h2>
+  <div class="map">${cards}</div>`;
+}
+
+/* ---------- Módulo ---------- */
+function viewModule(m){
+  const li = current.lesson;
+  const L = m.lessons[li];
+  const read = S.read[m.id]||[];
+  const tabs = m.lessons.map((l,i)=>`<button role="tab" aria-selected="${i===li}" class="${read.includes(i)?"done":""}" data-lesson="${i}">${i+1}. ${l.t}</button>`).join("");
+  const isRead = read.includes(li);
+  const nextLabel = li < m.lessons.length-1 ? "Marcar como leída y seguir" : "Marcar como leída e ir al quiz";
+  const tasks = S.tasks[m.id]||[];
+  const idx = MODULES.indexOf(m);
+  return `<header class="mod-head">
+      <div class="bignum" aria-hidden="true">${m.num}</div>
+      <div class="src">Basado en: ${m.src}</div>
+      <h2>${m.title}</h2>
+      <p class="muted" style="margin:0">${m.intro}</p>
+    </header>
+    <div class="tabs" role="tablist" aria-label="Lecciones">${tabs}</div>
+    <article class="lesson reading" aria-live="polite">${L.html}</article>
+    <div class="lesson-foot reading">
+      <button class="btn ghost small" data-lesson="${li-1}" ${li===0?"disabled":""}>Lección anterior</button>
+      <button class="btn small" id="markRead">${isRead && li===m.lessons.length-1 ? "Ir al quiz" : nextLabel}</button>
+    </div>
+    <section class="panel reading" id="tareas">
+      <h3>Tareas de campo</h3>
+      <p class="muted">Lo que aprendes se vuelve real cuando lo haces. Marca cada tarea al completarla.</p>
+      <div class="tasks">${m.tasks.map((t,i)=>`<label><input type="checkbox" data-task="${i}" ${tasks[i]?"checked":""}><span>${t}</span></label>`).join("")}</div>
+    </section>
+    <section class="panel reading" id="quiz">
+      <h3>Quiz del módulo</h3>
+      <div id="quizBody"></div>
+    </section>
+    <div class="lesson-foot reading">
+      ${idx>0?`<button class="btn ghost small" data-go="${MODULES[idx-1].id}">Módulo ${idx}</button>`:"<span></span>"}
+      ${idx<MODULES.length-1?`<button class="btn small" data-go="${MODULES[idx+1].id}">Módulo ${idx+2}: ${MODULES[idx+1].title}</button>`:`<button class="btn small" data-go="plan">Ir a mi plan de negocio</button>`}
+    </div>`;
+}
+
+function renderQuiz(m){
+  const box = $("#quizBody"); if(!box) return;
+  const ans = S.quiz[m.id]||{};
+  let correct = 0, answered = 0;
+  box.innerHTML = m.quiz.map((q,qi)=>{
+    const a = ans[qi];
+    const done = a !== undefined;
+    if(done){ answered++; if(a===q.a) correct++; }
+    const opts = q.o.map((o,oi)=>{
+      let c = "opt";
+      if(done && oi===q.a) c+=" ok";
+      if(done && oi===a && a!==q.a) c+=" bad";
+      return `<button class="${c}" data-q="${qi}" data-o="${oi}" ${done?"disabled":""}>${o}</button>`;
+    }).join("");
+    const fb = done ? `<div class="fb"><b>${a===q.a?"Correcto.":"No exactamente."}</b> ${q.e}</div>` : "";
+    return `<div class="q"><p>${qi+1}. ${q.q}</p><div class="opts">${opts}</div>${fb}</div>`;
+  }).join("") + (answered===m.quiz.length ? `<p class="score">Resultado: ${correct} de ${m.quiz.length}. <button class="btn ghost small" id="retry">Volver a intentar</button></p>` : "");
+  box.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
+    const qi=+b.dataset.q, oi=+b.dataset.o;
+    S.quiz[m.id] = S.quiz[m.id]||{}; S.quiz[m.id][qi]=oi; save();
+    renderQuiz(m); renderNav();
+  }));
+  const r = $("#retry"); if(r) r.addEventListener("click",()=>{ S.quiz[m.id]={}; save(); renderQuiz(m); renderNav(); });
+}
+
+function bindModule(m){
+  main.querySelectorAll("[data-lesson]").forEach(b=>b.addEventListener("click",()=>{
+    const i = +b.dataset.lesson; if(i<0) return;
+    current.lesson = i; render(); $(".tabs").scrollIntoView({block:"start"});
+  }));
+  $("#markRead").addEventListener("click",()=>{
+    const r = S.read[m.id] = S.read[m.id]||[];
+    if(!r.includes(current.lesson)) r.push(current.lesson);
+    save();
+    if(current.lesson < m.lessons.length-1){ current.lesson++; render(); $(".tabs").scrollIntoView({block:"start"}); }
+    else { render(); $("#quiz").scrollIntoView({block:"start"}); }
+  });
+  main.querySelectorAll("[data-task]").forEach(c=>c.addEventListener("change",()=>{
+    S.tasks[m.id] = S.tasks[m.id]||[]; S.tasks[m.id][+c.dataset.task] = c.checked; save();
+  }));
+  renderQuiz(m);
+}
+
+/* ---------- Calculadora ---------- */
+const CF = [
+ {k:"aves",l:"Pollitos BB por campaña",s:"Tamaño de tu lote.",v:500},
+ {k:"pBB",l:"Precio del pollito BB (S/)",s:"Valor de ejemplo; varía mucho según la temporada. Cotiza.",v:3.0},
+ {k:"mort",l:"Mortalidad de la campaña (%)",s:"Meta: menos de 5%.",v:5},
+ {k:"peso",l:"Peso vivo a la saca (kg)",s:"En la costa, 2.5 a 3 kg a los 40 a 45 días.",v:2.8},
+ {k:"conv",l:"Conversión alimenticia",s:"Kg de alimento por kg de pollo vivo. Al empezar, 1.7 a 1.9.",v:1.75},
+ {k:"pAlim",l:"Precio promedio del alimento (S/ por kg)",s:"Promedio de inicio, crecimiento y acabado. Valor de ejemplo.",v:2.3},
+ {k:"precio",l:"Precio de venta del pollo vivo (S/ por kg)",s:"En 2026 el mayorista en Lima varió entre unos S/ 3.40 y S/ 8. Revisa MIDAGRI.",v:7.0},
+ {k:"pctBen",l:"Parte del lote vendida beneficiada (%)",s:"0 = todo vivo; 100 = todo beneficiado en centro autorizado.",v:0},
+ {k:"precioBen",l:"Precio del pollo beneficiado (S/ por kg)",s:"Precio de venta del pollo eviscerado a tus clientes.",v:11.0},
+ {k:"rend",l:"Rendimiento de carcasa (%)",s:"Peso beneficiado sobre peso vivo; 72% a 78%.",v:75},
+ {k:"costoBen",l:"Costo de beneficio, empaque y frío por ave (S/)",s:"Cotiza con el centro de beneficio.",v:1.8},
+ {k:"otrosAve",l:"Otros costos por pollito (S/)",s:"Vacunas, cama, gas, luz, agua, transporte.",v:1.2},
+ {k:"dias",l:"Días de crianza",s:"Unos 42 días para líneas de engorde comunes.",v:42},
+ {k:"vacio",l:"Días de limpieza y vacío sanitario",s:"Entre 10 y 15 días.",v:14},
+ {k:"mo",l:"Mano de obra al mes (S/)",s:"Incluye un sueldo para ti, aunque sea simbólico.",v:500},
+ {k:"inv",l:"Inversión en galpón y equipos (S/)",s:"Adecuación, mallas, cortinas, criadoras, comederos, bebederos, jabas.",v:12000},
+ {k:"vida",l:"Vida útil de instalaciones (años)",s:"Normalmente 5 a 10 años.",v:5},
+ {k:"ct",l:"Capital de trabajo (S/)",s:"Al menos el costo de una campaña completa.",v:9000}
+];
+const PRESETS = {
+ "Todo vivo al acopiador": {precio:6.5, pctBen:0},
+ "Mitad beneficiado a pollerías": {precio:7.0, pctBen:50, precioBen:10.5},
+ "Todo beneficiado a familias": {pctBen:100, precioBen:11.5},
+ "Pollo de campo": {pctBen:100, precioBen:18, dias:70, peso:2.6, conv:2.7, pBB:4.5, mort:6}
+};
+function calcVals(){ const d={}; CF.forEach(f=>d[f.k]=f.v); return Object.assign(d, S.calc||{}); }
+function compute(v, adj){
+  adj = adj||{};
+  const pv = v.precio*(adj.precio||1), pb = v.precioBen*(adj.precio||1), pAlim = v.pAlim*(adj.alim||1);
+  const mort = Math.min(100, v.mort + (adj.mort||0));
+  const pct = Math.max(0, Math.min(100, v.pctBen))/100;
+  const n = v.aves*(1-mort/100);
+  const kgVivo = n*v.peso;
+  const alimKg = kgVivo*v.conv;
+  const alimento = alimKg*pAlim;
+  const pollitos = v.aves*v.pBB;
+  const otros = v.aves*v.otrosAve;
+  const ciclo = Math.max(1, v.dias + v.vacio);
+  const campAnio = 365/ciclo;
+  const mo = v.mo*ciclo/30.4;
+  const depInst = v.inv/Math.max(1, v.vida*campAnio);
+  const beneficio = n*pct*v.costoBen;
+  const ingVivo = kgVivo*(1-pct)*pv;
+  const kgBen = kgVivo*pct*v.rend/100;
+  const ingBen = kgBen*pb;
+  const ingreso = ingVivo + ingBen;
+  const costo = alimento + pollitos + otros + mo + depInst + beneficio;
+  const util = ingreso - costo;
+  const flujoCamp = util + depInst;
+  const flujoMes = flujoCamp*30.4/ciclo;
+  const invTotal = v.inv + v.ct;
+  const viab = 100 - mort;
+  return {n, kgVivo, alimKg, alimento, pollitos, otros, mo, depInst, beneficio, ingreso, kgBen, costo, util, ciclo, campAnio,
+    utilAnio: util*campAnio, utilMes: util*30.4/ciclo, flujoMes, invTotal,
+    costoKg: costo/Math.max(0.001,kgVivo), pctAlim: alimento/costo,
+    payback: (util>0 && flujoMes>0) ? invTotal/flujoMes : null,
+    iep: viab*v.peso/Math.max(1,v.dias*v.conv)*100};
+}
+const fm = (n,d=0)=> n.toLocaleString("es-PE",{minimumFractionDigits:d,maximumFractionDigits:d});
+const S_ = (n,d=0)=> (n<0?"−":"")+"S/ "+fm(Math.abs(n),d);
+
+function viewCalc(){
+  const v = calcVals();
+  return `<header class="mod-head"><div class="src">Herramienta de los módulos 6, 7 y 9</div><h2>Calculadora de rentabilidad</h2>
+  <p class="muted" style="margin:0">Cambia los valores de ejemplo por tus cotizaciones. Los resultados son por campaña, con su equivalente mensual y anual; se guardan automáticamente.</p></header>
+  <div class="presets no-print"><span class="muted" style="font-family:var(--display);font-size:.9rem;margin-right:.4rem">Probar un modelo:</span>${Object.keys(PRESETS).map(p=>`<button class="btn ghost small" data-preset="${p}">${p}</button>`).join("")}<button class="btn ghost small" id="resetCalc">Restaurar ejemplo</button></div>
+  <div class="calc" style="margin-top:1rem">
+    <div class="fields">${CF.map(f=>`<div class="field"><label for="f_${f.k}">${f.l}</label><small>${f.s}</small><input id="f_${f.k}" type="number" inputmode="decimal" step="any" min="0" data-k="${f.k}" value="${v[f.k]}"></div>`).join("")}</div>
+    <div class="results panel" id="results" style="margin:0"></div>
+  </div>`;
+}
+const PES = {precio:.9, alim:1.1, mort:3};
+function renderResults(){
+  const v = calcVals(), r = compute(v), p = compute(v,PES);
+  const cls = n => n>=0?"pos":"neg";
+  let verdict;
+  if (r.util>0 && p.util>0) verdict = `<div class="verdict granja box" style="margin:1rem 0 0"><span class="bt">Modelo sólido</span>Gana incluso en el escenario pesimista. Verifica tus supuestos con datos reales antes de invertir.</div>`;
+  else if (r.util>0) verdict = `<div class="verdict idea box" style="margin:1rem 0 0"><span class="bt">Rentable pero frágil</span>Gana en el escenario esperado, pero pierde si el precio baja 10%, el alimento sube 10% y la mortalidad sube 3 puntos. En engorde eso pasa varias veces al año: busca más venta beneficiada, mejor conversión o precios pactados, y guarda un fondo de reserva.</div>`;
+  else verdict = `<div class="verdict ojo box" style="margin:1rem 0 0"><span class="bt">Así no conviene empezar</span>Tu costo es de ${S_(r.costoKg,2)} por kg vivo y tus ventas no lo cubren. Prueba vendiendo parte beneficiada, mejora la conversión o reduce costos antes de invertir.</div>`;
+  $("#results").innerHTML = `<h3>Resultado por campaña</h3>
+   <div class="res"><span>Pollos vendidos</span><b>${fm(r.n)}</b></div>
+   <div class="res"><span>Kilos de pollo vivo</span><b>${fm(r.kgVivo)} kg</b></div>
+   ${r.kgBen>0?`<div class="res"><span>Kilos vendidos beneficiados</span><b>${fm(r.kgBen)} kg</b></div>`:""}
+   <div class="res"><span>Ingresos</span><b>${S_(r.ingreso)}</b></div>
+   <div class="res"><span>Alimento (${fm(r.alimKg)} kg, ${fm(r.pctAlim*100)}% del costo)</span><b>${S_(r.alimento)}</b></div>
+   <div class="res"><span>Pollitos BB</span><b>${S_(r.pollitos)}</b></div>
+   <div class="res"><span>Otros costos</span><b>${S_(r.otros)}</b></div>
+   ${r.beneficio>0?`<div class="res"><span>Beneficio, empaque y frío</span><b>${S_(r.beneficio)}</b></div>`:""}
+   <div class="res"><span>Mano de obra de la campaña</span><b>${S_(r.mo)}</b></div>
+   <div class="res"><span>Depreciación de instalaciones</span><b>${S_(r.depInst)}</b></div>
+   <div class="res total"><span>Utilidad por campaña</span><b class="${cls(r.util)}">${S_(r.util)}</b></div>
+   <div class="res"><span>Costo por kg de pollo vivo</span><b>${S_(r.costoKg,2)}</b></div>
+   <div class="res"><span>Índice de eficiencia productiva</span><b>${fm(r.iep)}</b></div>
+   <div class="res"><span>Campañas por año</span><b>${fm(r.campAnio,1)}</b></div>
+   <div class="res"><span>Utilidad mensual promedio</span><b class="${cls(r.utilMes)}">${S_(r.utilMes)}</b></div>
+   <div class="res"><span>Utilidad anual</span><b class="${cls(r.utilAnio)}">${S_(r.utilAnio)}</b></div>
+   <div class="res"><span>Inversión total (con capital de trabajo)</span><b>${S_(r.invTotal)}</b></div>
+   <div class="res"><span>Recuperación de la inversión</span><b>${r.payback? fm(r.payback,1)+" meses":"No se recupera"}</b></div>
+   <div class="res"><span>Escenario pesimista: utilidad por campaña</span><b class="${cls(p.util)}">${S_(p.util)}</b></div>
+   ${verdict}`;
+}
+function bindCalc(){
+  main.querySelectorAll("input[data-k]").forEach(i=>i.addEventListener("input",()=>{
+    const n = parseFloat(i.value); if (isNaN(n)) return;
+    S.calc = S.calc||{}; S.calc[i.dataset.k]=n; save(); renderResults();
+  }));
+  main.querySelectorAll("[data-preset]").forEach(b=>b.addEventListener("click",()=>{
+    S.calc = Object.assign({}, PRESETS[b.dataset.preset]); save(); render();
+  }));
+  $("#resetCalc").addEventListener("click",()=>{ S.calc=null; save(); render(); });
+  renderResults();
+}
+function calcSummary(){
+  const v = calcVals(), r = compute(v), p = compute(v,PES);
+  return `Supuestos: ${v.aves} pollitos por campaña, ${v.dias} días de crianza, peso ${fm(v.peso,2)} kg, conversión ${fm(v.conv,2)}, mortalidad ${v.mort}%, ${v.pctBen}% vendido beneficiado.\n`+
+  `Precios: pollo vivo ${S_(v.precio,2)} por kg, beneficiado ${S_(v.precioBen,2)} por kg, alimento ${S_(v.pAlim,2)} por kg.\n`+
+  `Inversión total: ${S_(r.invTotal)} (instalaciones ${S_(v.inv)}, capital de trabajo ${S_(v.ct)}).\n`+
+  `Por campaña: ingresos ${S_(r.ingreso)}, costo ${S_(r.costo)}, utilidad ${S_(r.util)}. Costo por kg vivo: ${S_(r.costoKg,2)}. IEP: ${fm(r.iep)}.\n`+
+  `Al año (${fm(r.campAnio,1)} campañas): utilidad ${S_(r.utilAnio)}. Recuperación: ${r.payback? fm(r.payback,1)+" meses":"no se recupera con estos supuestos"}. Escenario pesimista por campaña: ${S_(p.util)}.`;
+}
+
+/* ---------- Plan ---------- */
+function esc(t){ return (t||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function viewPlan(){
+  return `<header class="mod-head"><div class="src">Plan integrador (módulo 9)</div><h2>Mi plan de negocio</h2>
+  <p class="muted" style="margin:0">Completa cada sección con lo que trabajaste en los módulos. Todo se guarda solo en este navegador.</p></header>
+  <div class="reading">
+  ${PLAN_FIELDS.map(f=>`<div class="plan-sec"><label for="p_${f.id}">${f.t}</label><small>${f.h}</small><textarea id="p_${f.id}" data-p="${f.id}">${esc(S.plan[f.id])}</textarea>
+   ${f.id==="finanzas"?`<button class="btn ghost small no-print" id="pullCalc" style="margin-top:.5rem">Agregar resultados de la calculadora</button>`:""}</div>`).join("")}
+  <div class="row no-print"><button class="btn" id="showPlan">Ver mi plan completo</button><span class="saved" id="savedMsg"></span></div>
+  <div id="planPreview" hidden></div>
+  </div>`;
+}
+function bindPlan(){
+  let t;
+  main.querySelectorAll("textarea[data-p]").forEach(a=>a.addEventListener("input",()=>{
+    S.plan[a.dataset.p]=a.value; save();
+    clearTimeout(t); $("#savedMsg").textContent="Guardado"; t=setTimeout(()=>$("#savedMsg").textContent="",1500);
+  }));
+  $("#pullCalc").addEventListener("click",()=>{
+    const a = $("#p_finanzas"); a.value = (a.value? a.value.trim()+"\n\n":"") + calcSummary();
+    S.plan.finanzas = a.value; save();
+  });
+  $("#showPlan").addEventListener("click",()=>{
+    const pv = $("#planPreview");
+    pv.innerHTML = `<h2>Plan de negocio: granja de pollos de engorde</h2>` +
+      PLAN_FIELDS.map(f=>`<h4>${f.t}</h4>${S.plan[f.id]? esc(S.plan[f.id]).split(/\n+/).map(x=>`<p>${x}</p>`).join("") : `<p class="empty">Sección pendiente.</p>`}`).join("") +
+      `<div class="row no-print" style="margin-top:1.5rem"><button class="btn" id="printPlan">Imprimir o guardar como PDF</button><button class="btn ghost" id="copyPlan">Copiar texto</button><span class="saved" id="copyMsg"></span></div>`;
+    pv.hidden = false; pv.scrollIntoView({block:"start"});
+    $("#printPlan").addEventListener("click",()=>{ try{ window.print(); }catch(e){ $("#copyMsg").textContent="Tu navegador no permite imprimir desde aquí; usa Copiar texto."; } });
+    $("#copyPlan").addEventListener("click", async ()=>{
+      const txt = PLAN_FIELDS.map(f=>f.t+"\n"+(S.plan[f.id]||"(pendiente)")).join("\n\n");
+      try { await navigator.clipboard.writeText(txt); $("#copyMsg").textContent="Copiado"; }
+      catch(e){ $("#copyMsg").textContent="No se pudo copiar automáticamente; selecciona el texto del plan y cópialo."; }
+    });
+  });
+}
+
+/* ---------- Glosario ---------- */
+function viewGloss(){
+  return `<header class="mod-head"><h2>Glosario</h2><p class="muted" style="margin:0">Los términos del curso en palabras simples.</p></header>
+  <dl class="gloss reading">${GLOSSARY.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`;
+}
+
+function render(){
+  eggId = 0;
+  const v = current.view;
+  const m = MODULES.find(x=>x.id===v);
+  if (m){ main.innerHTML = viewModule(m); bindModule(m); }
+  else if (v==="calc"){ main.innerHTML = viewCalc(); bindCalc(); }
+  else if (v==="plan"){ main.innerHTML = viewPlan(); bindPlan(); }
+  else if (v==="glosario"){ main.innerHTML = viewGloss(); }
+  else { current.view="inicio"; main.innerHTML = viewInicio(); }
+  renderNav();
+}
+(function(){const h=decodeURIComponent(location.hash.slice(1));if(h&&(MODULES.some(m=>m.id===h)||["calc","plan","glosario","inicio"].includes(h)))current={view:h,lesson:0};})();
+render();
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(h&&(MODULES.some(m=>m.id===h)||["calc","plan","glosario","inicio"].includes(h)))go(h);});
+})();
+
+</script>
+</body>
+</html>
